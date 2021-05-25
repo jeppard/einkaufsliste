@@ -1,0 +1,14 @@
+{
+  "name": "smartlist",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "https://github.com/jeppard/einkaufsliste.git",
+  "author": "TK221 <51761737+TK221@users.noreply.github.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
