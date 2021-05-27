@@ -2,6 +2,7 @@ const express = require('express');
 const db = require("./lib/database/db");
 const accountProvider = require("./lib/database/account_provider");
 accountProvider.initDatabase();
+accountProvider.addAccount("Test Person", "1235");
 
 const app = express();
 const port = 3000;
