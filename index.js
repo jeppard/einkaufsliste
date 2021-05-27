@@ -1,4 +1,6 @@
 const express = require('express')
+const db = require("./lib/database/db")
+
 const app = express()
 const port = 3000
 
