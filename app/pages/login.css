@@ -103,3 +103,8 @@ a {
         border-radius: 0px;
     }
 }
+
+/* hover effect for buttons */
+button:hover {
+    opacity: 0.8;
+  }
