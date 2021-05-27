@@ -1,8 +1,12 @@
 const express = require('express');
 const db = require("./lib/database/db");
-const accountProvider = require("./lib/database/account_provider");
+const accountProvider = require("./lib/database/provider/account");
+const listProvider = require("./lib/database/provider/list");
+
 accountProvider.initDatabase();
 accountProvider.addAccount("Test Person", "1235");
+listProvider.initDatabase();
+listProvider.addList("TEst", 218391279, "This is a List");
 
 const app = express();
 const port = 3000;
