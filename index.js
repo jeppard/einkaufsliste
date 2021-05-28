@@ -11,8 +11,10 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-app.use('/static', express.static('app/pages/index.html'))
-app.use('/app/scripts/index.js', express.static('app/scripts/index.js'))
+app.use('/static/', express.static('app/pages/'))
+app.use('/app/scripts/', express.static('app/scripts/'))
+app.use('/app/styles/', express.static('app/styles/'))
+app.use('/favicon.ico', express.static('favicon.ico'))
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
