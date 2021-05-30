@@ -25,7 +25,7 @@
     font-size: 1rem;
 }
 
-#list {
+#item-list {
     justify-content: center;
     padding: 0;
     margin: 0;
@@ -38,10 +38,47 @@ li {
 
 .listElement {
     padding: 0.5rem;
-    background-color: lightgray;
+    background-color: #afc6e9;
     border-left: 10px solid;
 }
 
 .listElement:hover {
     background-color: #c7c7c7;
+}
+
+.element-summary {
+    display: flex;
+    flex-direction: row;
+}
+
+.element-name {
+    text-align: left;
+    font-weight: bold;
+    width: 100%;
+}
+
+.element-quantity {
+    text-align: right;
+    color: white;
+    flex-shrink: 0;
+}
+
+.element-full-info {
+    display: none;
+    margin-top: 0.5rem;
+}
+
+.element-description {
+    text-align: left;
+    width: 100%;
+}
+
+.element-buttons {
+    justify-content: right;
+    flex-shrink: 0;
+}
+
+.element-buttons>img {
+    max-width: 2rem;
+    height: auto;
 }

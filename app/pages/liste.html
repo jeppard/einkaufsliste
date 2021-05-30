@@ -5,8 +5,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="/app/styles/default.css">
     <link rel="stylesheet" href="/app/styles/liste.css">
-    <title>Liste</title>
+    <script src="/app/scripts/liste.js">
+    </script>
+    <title>Smartlist - </title>
 </head>
 
 <body>
@@ -14,16 +24,41 @@
         <div id="navbar"></div>
         <div id="header"> Test</div>
         <div id="list_container">
-            <ul id="list">
+            <ul id="item-list">
                 <li>
-                    <div class="listElement" style="border-color:red;">Test</div>
+                    <div class="listElement" style="border-color:red;">
+                        <div class="element-summary" onclick="toggleNextElement(this)">
+                            <div class="element-name">
+                                Milch
+                            </div>
+                            <div class="element-quantity">
+                                15 l
+                            </div>
+                        </div>
+                        <div class="element-full-info" onclick="toogleThisElement(this)">
+                            <div class="element-description">
+                                Fettarme Milch
+                            </div>
+                            <div class="element-buttons">
+                                <img src="/app/images/GruenerHacken.png" alt="GruenerHacken" onclick="console.log('clicked')">
+                            </div>
+                        </div>
+                    </div>
                 </li>
                 <li>
-                    <div class="listElement" style="border-color: greenyellow;">Foo</div>
+                    <div class="listElement" style="border-color:greenyellow;">
+                        <div class="element-name">
+                            Foo
+                        </div>
+                        <div class="element-quantity">
+                            15 Packungen
+                        </div>
+                    </div>
                 </li>
             </ul>
         </div>
     </div>
 </body>
+
 
 </html>

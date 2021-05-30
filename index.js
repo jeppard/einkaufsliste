@@ -15,6 +15,7 @@ app.use('/static/', express.static('app/pages/'))
 app.use('/app/scripts/', express.static('app/scripts/'))
 app.use('/app/styles/', express.static('app/styles/'))
 app.use('/favicon/', express.static('favicon/'))
+app.use('/app/images/', express.static('app/images/'))
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
