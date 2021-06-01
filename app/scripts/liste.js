@@ -14,3 +14,7 @@ function toogleThisElement(element) {
         element.style.display = "flex";
     }
 }
+
+function clickedElement(element) {
+    console.log(element)
+}

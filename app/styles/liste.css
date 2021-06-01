@@ -1,8 +1,10 @@
 #main {
     display: grid;
-    width: 100%;
+    width: 90%;
     text-align: center;
     grid-template-areas: "nav head", "content content";
+    max-width: 50rem;
+    margin: auto;
 }
 
 #navbar {
@@ -38,8 +40,7 @@
 
 #item-list>li {
     padding: 0.5rem;
-    max-width: 50rem;
-    width: 90%;
+    width: 100%;
 }
 
 .listElement {
@@ -87,4 +88,11 @@
 .element-buttons>img {
     max-width: 2rem;
     height: auto;
+}
+
+.element-buttons>img:hover {
+    border-color: black;
+    border-style: outset;
+    border-width: 1px;
+    margin: -1px;
 }
