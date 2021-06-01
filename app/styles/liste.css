@@ -30,10 +30,16 @@
     padding: 0;
     margin: 0;
     list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-li {
+#item-list>li {
     padding: 0.5rem;
+    max-width: 50rem;
+    width: 90%;
 }
 
 .listElement {
