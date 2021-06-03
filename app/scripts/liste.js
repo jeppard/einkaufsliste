@@ -1,4 +1,5 @@
 function toggleNextElement(element) {
+    console.log(element);
     let next = element.nextElementSibling;
     if (next.style.display === "flex") {
         next.style.display = "none";

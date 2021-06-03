@@ -88,11 +88,12 @@
 .element-buttons>img {
     max-width: 2rem;
     height: auto;
+    margin: 1px;
 }
 
 .element-buttons>img:hover {
     border-color: black;
     border-style: outset;
     border-width: 1px;
-    margin: -1px;
+    margin: 0px;
 }
