@@ -26,5 +26,8 @@ app.use('/list', (req, res) => {
 })
 
 app.get('/init', async function(req, res) {
-    test.initDatabase();
+    test.initData();
+    res.send('Database filled with example data')
 });
+
+test.initDatabase();
