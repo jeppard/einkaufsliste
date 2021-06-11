@@ -1,5 +1,5 @@
 import express from 'express';
-import * as articleProvider from '../database/provider/articel';
+import * as elementProvider from '../database/provider/element';
 import * as listProvider from '../database/provider/list';
 import {} from '../database/list';
 
@@ -14,7 +14,7 @@ router.post('/content', async function (req, res) {
         const list = await listProvider.getListById(req.body.ListID);
 
         if (list != null) {
-            list.content = await articleProvider.getAllListArticles(req.body.ListID);
+            list.content = await elementProvider.getAllListArticles(req.body.ListID);
             res.send(list);
             return;
         } else {
