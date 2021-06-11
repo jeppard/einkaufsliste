@@ -9,15 +9,21 @@ router.get('/', function (req, res) {
     res.send('List specific stuff');
 });
 
-router.get('/content', async function (req, res) {
-    const list = await listProvider.getListById(1);
+router.post('/content', async function (req, res) {
+    if (req.body && req.body.ListID) {
+        const list = await listProvider.getListById(req.body.ListID);
 
-    if (list != null) {
-        list.content = await articleProvider.getAllListArticles(1);
-        res.send(list);
-    } else {
-        res.send('Failed');
+        if (list != null) {
+            list.content = await articleProvider.getAllListArticles(req.body.ListID);
+            res.send(list);
+            return;
+        } else {
+            res.send('No List');
+            return;
+        }
     }
+
+    res.send('Failed');
 });
 
 export { router };

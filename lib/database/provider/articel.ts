@@ -28,7 +28,20 @@ export async function addArticle (article: Article): Promise<void> {
         await conn.query('INSERT INTO ' + ARTICELS_TABLE_NAME + ' (UserID, Name, Description, Type) VALUES (?, ?, ?, ?);', [article.userID, article.name, article.description, article.type]);
     } catch (err) {
         // TODO Add result
-        console.log('Failed to add new Article to database: ' + err);
+        console.log('Failed to add new article to database: ' + err);
+    } finally {
+        if (conn) conn.end();
+    }
+}
+
+export async function removeArticle (articleID: number): Promise<void> {
+    let conn;
+    try {
+        conn = await getConnection();
+        await conn.query('DELETE FROM ' + ARTICELS_TABLE_NAME + ' ID = ?;', [articleID]);
+    } catch (err) {
+        // TODO Add result
+        console.log('Failed to remove article from database: ' + err);
     } finally {
         if (conn) conn.end();
     }

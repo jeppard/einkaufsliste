@@ -24,18 +24,30 @@ export async function addList (name: string, ownerid: number, description: strin
         conn = await getConnection();
         await conn.query('INSERT INTO ' + TABLE_NAME + ' (Name, OwnerID, Description) VALUES (?, ?, ?);', [name, ownerid, description]);
     } catch (err) {
-        // TODO Add result
+        // TODO add result
     } finally {
         if (conn) conn.end();
     }
 }
 
-export async function getListById (id: number): Promise<List | null> {
+export async function removeList (listID: number): Promise<void> {
+    let conn;
+    try {
+        conn = await getConnection();
+        await conn.query('DELETE FROM ' + TABLE_NAME + ' WHERE ID = ?;', [listID]);
+    } catch (err) {
+        // TODO response
+    } finally {
+        if (conn) conn.end();
+    }
+}
+
+export async function getListById (listID: number): Promise<List | null> {
     let conn;
     let rows;
     try {
         conn = await getConnection();
-        rows = await conn.query('SELECT * FROM ' + TABLE_NAME + ' WHERE ID = ?;', [id]);
+        rows = await conn.query('SELECT * FROM ' + TABLE_NAME + ' WHERE ID = ?;', [listID]);
     } catch (err) {
         // TODO Add result
     } finally {

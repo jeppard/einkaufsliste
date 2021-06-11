@@ -9,6 +9,7 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
+app.use(express.json());
 app.use('/static/', express.static('app/pages/'));
 app.use('/app/scripts/', express.static('app/scripts/'));
 app.use('/app/styles/', express.static('app/styles/'));
