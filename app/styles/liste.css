@@ -23,6 +23,7 @@
 #list_container {
     grid-area: "content";
     justify-content: center;
+    cursor: pointer;
     padding: 1rem;
     font-size: 1rem;
 }

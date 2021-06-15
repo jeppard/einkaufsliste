@@ -10,11 +10,11 @@ router.get('/', function (req, res) {
 });
 
 router.post('/content', async function (req, res) {
-    if (req.body && req.body.ListID) {
-        const list = await listProvider.getListById(req.body.ListID);
+    if (req.body && req.body.func == 'get-list-by-id') {
+        const list = await listProvider.getListById(req.body.args.id);
 
         if (list != null) {
-            list.content = await elementProvider.getAllListArticles(req.body.ListID);
+            list.content = await elementProvider.getAllListArticles(req.body.args.id);
             res.send(list);
             return;
         } else {

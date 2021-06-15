@@ -1,4 +1,16 @@
-fetch(window.location.origin + "/lists/content")
+var data = new URLSearchParams(window.location.search).get('listId');
+fetch(window.location.origin + "/lists/content", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            'func': 'get-list-by-id',
+            'args': {
+                'id': data
+            }
+        })
+    })
     .then(response => response.json())
     .then(data => {
         setListName(data["name"]);
@@ -8,6 +20,7 @@ fetch(window.location.origin + "/lists/content")
 function setListName(name) {
     let element = document.getElementById("header");
     element.textContent = name;
+    document.title += name;
 }
 
 function createElements(data) {
