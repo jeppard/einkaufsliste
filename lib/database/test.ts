@@ -15,7 +15,7 @@ export async function initDatabase (): Promise<void> {
 export async function initData (): Promise<void> {
     await accountProvider.addAccount('Test Person', '1235');
 
-    await listProvider.addList('TEst', 218391279, 'This is a List');
+    await listProvider.addList('Test', 1, 'This is a List');
 
     await articleProvider.addArticle(new Article(1, 1, 'Apfel', 'Ein netter Apfel', 1));
     await articleProvider.addArticle(new Article(2, 1, 'Baum', 'Ein Baum', 1));

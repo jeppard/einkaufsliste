@@ -6,7 +6,7 @@ import { getConnection } from '../db';
 const ELEMENTS_TABLE_NAME = 'Elements';
 
 export async function initDatabase (): Promise<void> {
-    const query = 'CREATE TABLE IF NOT EXISTS ' + ELEMENTS_TABLE_NAME + ' (ListID int, ArticleID int, Count int, UnitType varchar(50));';
+    const query = 'CREATE TABLE IF NOT EXISTS ' + ELEMENTS_TABLE_NAME + ' (ID int auto_increment primary key, ListID int, ArticleID int, Count int, UnitType varchar(50));';
 
     let conn;
     try {
@@ -32,6 +32,19 @@ export async function addElement (listID: number, articleID: number, count: numb
     }
 }
 
+export async function removeElement (elementID: number): Promise<void> {
+    let conn;
+    try {
+        conn = await getConnection();
+        await conn.query('DELETE FROM ' + ELEMENTS_TABLE_NAME + ' WHERE ID=?', [elementID]);
+    } catch (err) {
+        console.log('Failed to remove element from database: ' + err);
+        // TODO Add result
+    } finally {
+        if (conn) conn.end();
+    }
+}
+
 export async function getAllListArticles (listID: number): Promise<ListElement[]> {
     let conn;
     const res: ListElement[] = [];
@@ -45,7 +58,7 @@ export async function getAllListArticles (listID: number): Promise<ListElement[]
                 const article = (articles.filter((a) => e.ArticleID === a.id))[0];
 
                 if (article != null) {
-                    res.push(new ListElement(e.ListID, new Article(article.id, article.userID, article.name, article.description, article.type), e.Count, e.UnitType));
+                    res.push(new ListElement(e.ListID, e.ListID, new Article(article.id, article.userID, article.name, article.description, article.type), e.Count, e.UnitType));
                 }
             });
         }

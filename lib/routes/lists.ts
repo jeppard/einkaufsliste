@@ -26,4 +26,38 @@ router.post('/content', async function (req, res) {
     res.send('Failed');
 });
 
+router.post('/removeList', async function (req, res) {
+    if (req.body && req.body.ListID) {
+        const list = await listProvider.getListById(req.body.ListID);
+
+        if (list != null) {
+            await listProvider.removeList(req.body.ListID);
+            res.send(list);
+            return;
+        } else {
+            res.send('No List');
+            return;
+        }
+    }
+
+    res.send('Failed');
+});
+
+router.post('/removeElement', async function (req, res) {
+    if (req.body && req.body.ListID && req.body.ElementID) {
+        const list = await listProvider.getListById(req.body.ListID);
+
+        if (list != null) {
+            await listProvider.removeList(req.body.ListID);
+            res.send(list);
+            return;
+        } else {
+            res.send('No List');
+            return;
+        }
+    }
+
+    res.send('Failed');
+});
+
 export { router };
