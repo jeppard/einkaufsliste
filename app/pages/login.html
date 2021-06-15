@@ -3,23 +3,79 @@
 
 <head>
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8" />
     <link rel="stylesheet" href="/app/styles/default.css">
     <link rel="stylesheet" href="/app/styles/login.css">
     <title>Sign in</title>
 </head>
 
 <body>
-    <form action="###" method="post">
+    <form action="index.html" method="post">
         <div class="main">
             <p class="sign" align="center">Sign in</p>
             <form class="form1">
-                <input class="un " type="text" align="center" placeholder="Username">
-                <input class="pass" type="password" align="center" placeholder="Password">
-                <button class="submit" align="center">Sign in</button>
+            
+                <input class="un" name="input" type="text" align="center" placeholder="Username">
+                <span></span>
+            
+                <input class="pass" name="input" type="password" align="center" placeholder="Password">
+                <span></span>
+            
+                <button class="submit" align="center" id="log-in">Sign in</button>
+            
                 <p class="forgot" align="center"><a href="#">Forgot Password?</p>
-    </div>
+        </div>
     </form>
 </body>
-
 </html>
+<script type="text/javascript">
+    window.onload = ()=>{
+        this.sessionStorage.setItem("username", "example_user");
+        this.sessionStorage.setItem("password", "example_password");   
+    }
+
+    var input = document.getElementsByTagName('input');
+    var login = document.getElementById('log-in');
+    var form = document.querySelector('form');
+    form.onsubmit = ()=>{return false}
+
+    login.onclick = ()=>{
+        console.log("Hura du bist eingeloggt")
+        if ((input[0].value != "") && (input[1].value != ""))
+        {
+            if ((input[0].value == sessionStorage.getItem("username")) && (input[0].value == sessionStorage.getItem("password")))
+            {
+                form.onsubmit = ()=>{return 1}
+            }
+            else
+            {
+                if ((input[0].value != sessionStorage.getItem("username")))
+                {
+                    input[0].nextElementSibling.textContent = "Username is empty";
+                    setTimeout(()=>{
+                    input[0].nextElementSibling.textContent = "";
+                }, 2000);
+                }
+            }
+
+        }
+        else
+        {
+            if(input[0].value == "")
+            {
+                input[0].nextElementSibling.textContent = "Username is empty";
+                setTimeout(()=>{
+                    input[0].nextElementSibling.textContent = "";
+                }, 2000);
+            }
+            if(input[1].value == "")
+            {
+                input[1].nextElementSibling.textContent = "Password is empty";
+                setTimeout(()=>{
+                    input[1].nextElementSibling.textContent = "";
+                }, 2000);
+            }
+        }
+    }
+
+</script>
