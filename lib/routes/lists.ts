@@ -18,12 +18,29 @@ router.post('/content', async function (req, res) {
             res.send(list);
             return;
         } else {
-            res.send('No List');
+            res.status(404).send('No List');
             return;
         }
     }
 
-    res.send('Failed');
+    res.send(400).send('Failed');
+});
+
+router.post('/removeList', async function (req, res) {
+    if (req.body && req.body.ListID) {
+        const list = await listProvider.getListById(req.body.ListID);
+
+        if (list != null) {
+            await listProvider.removeList(req.body.ListID);
+            res.send(list);
+            return;
+        } else {
+            res.status(404).send('No List');
+            return;
+        }
+    }
+
+    res.status(400).send('Failed');
 });
 
 export { router };
