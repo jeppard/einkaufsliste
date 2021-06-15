@@ -25,23 +25,23 @@ div{
 }
 
 .un {
-width: 76%;
-color: rgb(0, 4, 255);
-font-weight: 700;
-font-size: 14px;
-letter-spacing: 1px;
-background: rgba(38, 0, 255, 0.089);
-padding: 10px 20px;
-border: none;
-border-radius: 20px;
-outline: none;
-box-sizing: border-box;
-border: 2px solid rgba(0, 0, 0, 0.02);
-margin-bottom: 50px;
-margin-left: 46px;
-text-align: center;
-margin-bottom: 27px;
-font-family: 'Ubuntu', sans-serif;
+    width: 76%;
+    color: rgb(0, 4, 255);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    background: rgba(38, 0, 255, 0.089);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    box-sizing: border-box;
+    border: 2px solid rgba(0, 0, 0, 0.02);
+    margin-bottom: 50px;
+    margin-left: 46px;
+    text-align: center;
+    margin-bottom: 27px;
+    font-family: 'Ubuntu', sans-serif;
 }
 
 form.form1 {
@@ -49,33 +49,32 @@ form.form1 {
 }
 
 .pass {
-        width: 76%;
-color: rgb(0, 38, 255);
-font-weight: 700;
-font-size: 14px;
-letter-spacing: 1px;
-background: rgba(17, 0, 255, 0.075);
-padding: 10px 20px;
-border: none;
-border-radius: 20px;
-outline: none;
-box-sizing: border-box;
-border: 2px solid rgba(0, 0, 0, 0.02);
-margin-bottom: 50px;
-margin-left: 46px;
-text-align: center;
-margin-bottom: 27px;
-font-family: 'Ubuntu', sans-serif;
+    width: 76%;
+    color: rgb(0, 38, 255);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    background: rgba(17, 0, 255, 0.075);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    box-sizing: border-box;
+    border: 2px solid rgba(0, 0, 0, 0.02);
+    margin-bottom: 50px;
+    margin-left: 46px;
+    text-align: center;
+    margin-bottom: 27px;
+    font-family: 'Ubuntu', sans-serif;
 }
 
-
-.un:focus, .pass:focus {
+.un:focus,
+.pass:focus {
     border: 2px solid rgba(43, 255, 0, 0.295) !important;
-    
 }
 
 .submit {
-  cursor: pointer;
+    cursor: pointer;
     border-radius: 5em;
     color: rgb(255, 255, 255);
     background: linear-gradient(to right, #0004ff, #00ff0d);
@@ -108,7 +107,9 @@ a {
     }
 }
 
+
 /* hover effect for buttons */
+
 button:hover {
     opacity: 0.8;
 }
