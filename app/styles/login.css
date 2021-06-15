@@ -3,6 +3,10 @@ body {
     font-family: 'Ubuntu', sans-serif;
 }
 
+div{
+    width:100%;
+    margin: 200px auto;
+}
 .main {
     background-color: #ffffff;
     width: 400px;
@@ -107,4 +111,11 @@ a {
 /* hover effect for buttons */
 button:hover {
     opacity: 0.8;
-  }
+}
+
+span{
+    display: block;
+    margin-left: 20px;
+    color: red;
+    font-style: italic;
+}
