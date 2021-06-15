@@ -1,6 +1,5 @@
 import express from 'express';
 import * as elementProvider from '../database/provider/element';
-import {} from '../database/list';
 
 const router = express.Router();
 
@@ -10,14 +9,18 @@ router.get('/', function (req, res) {
 
 router.post('/add', async function (req, res) {
     if (req.body && req.body.element) {
-        const element = req.body.element;
+        try {
+            const element = req.body.element;
 
-        await elementProvider.addElement(element.listID, element.articleID, element.count, element.unitType);
-        res.send('Added Element to list');
-        return;
+            await elementProvider.addElement(element.listID, element.articleID, element.count, element.unitType);
+            res.status(201).send('Added Element to list');
+            return;
+        } catch (err) {
+            res.status(406).send('Failed to add element with givent object');
+            return;
+        }
     }
-
-    res.send('Body with elementID doesnt exist');
+    res.status(400).send('Body with elementID doesnt exist');
 });
 
 router.post('/remove', async function (req, res) {
@@ -27,7 +30,7 @@ router.post('/remove', async function (req, res) {
         return;
     }
 
-    res.send('Body with elementID dont exist');
+    res.status(400).send('Body with elementID dont exist');
 });
 
 export { router };
