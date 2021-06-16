@@ -10,11 +10,11 @@ router.get('/', function (req, res) {
 });
 
 router.post('/content', async function (req, res) {
-    if (req.body && req.body.func == 'get-list-by-id') {
-        const list = await listProvider.getListById(req.body.args.id);
+    if (req.body && req.body.ListID) {
+        const list = await listProvider.getListById(req.body.ListID);
 
         if (list != null) {
-            list.content = await elementProvider.getAllListArticles(req.body.args.id);
+            list.content = await elementProvider.getAllListArticles(req.body.ListID);
             res.send(list);
             return;
         } else {
@@ -23,7 +23,7 @@ router.post('/content', async function (req, res) {
         }
     }
 
-    res.send(400).send('Failed');
+    res.status(400).send('Failed');
 });
 
 router.post('/removeList', async function (req, res) {
@@ -42,5 +42,6 @@ router.post('/removeList', async function (req, res) {
 
     res.status(400).send('Failed');
 });
+
 
 export { router };

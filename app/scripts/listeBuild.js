@@ -5,16 +5,13 @@ fetch(window.location.origin + "/lists/content", {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            'func': 'get-list-by-id',
-            'args': {
-                'id': data
-            }
+            "ListID": data
         })
     })
     .then(response => response.json())
     .then(data => {
         setListName(data["name"]);
-        createElements(data["content"]);
+        createElements(data["content"], data["id"]);
     })
 
 function setListName(name) {
@@ -23,7 +20,7 @@ function setListName(name) {
     document.title += name;
 }
 
-function createElements(data) {
+function createElements(data, listID) {
     let list = document.getElementById("item-list")
     data.forEach(element => {
         let listElement = document.createElement('li');
@@ -32,7 +29,7 @@ function createElements(data) {
         listElementDiv.classList.add('listElement');
         listElement.appendChild(listElementDiv);
         listElementDiv.appendChild(createSummary(element));
-        listElementDiv.appendChild(createFullInfo(element));
+        listElementDiv.appendChild(createFullInfo(element, listID));
     });
 }
 
@@ -57,7 +54,7 @@ function createSummary(element) {
     return elementSummaryDiv
 }
 
-function createFullInfo(element) {
+function createFullInfo(element, listID) {
     let fullInfoDiv = document.createElement('div');
     fullInfoDiv.classList.add('element-full-info');
     fullInfoDiv.onclick = function() { toogleThisElement(fullInfoDiv) };
@@ -68,11 +65,15 @@ function createFullInfo(element) {
 
     let description = document.createTextNode('TODO'); //Todo Element description
     elementDescriptionDiv.appendChild(description);
+    fullInfoDiv.appendChild(createButtons(element, listID));
 
+
+    return fullInfoDiv;
+}
+
+function createButtons(element, listID) {
     let elementButtonDiv = document.createElement('div');
     elementButtonDiv.classList.add('element-buttons')
-    fullInfoDiv.appendChild(elementButtonDiv);
-
     let editButton = document.createElement('img');
     editButton.src = '/app/images/Edit.png';
     editButton.alt = 'Edit';
@@ -81,7 +82,10 @@ function createFullInfo(element) {
     let submitButton = document.createElement('img');
     submitButton.src = '/app/images/GruenerHacken.png';
     submitButton.alt = 'Submit';
+    submitButton.onclick = function() {
+        removeElement(submitButton, element['article']['id'], listID)
+    }
     elementButtonDiv.appendChild(submitButton);
 
-    return fullInfoDiv;
+    return elementButtonDiv;
 }
