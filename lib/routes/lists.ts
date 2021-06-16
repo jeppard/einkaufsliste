@@ -23,7 +23,7 @@ router.post('/content', async function (req, res) {
         }
     }
 
-    res.send(400).send('Failed');
+    res.status(400).send('Failed');
 });
 
 router.post('/removeList', async function (req, res) {
@@ -42,5 +42,6 @@ router.post('/removeList', async function (req, res) {
 
     res.status(400).send('Failed');
 });
+
 
 export { router };

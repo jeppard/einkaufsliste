@@ -11,3 +11,8 @@ h5,
 h6 {
     font-family: 'Ubuntu', sans-serif;
 }
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}

@@ -18,3 +18,21 @@ function toogleThisElement(element) {
 function clickedElement(element) {
     console.log(element)
 }
+
+function removeElement(element, elementID, listID) {
+    fetch(window.location.origin + "/lists/element/remove", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "listID": listID,
+            "elementID": elementID
+        })
+    }).then(response => function removeListElement(response) {
+        if (response.ok) {
+            while ((element = element.parentElement) && !el.classList.contains("listElement"));
+            element.remove();
+        }
+    })
+}
