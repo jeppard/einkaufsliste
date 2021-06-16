@@ -1,6 +1,100 @@
+:root {
+    /*Gray*/
+    --black: #000000;
+    --white: #ffffff;
+    --gray-0: var(--black);
+    --gray-10: #191919;
+    --gray-20: #333333;
+    --gray-30: #4c4c4c;
+    --gray-40: #666666;
+    --gray-50: #7f7f7f;
+    --gray-60: #999999;
+    --gray-70: #b2b2b2;
+    --gray-80: #cccccc;
+    --gray-90: #e5e5e5;
+    --gray-100: var(--white);
+    /*Blue*/
+    --blue-0: #00112B;
+    --blue-10: #002255;
+    --blue-20: #003380;
+    --blue-30: #0044AA;
+    --blue-40: #0055D4;
+    --blue-50: #0066FF;
+    --blue-60: #2a7fff;
+    --blue-70: #5599ff;
+    --blue-80: #80B3FF;
+    --blue-90: #AACCFF;
+    --blue-100: #D5E5FF;
+    /*Accent (Blue)*/
+    --accent-0: #00112B;
+    --accent-10: #002255;
+    --accent-20: #003380;
+    --accent-30: #0044AA;
+    --accent-40: #0055D4;
+    --accent-50: #0066FF;
+    --accent-60: #2a7fff;
+    --accent-70: #5599ff;
+    --accent-80: #80B3FF;
+    --accent-90: #AACCFF;
+    --accent-100: #D5E5FF;
+    /*Green*/
+    --green-0: #112b00;
+    --green-10: #225500;
+    --green-20: #338000;
+    --green-30: #44AA00;
+    --green-40: #55D400;
+    --green-50: #66FF00;
+    --green-60: #7FFF2A;
+    --green-70: #99FF55;
+    --green-80: #B3FF80;
+    --green-90: #CCFFAA;
+    --green-100: #E5FFD5;
+    /*Red*/
+    --red-0: #2b0000;
+    --red-10: #550000;
+    --red-20: #800000;
+    --red-30: #AA0000;
+    --red-40: #D40000;
+    --red-50: #FF0000;
+    --red-60: #FF2a2a;
+    --red-70: #FF5555;
+    --red-80: #FF8080;
+    --red-90: #FFAAAA;
+    --red-100: #FFD5D5;
+    /*Yellow*/
+    --yellow-0: #2b2b00;
+    --yellow-10: #555500;
+    --yellow-20: #808000;
+    --yellow-30: #AAAA00;
+    --yellow-40: #D4D400;
+    --yellow-50: #FFFF00;
+    --yellow-60: #FFFF2a;
+    --yellow-70: #FFFF55;
+    --yellow-80: #FFFF80;
+    --yellow-90: #FFFFAA;
+    --yellow-100: #FFFFD5;
+    /*Magenta*/
+    --magenta-0: #22002b;
+    --magenta-10: #440055;
+    --magenta-20: #660080;
+    --magenta-30: #8800AA;
+    --magenta-40: #AA00D4;
+    --magenta-50: #CC00FF;
+    --magenta-60: #D42Aff;
+    --magenta-70: #DD55FF;
+    --magenta-80: #E580FF;
+    --magenta-90: #EEAAFF;
+    --magenta-100: #F6D5FF;
+}
+
+html {
+    min-height: 100%;
+}
+
 body {
-    background-color: #0066ff;
+    background: linear-gradient(135deg, var(--blue-50), var(--blue-70));
     font-family: 'Ubuntu', sans-serif;
+    min-height: 100%;
 }
 
 h1,
