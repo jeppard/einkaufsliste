@@ -3,6 +3,9 @@ import { getConnection } from '../db';
 
 const ARTICELS_TABLE_NAME = 'Articles';
 
+/**
+ * Initialize the database for articles
+ */
 export async function initDatabase (): Promise<void> {
     const query = 'CREATE TABLE IF NOT EXISTS ' + ARTICELS_TABLE_NAME + ' (ID int auto_increment primary key, UserID int, Name varchar(50), Description varchar(250), Type int);';
 

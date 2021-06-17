@@ -9,6 +9,16 @@ router.get('/', function (req, res) {
     res.send('List article specific stuff');
 });
 
+/**
+ * Adds new article to database
+ *
+ * Body:
+ * userID       - ID of the specific user who owns the article
+ * name         - Name of the article
+ * description  - description of the article
+ * type         - Type number of the article
+ */
+
 router.post('/add', async function (req, res) {
     const article: { userID: number, name: string, description: string, type: number } = req.body;
 

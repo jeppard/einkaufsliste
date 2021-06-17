@@ -14,6 +14,12 @@ router.get('/', function (req, res) {
 router.use('/elements', elementRouter);
 router.use('/articles', articleRouter);
 
+/**
+ * Response content of a list
+ *
+ * Body:
+ * listID
+ */
 router.post('/content', async function (req, res) {
     const body : { listID: number} = req.body;
 
@@ -31,6 +37,12 @@ router.post('/content', async function (req, res) {
     }
 });
 
+/**
+ * Remove list from database
+ *
+ * Body:
+ * listID
+ */
 router.post('/removeList', async function (req, res) {
     const body: { listID: number } = req.body;
 

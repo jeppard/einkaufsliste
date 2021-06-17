@@ -8,6 +8,16 @@ router.get('/', function (req, res) {
     res.send('List element specific stuff');
 });
 
+/**
+ * Adds new element to database
+ *
+ * Body:
+ * listID       - ID of the list where the element is located
+ * articleID    - ID of the article for the given elment
+ * count        - Count of the article for the unit type
+ * unitType     - Specific type for the count of the article
+ */
+
 router.post('/add', async function (req, res) {
     const element: { listID: number, articleID: number, count: number, unitType: string} = req.body;
 
@@ -19,6 +29,14 @@ router.post('/add', async function (req, res) {
         res.status(400).send('Element iformations are not given');
     }
 });
+
+/**
+ * Remove element from database
+ *
+ * Body:
+ * elementID
+ * listID
+ */
 
 router.post('/remove', async function (req, res) {
     const element: {elementID: number, listID: number} = req.body;
