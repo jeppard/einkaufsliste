@@ -15,15 +15,29 @@
             <p class="sign" align="center">Sign in</p>
             <form class="form1">
             
-                <input class="un" name="input" type="text" align="center" placeholder="Username">
+                <div class="textcenter center">
+                    <input class="un" name="input" type="text" align="center" placeholder="Username">
+                </div>
                 <span></span>
             
-                <input class="pass" name="input" type="password" align="center" placeholder="Password">
+                <div class="textcenter center">
+                    <input class="pass" name="input" type="password" align="center" placeholder="Password">
+                </div>
                 <span></span>
             
-                <button class="submit" align="center" id="log-in">Sign in</button>
-            
-                <p class="forgot" align="center"><a href="#">Forgot Password?</p>
+                <div class="textcenter center">
+                    <button class="submit" id="log-in">Sign in</button>
+                </div>
+
+                <div class="textcenter center">
+                    <p class="forgot"><a href="#">Forgot Password?</a></p>
+                </div>
+                
+                <div class="textcenter center">
+                    <button class="register" id="regist">new account</button>
+                </div>
+
+
         </div>
     </form>
 </body>
@@ -36,25 +50,34 @@
 
     var input = document.getElementsByTagName('input');
     var login = document.getElementById('log-in');
+    var register = document.getElementById('regist');
     var form = document.querySelector('form');
     form.onsubmit = ()=>{return false}
 
     login.onclick = ()=>{
-        console.log("Hura du bist eingeloggt")
         if ((input[0].value != "") && (input[1].value != ""))
         {
-            if ((input[0].value == sessionStorage.getItem("username")) && (input[0].value == sessionStorage.getItem("password")))
+            if ((input[0].value == sessionStorage.getItem("username")) && (input[1].value == sessionStorage.getItem("password")))
             {
                 form.onsubmit = ()=>{return 1}
+                //document.cookie = "username"+input[0].value;
+                //document.cookie = "password"+input[1].value;
             }
             else
             {
                 if ((input[0].value != sessionStorage.getItem("username")))
                 {
-                    input[0].nextElementSibling.textContent = "Username is empty";
+                    input[0].nextElementSibling.textContent = "Username NOT match";
                     setTimeout(()=>{
-                    input[0].nextElementSibling.textContent = "";
-                }, 2000);
+                        input[0].nextElementSibling.textContent = "";
+                    }, 2000);
+                }
+                if ((input[1].value != sessionStorage.getItem("passwort")))
+                {
+                    input[1].nextElementSibling.textContent = "Password NOT match";
+                    setTimeout(()=>{
+                        input[1].nextElementSibling.textContent = "";
+                    }, 2000);
                 }
             }
 
