@@ -92,7 +92,7 @@ html {
 }
 
 body {
-    background: linear-gradient(135deg, var(--blue-50), var(--blue-70));
+    background: linear-gradient(135deg, rgb(var(--blue-50)), rgb(var(--blue-70)));
     font-family: 'Ubuntu', sans-serif;
     min-height: 100%;
 }
