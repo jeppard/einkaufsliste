@@ -32,11 +32,11 @@ export async function addElement (listID: number, articleID: number, count: numb
     }
 }
 
-export async function removeElement (elementID: number): Promise<void> {
+export async function removeElement (elementID: number, listID: number): Promise<void> {
     let conn;
     try {
         conn = await getConnection();
-        await conn.query('DELETE FROM ' + ELEMENTS_TABLE_NAME + ' WHERE ID=?', [elementID]);
+        await conn.query('DELETE FROM ' + ELEMENTS_TABLE_NAME + ' WHERE ID=? AND ListID=?', [elementID, listID]);
     } catch (err) {
         console.log('Failed to remove element from database: ' + err);
         // TODO Add result

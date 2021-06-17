@@ -1,6 +1,7 @@
 import express from 'express';
-import * as articleProvider from '../database/provider/articel';
 import { Article } from '../database/article';
+import * as articleProvider from '../database/provider/articel';
+import { areNotNullOrEmpty, areNumbers } from '../parameter_util';
 
 const router = express.Router();
 
@@ -9,19 +10,15 @@ router.get('/', function (req, res) {
 });
 
 router.post('/add', async function (req, res) {
-    if (req.body && req.body.article) {
-        try {
-            const article: Article = JSON.parse(req.body.article);
+    const article: { userID: number, name: string, description: string, type: number } = req.body;
 
-            await articleProvider.addArticle(article);
-            res.status(201).send('Added article to list');
-            return;
-        } catch (err) {
-            res.status(406).send('The given article is not i an correct form');
-            return;
-        }
+    if (article && areNumbers([article.userID, article.type]) && areNotNullOrEmpty([article.description, article.name])) {
+        await articleProvider.addArticle(new Article(0, article.userID, article.name, article.description, article.type));
+
+        res.status(201).send('Added article to list');
+    } else {
+        res.status(400).send('The given article is not in correct form');
     }
-    res.status(400).send('Body with article doesnt exist');
 });
 
 export { router };

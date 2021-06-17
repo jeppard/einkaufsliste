@@ -1,5 +1,6 @@
 import express from 'express';
 import * as elementProvider from '../database/provider/element';
+import { areNotNullOrEmpty, areNumbers } from '../parameter_util';
 
 const router = express.Router();
 
@@ -8,29 +9,27 @@ router.get('/', function (req, res) {
 });
 
 router.post('/add', async function (req, res) {
-    if (req.body && req.body.element) {
-        try {
-            const element = req.body.element;
+    const element: { listID: number, articleID: number, count: number, unitType: string} = req.body;
 
-            await elementProvider.addElement(element.listID, element.articleID, element.count, element.unitType);
-            res.status(201).send('Added Element to list');
-            return;
-        } catch (err) {
-            res.status(406).send('Failed to add element with givent object');
-            return;
-        }
+    if (element && areNumbers([element.listID, element.articleID, element.count]) && areNotNullOrEmpty([element.unitType])) {
+        await elementProvider.addElement(element.listID, element.articleID, element.count, element.unitType);
+
+        res.status(201).send('Added Element to list');
+    } else {
+        res.status(400).send('Element iformations are not given');
     }
-    res.status(400).send('Body with elementID doesnt exist');
 });
 
 router.post('/remove', async function (req, res) {
-    if (req.body && req.body.elementID) {
-        await elementProvider.removeElement(req.body.elementID);
-        res.send('Element removed');
-        return;
-    }
+    const element: {elementID: number, listID: number} = req.body;
 
-    res.status(400).send('Body with elementID dont exist');
+    if (element && areNumbers([element.listID, element.elementID])) {
+        await elementProvider.removeElement(element.elementID, element.listID);
+
+        res.status(200).send('Element removed');
+    } else {
+        res.status(400).send('Element iformations are not given');
+    }
 });
 
 export { router };
