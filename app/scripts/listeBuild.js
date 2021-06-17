@@ -5,7 +5,7 @@ fetch(window.location.origin + "/lists/content", {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            "ListID": data
+            "listID": data
         })
     })
     .then(response => response.json())
@@ -63,7 +63,7 @@ function createFullInfo(element, listID) {
     elementDescriptionDiv.classList.add('element-description');
     fullInfoDiv.appendChild(elementDescriptionDiv);
 
-    let description = document.createTextNode('TODO'); //Todo Element description
+    let description = document.createTextNode(element['article']['description']); //Todo Element description
     elementDescriptionDiv.appendChild(description);
     fullInfoDiv.appendChild(createButtons(element, listID));
 
