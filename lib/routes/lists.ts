@@ -27,7 +27,7 @@ router.post('/content', async function (req, res) {
             res.status(404).send('No List');
         }
     } else {
-        res.send(400).send('Failed');
+        res.status(400).send('Failed');
     }
 });
 
