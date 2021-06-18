@@ -1,5 +1,5 @@
-import { ListElement } from '../list_element';
-import { Article } from '../article';
+import { ListElement } from '../types/list_element';
+import { Article } from '../types/article';
 import * as articleProvider from './articel';
 import { getConnection } from '../db';
 

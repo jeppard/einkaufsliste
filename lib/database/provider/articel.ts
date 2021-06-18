@@ -1,4 +1,4 @@
-import { Article } from '../article';
+import { Article } from '../types/article';
 import { getConnection } from '../db';
 
 const ARTICELS_TABLE_NAME = 'Articles';

@@ -1,5 +1,5 @@
 import express from 'express';
-import { Article } from '../database/article';
+import { Article } from '../database/types/article';
 import * as articleProvider from '../database/provider/articel';
 import { areNotNullOrEmpty, areNumbers } from '../parameter_util';
 

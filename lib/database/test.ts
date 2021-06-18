@@ -3,7 +3,7 @@ import * as accountProvider from './provider/account';
 import * as listProvider from './provider/list';
 import * as articleProvider from './provider/articel';
 import * as elementProvider from './provider/element';
-import { Article } from './article';
+import { Article } from './types/article';
 
 export async function initDatabase (): Promise<void> {
     await accountProvider.initDatabase();
