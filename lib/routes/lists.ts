@@ -27,7 +27,7 @@ router.post('/content', async function (req, res) {
         const list = await listProvider.getListById(body.listID);
 
         if (list != null) {
-            list.content = await elementProvider.getAllListArticles(body.listID);
+            list.content = await elementProvider.getAllElementsWithArticles(body.listID);
             res.send(list);
         } else {
             res.status(404).send('No List');

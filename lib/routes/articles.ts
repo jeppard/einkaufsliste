@@ -31,4 +31,22 @@ router.post('/add', async function (req, res) {
     }
 });
 
+/**
+ * Get one article from database
+ *
+ * Body:
+ * articleID
+ */
+router.get('/get', async function (req, res) {
+    const body: { articleID: number } = req.body;
+
+    if (body && areNumbers([body.articleID])) {
+        const article = await articleProvider.getArticle(body.articleID);
+
+        res.status(200).send(article);
+    } else {
+        res.status(400).send('Element iformations are not given');
+    }
+});
+
 export { router };

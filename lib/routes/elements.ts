@@ -50,4 +50,23 @@ router.post('/remove', async function (req, res) {
     }
 });
 
+/**
+ * Get one element from database
+ *
+ * Body:
+ * elementID
+ * listID
+ */
+router.get('/get', async function (req, res) {
+    const body: {elementID: number, listID: number} = req.body;
+
+    if (body && areNumbers([body.listID, body.elementID])) {
+        const element = await elementProvider.getElement(body.listID, body.listID);
+
+        res.status(200).send(element);
+    } else {
+        res.status(400).send('Element iformations are not given');
+    }
+});
+
 export { router };
