@@ -1,6 +1,13 @@
 import express from 'express';
+import session from 'express-session';
 import { router as listRouter } from './lib/routes/lists';
 import * as test from './lib/database/test';
+declare module 'express-session' {
+    interface SessionData {
+        views: number;
+        userID: number;
+    }
+}
 
 const app = express();
 const port = 3000;
@@ -10,6 +17,7 @@ app.get('/', (req, res) => {
 });
 
 app.use(express.json());
+app.use(session({ secret: 'key' }));
 app.use('/static/', express.static('app/pages/'));
 app.use('/app/scripts/', express.static('app/scripts/'));
 app.use('/app/images/', express.static('app/images/'));
