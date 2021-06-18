@@ -3,7 +3,7 @@ import { getConnection } from '../db';
 const TABLE_NAME = 'Accounts';
 
 export async function initDatabase (): Promise<void> {
-    const query = 'CREATE TABLE IF NOT EXISTS ' + TABLE_NAME + ' (id int auto_increment primary key, name varchar(50) unique, password varchar(50));';
+    const query = 'CREATE TABLE IF NOT EXISTS ' + TABLE_NAME + ' (id int auto_increment primary key, username varchar(50) unique, password varchar(50));';
     let conn;
     let res;
     try {
@@ -17,14 +17,31 @@ export async function initDatabase (): Promise<void> {
     }
 }
 
-export async function addAccount (name: string, password: string): Promise<void> {
+export async function addAccount (username: string, password: string): Promise<void> {
     let conn;
     try {
         conn = await getConnection();
-        await conn.query('INSERT INTO ' + TABLE_NAME + ' (name, password) VALUES (?, ?);', [name, password]);
+        await conn.query('INSERT INTO ' + TABLE_NAME + ' (username, password) VALUES (?, ?);', [username, password]);
     } catch (err) {
         // TODO Add result
     } finally {
         if (conn) conn.end();
     }
+}
+
+export async function verifyUser (username: string, password: string): Promise<boolean> {
+    let conn;
+    let res = false;
+    try {
+        conn = await getConnection();
+        const rows = await conn.query('SELECT 1 FROM ' + TABLE_NAME + ' WHERE username=? AND password=?;', [username, password]);
+
+        if (rows && rows.length > 0) res = true;
+    } catch (err) {
+        // TODO Add result
+    } finally {
+        if (conn) conn.end();
+    }
+
+    return res;
 }
