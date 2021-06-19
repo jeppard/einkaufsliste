@@ -1,6 +1,7 @@
 import express from 'express';
 import session from 'express-session';
 import { router as listRouter } from './lib/routes/lists';
+import { router as authRouter } from './lib/routes/user_authentication';
 import * as test from './lib/database/test';
 declare module 'express-session' {
     interface SessionData {
@@ -24,6 +25,7 @@ app.use('/app/images/', express.static('app/images/'));
 app.use('/app/styles/', express.static('app/styles/'));
 app.use('/favicon/', express.static('favicon/'));
 app.use('/lists', listRouter);
+app.use('/auth', authRouter);
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);

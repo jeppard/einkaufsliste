@@ -20,12 +20,15 @@ export async function initDatabase (): Promise<void> {
 
 export async function addAccount (username: string, password: string): Promise<void> {
     let conn;
+    let res;
     try {
         conn = await getConnection();
-        await conn.query('INSERT INTO ' + TABLE_NAME + ' (username, password) VALUES (?, ?);', [username, password]);
+        res = await conn.query('INSERT INTO ' + TABLE_NAME + ' (username, password) VALUES (?, ?);', [username, password]);
     } catch (err) {
+        console.log(err);
         // TODO Add result
     } finally {
+        console.log(res);
         if (conn) conn.end();
     }
 }
