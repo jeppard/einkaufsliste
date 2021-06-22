@@ -5,7 +5,7 @@ fetch(window.location.origin + "/lists/content", {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            "ListID": data
+            "listID": data
         })
     })
     .then(response => response.json())
