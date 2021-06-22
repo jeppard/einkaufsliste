@@ -1,0 +1,15 @@
+#main {
+    width: 90%;
+    max-width: 50rem;
+    margin: 0 auto;
+}
+
+#title {
+    margin: 0 auto;
+    text-align: center;
+}
+
+#content {
+    margin: 0 auto;
+    text-align: center;
+}
