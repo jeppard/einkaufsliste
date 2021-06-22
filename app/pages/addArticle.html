@@ -17,17 +17,35 @@
 
     <!-- Styles-->
     <link rel="stylesheet" href="/app/styles/default.css">
-    <link rel="stylesheet" href="/app/styles/liste.css">
+    <link rel="stylesheet" href="/app/styles/addArticle.css">
 
     <!-- Scripts -->
-    <script src="/app/scripts/liste.js"></script>
+    <script src="/app/scripts/addArticle.js"></script>
 
     <title>Add Article</title>
 
 </head>
 
 <body>
-
+    <div id="main" class="center">
+        <div id="title" class="center">
+            <h1>Add Article</h1>
+        </div>
+        <div id="form_container" class="center">
+            <table id="table" class="center">
+                <tr>
+                    <th><label for="article_name">Name:</label></th>
+                    <th><input type="text" name="article_name" id="article_name" placeholder="Article Name"></th>
+                </tr>
+                <tr>
+                    <th><label for="description">Description: </label></th>
+                    <th><textarea name="description" id="description" cols="18" rows="3" placeholder="Description..."></textarea></th>
+                </tr>
+            </table>
+            <input type="submit" value="Add" class="center" onclick="submitFunction()">
+            </form>
+        </div>
+    </div>
 </body>
 
 </html>

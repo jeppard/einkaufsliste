@@ -24,7 +24,6 @@ router.post('/add', async function (req, res) {
 
     if (article && areNumbers([article.userID, article.type]) && areNotNullOrEmpty([article.description, article.name])) {
         await articleProvider.addArticle(new Article(0, article.userID, article.name, article.description, article.type));
-
         res.status(201).send('Added article to list');
     } else {
         res.status(400).send('The given article is not in correct form');
@@ -37,15 +36,15 @@ router.post('/add', async function (req, res) {
  * Body:
  * articleID
  */
-router.get('/get', async function (req, res) {
+router.post('/get', async function (req, res) {
     const body: { articleID: number } = req.body;
 
     if (body && areNumbers([body.articleID])) {
         const article = await articleProvider.getArticle(body.articleID);
-
-        res.status(200).send(article);
+        if (article) res.status(200).send(article);
+        else res.status(404).send("Article not Found!");
     } else {
-        res.status(400).send('Element iformations are not given');
+        res.status(400).send('Element informations are not given');
     }
 });
 

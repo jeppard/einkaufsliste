@@ -1,4 +1,16 @@
 #main {
     width: 90%;
     max-width: 50rem;
+    text-align: center;
+}
+
+textarea {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+#article_name {
+    width: calc(100% - 8px);
 }

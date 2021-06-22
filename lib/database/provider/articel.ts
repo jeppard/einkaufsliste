@@ -56,6 +56,7 @@ export async function getArticle (articleID: number): Promise<Article | null> {
         if (article && article.length > 0) {
             article = article[0];
             res = new Article(article.ID, article.userID, article.name, article.description, article.type);
+            console.log(res)
         }
     } catch (err) {
         console.log('Failed to get all articles from database: ' + err);
