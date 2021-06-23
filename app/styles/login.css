@@ -103,15 +103,13 @@ a {
     text-decoration: none
 }
 
-/* hover effect for buttons */
-
 button:hover {
     opacity: 0.8;
 }
 
 span{
     display: block;
-    margin-left: 20px;
     color: red;
     font-style: italic;
+    text-align: center;
 }

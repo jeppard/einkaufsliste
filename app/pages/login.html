@@ -14,17 +14,17 @@
         <div class="main">
             <p class="sign" align="center">Sign in</p>
             <form class="form1">
-            
+
                 <div class="textcenter center">
                     <input class="un" name="input" type="text" align="center" placeholder="Username">
                 </div>
-                <span></span>
-            
+
                 <div class="textcenter center">
                     <input class="pass" name="input" type="password" align="center" placeholder="Password">
                 </div>
-                <span></span>
-            
+
+                <span id="upWarn" style="visibility: hidden">username or password is empty or false</span>
+
                 <div class="textcenter center">
                     <button class="submit" id="log-in">Sign in</button>
                 </div>
@@ -32,71 +32,66 @@
                 <div class="textcenter center">
                     <p class="forgot"><a href="#">Forgot Password?</a></p>
                 </div>
-                
+
                 <div class="textcenter center">
                     <button class="register" id="regist">new account</button>
                 </div>
 
-
         </div>
     </form>
 </body>
+
 </html>
 <script type="text/javascript">
-    window.onload = ()=>{
+    window.onload = () => {
+        document.getElementById('upWarn').style.visibility = "hidden";
+
         this.sessionStorage.setItem("username", "example_user");
-        this.sessionStorage.setItem("password", "example_password");   
+        this.sessionStorage.setItem("password", "example_password");
     }
 
+    function setCookie(cname, cvalue) {
+        document.cookie = cname + "=" + cvalue + ";path=/";
+    }
+
+    function sendRequ() {
+        var serverIp = "localhost";
+        resObjekt.open('post', serverIp, true);
+        resObjekt.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        resObjekt.onreadystatechange = handleResponse;
+        resObjekt.send('name=' + escape(document.formular.name.value));
+    }
+
+    function handler() {
+
+    }
     var input = document.getElementsByTagName('input');
     var login = document.getElementById('log-in');
     var register = document.getElementById('regist');
     var form = document.querySelector('form');
-    form.onsubmit = ()=>{return false}
+    form.onsubmit = () => { return false }
 
-    login.onclick = ()=>{
-        if ((input[0].value != "") && (input[1].value != ""))
-        {
-            if ((input[0].value == sessionStorage.getItem("username")) && (input[1].value == sessionStorage.getItem("password")))
+    login.onclick = () => {
+        if ((input[0].value != "") && (input[1].value != "")) {
+            //true = serverabfrage erfolgreich
+            if (true)//(input[0].value == sessionStorage.getItem("username")) && (input[1].value == sessionStorage.getItem("password")))
             {
-                form.onsubmit = ()=>{return 1}
-                //document.cookie = "username"+input[0].value;
-                //document.cookie = "password"+input[1].value;
+                var rCode = "false";
+                setCookie("test", "nö");
             }
-            else
-            {
-                if ((input[0].value != sessionStorage.getItem("username")))
-                {
-                    input[0].nextElementSibling.textContent = "Username NOT match";
-                    setTimeout(()=>{
-                        input[0].nextElementSibling.textContent = "";
-                    }, 2000);
+            else {
+                if ((input[0].value != sessionStorage.getItem("username"))) {
+                    document.getElementById('upWarn').style.visibility = "visible";
                 }
-                if ((input[1].value != sessionStorage.getItem("passwort")))
-                {
-                    input[1].nextElementSibling.textContent = "Password NOT match";
-                    setTimeout(()=>{
-                        input[1].nextElementSibling.textContent = "";
-                    }, 2000);
+                if ((input[1].value != sessionStorage.getItem("passwort"))) {
+                    document.getElementById('upWarn').style.visibility = "visible";
                 }
             }
 
         }
-        else
-        {
-            if(input[0].value == "")
-            {
-                input[0].nextElementSibling.textContent = "Username is empty";
-                setTimeout(()=>{
-                    input[0].nextElementSibling.textContent = "";
-                }, 2000);
-            }
-            if(input[1].value == "")
-            {
-                input[1].nextElementSibling.textContent = "Password is empty";
-                setTimeout(()=>{
-                    input[1].nextElementSibling.textContent = "";
-                }, 2000);
+        else {
+            if (input[0].value == "" || input[1].value == "") {
+                document.getElementById('upWarn').style.visibility = "visible";
             }
         }
     }
