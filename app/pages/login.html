@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8" />
     <link rel="stylesheet" href="/app/styles/default.css">
     <link rel="stylesheet" href="/app/styles/login.css">
+    <script src="server.js"></script>
     <title>Sign in</title>
 </head>
 
@@ -34,7 +35,7 @@
                 </div>
 
                 <div class="textcenter center">
-                    <button class="register" id="regist">new account</button>
+                    <a class="register button" href="register.html">new account</a>
                 </div>
 
         </div>
@@ -45,7 +46,6 @@
 <script type="text/javascript">
     window.onload = () => {
         document.getElementById('upWarn').style.visibility = "hidden";
-
         this.sessionStorage.setItem("username", "example_user");
         this.sessionStorage.setItem("password", "example_password");
     }
@@ -65,6 +65,7 @@
     function handler() {
 
     }
+
     var input = document.getElementsByTagName('input');
     var login = document.getElementById('log-in');
     var register = document.getElementById('regist');

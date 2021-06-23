@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8" />
+    <link rel="stylesheet" href="/app/styles/default.css">
+    <link rel="stylesheet" href="/app/styles/login.css">
+    <script src="server.js"></script>
+    <title>Sign up</title>
+</head>
+
+<body>
+    <form action="index.html" method="post">
+        <div class="main">
+            <p class="sign" align="center">Sign up</p>
+            <form class="form1">
+
+                <div class="textcenter center">
+                    <input class="un" name="input" type="text" align="center" placeholder="your username">
+                </div>
+
+                <span id="userInv" style="visibility: hidden">invalid username</span>
+
+                <div class="textcenter center">
+                    <input class="pass" name="input" type="password" align="center" placeholder="your Password">
+                </div>
+
+                <span id="passInv" style="visibility: hidden">invalid password</span>
+
+                <div class="textcenter center">
+                    <button class="submit" id="log-in">register</button>
+                </div>
+
+        </div>
+    </form>
+</body>
+
+</html>
