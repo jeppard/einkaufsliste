@@ -14,7 +14,7 @@ const app = express();
 const port = 3000;
 
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+    res.redirect('/lists');
 });
 
 app.use(express.json());
@@ -26,15 +26,11 @@ app.use('/app/styles/', express.static('app/styles/'));
 app.use('/favicon/', express.static('favicon/'));
 app.use('/lists', listRouter);
 app.use('/auth', authRouter);
+
 app.use('/login', express.static('app/pages/test.html'));
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
-});
-
-app.get('/test', (req, res) => {
-    console.log(req.session);
-    res.send(req.session);
 });
 
 app.use('/list', (req, res) => {

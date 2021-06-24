@@ -7,6 +7,7 @@ router.get('/', function (req, res) {
     res.send('Account specific stuff');
 });
 
+// Authentication middleware function to check if the user is logged in
 export async function checkSignIn (req: Request, res: Response, next: NextFunction): Promise<void> {
     if (req.session.userID) {
         next();
@@ -17,10 +18,20 @@ export async function checkSignIn (req: Request, res: Response, next: NextFuncti
     }
 }
 
+// Simple test page to show the user its id
 router.get('/page', checkSignIn, async function (req, res) {
     res.send('ID: ' + req.session.userID);
 });
 
+/**
+ * Create new user account and set session parameter
+ *
+ * Body:
+ * username
+ * password
+ *
+ * return status code if successful
+ */
 router.post('/signup', async function (req, res) {
     const body: {username: string, password: string} = req.body;
 
@@ -43,6 +54,15 @@ router.post('/signup', async function (req, res) {
     }
 });
 
+/**
+ * Set session parameter
+ *
+ * Body:
+ * username
+ * password
+ *
+ * return status code if successful
+ */
 router.post('/signin', async function (req, res) {
     const body: {username: string, password: string} = req.body;
 

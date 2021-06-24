@@ -1,6 +1,10 @@
+signin();
+
 function signin() {
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+    // TODO remove dummy credentials
+    // Allways login with a dummy user
+    const username = "Test";
+    const password = "123";
 
     fetch(window.location.origin + "/auth/signin", {
         method: 'POST',

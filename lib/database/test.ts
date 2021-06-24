@@ -13,7 +13,7 @@ export async function initDatabase (): Promise<void> {
 }
 
 export async function initData (): Promise<void> {
-    await accountProvider.addAccount('Test Person', '1235');
+    await accountProvider.addAccount('Test', '123');
 
     await listProvider.addList('Test', 1, 'This is a List');
 

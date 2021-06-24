@@ -8,6 +8,7 @@ import { areNumbers } from '../parameter_util';
 
 const router = express.Router();
 
+// List homepage
 router.use('/', checkSignIn, express.static('app/pages/liste.html'));
 
 router.use('/elements', elementRouter);
