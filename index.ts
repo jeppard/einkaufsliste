@@ -1,7 +1,7 @@
 import express from 'express';
 import session from 'express-session';
-import { router as listRouter } from './lib/routes/lists';
-import { router as authRouter } from './lib/routes/user_authentication';
+import { listRouter } from './lib/routes/lists';
+import { authRouter } from './lib/routes/user_authentication';
 import * as test from './lib/database/test';
 declare module 'express-session' {
     interface SessionData {
@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 });
 
 app.use(express.json());
-app.use(session({ secret: 'key' }));
+app.use(session({ secret: 'Your secret Key', resave: true, saveUninitialized: false }));
 app.use('/static/', express.static('app/pages/'));
 app.use('/app/scripts/', express.static('app/scripts/'));
 app.use('/app/images/', express.static('app/images/'));
@@ -26,9 +26,15 @@ app.use('/app/styles/', express.static('app/styles/'));
 app.use('/favicon/', express.static('favicon/'));
 app.use('/lists', listRouter);
 app.use('/auth', authRouter);
+app.use('/login', express.static('app/pages/test.html'));
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
+});
+
+app.get('/test', (req, res) => {
+    console.log(req.session);
+    res.send(req.session);
 });
 
 app.use('/list', (req, res) => {

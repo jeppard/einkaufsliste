@@ -11,9 +11,9 @@ function signin() {
             "username": username,
             "password": password
         })
-    }).then(response => function removeListElement(response) {
+    }).catch(err => { console.log(err) }).then(response => {
         if (response.ok) {
-            console.log("Success");
+            window.location.href = window.location.origin + "/lists";
         }
     })
 }
@@ -32,9 +32,9 @@ function signup() {
             "username": username,
             "password": password
         })
-    }).then(response => function removeListElement(response) {
+    }).catch(err => { console.log(err) }).then(response => {
         if (response.ok) {
-            console.log("Success");
+            window.location.href = window.location.origin + "/lists";
         }
     })
 }

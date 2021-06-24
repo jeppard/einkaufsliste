@@ -49,4 +49,4 @@ router.get('/get', async function (req, res) {
     }
 });
 
-export { router };
+export { router as articleRouter };

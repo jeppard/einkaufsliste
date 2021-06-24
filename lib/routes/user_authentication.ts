@@ -10,19 +10,20 @@ router.get('/', function (req, res) {
 export async function checkSignIn (req: Request, res: Response, next: NextFunction): Promise<void> {
     if (req.session.userID) {
         next();
+    } else if (req.method === 'GET') {
+        res.redirect('/login');
     } else {
-        const err = new Error('Not logged in');
-        next(err);
+        res.status(401).send('Unauthorized');
     }
 }
 
 router.get('/page', checkSignIn, async function (req, res) {
-    res.render('page', { id: req.session.userID });
+    res.send('ID: ' + req.session.userID);
 });
 
 router.post('/signup', async function (req, res) {
     const body: {username: string, password: string} = req.body;
-    console.log('yeaah');
+
     if (!body || !body.username || !body.password) {
         res.status(400).send('Wrong details');
     } else {
@@ -30,7 +31,6 @@ router.post('/signup', async function (req, res) {
         if (user) {
             res.status(406).send('This user already exists');
         } else {
-            console.log('test1');
             await accountProvider.addAccount(body.username, body.password);
             user = await accountProvider.getAccountByUsername(body.username);
 
@@ -54,6 +54,7 @@ router.post('/signin', async function (req, res) {
 
             if (user) {
                 req.session.userID = user.id;
+                res.status(200).send('loggedin');
             } else {
                 res.status(500).send('Something didnt work');
             }
@@ -63,4 +64,4 @@ router.post('/signin', async function (req, res) {
     }
 });
 
-export { router };
+export { router as authRouter };
