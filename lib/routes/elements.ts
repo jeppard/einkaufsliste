@@ -61,11 +61,37 @@ router.get('/get', async function (req, res) {
     const body: {elementID: number, listID: number} = req.body;
 
     if (body && areNumbers([body.listID, body.elementID])) {
-        const element = await elementProvider.getElement(body.listID, body.listID);
+        const element = await elementProvider.getElement(body.listID, body.elementID);
 
-        res.status(200).send(element);
+        if (element) {
+            res.status(200).send(element);
+        } else {
+            res.status(400).send('Element not found');
+        }
     } else {
         res.status(400).send('Element iformations are not given');
+    }
+});
+
+/**
+ * Get all elements from database of a specific list
+ * *
+ * Body:
+ * listID
+ */
+router.get('/getAll', async function (req, res) {
+    const body: {listID: number} = req.body;
+
+    if (body && areNumbers([body.listID])) {
+        const elements = await elementProvider.getAllElementsWithArticles(body.listID);
+
+        if (elements && elements.length > 0) {
+            res.status(200).send(elements);
+        } else {
+            res.status(400).send('Elements not found');
+        }
+    } else {
+        res.status(400).send('ListID is not given');
     }
 });
 

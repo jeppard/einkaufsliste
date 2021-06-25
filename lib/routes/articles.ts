@@ -13,17 +13,17 @@ router.get('/', function (req, res) {
  * Adds new article to database
  *
  * Body:
- * userID       - ID of the specific user who owns the article
+ * listID       - ID of the specific list which owns the article
  * name         - Name of the article
  * description  - description of the article
  * type         - Type number of the article
  */
 
 router.post('/add', async function (req, res) {
-    const article: { userID: number, name: string, description: string, type: number } = req.body;
+    const article: { listID: number, name: string, description: string, type: number } = req.body;
 
-    if (article && areNumbers([article.userID, article.type]) && areNotNullOrEmpty([article.description, article.name])) {
-        await articleProvider.addArticle(new Article(0, article.userID, article.name, article.description, article.type));
+    if (article && areNumbers([article.listID, article.type]) && areNotNullOrEmpty([article.description, article.name])) {
+        await articleProvider.addArticle(new Article(0, article.listID, article.name, article.description, article.type));
 
         res.status(201).send('Added article to list');
     } else {
@@ -43,7 +43,33 @@ router.get('/get', async function (req, res) {
     if (body && areNumbers([body.articleID])) {
         const article = await articleProvider.getArticle(body.articleID);
 
-        res.status(200).send(article);
+        if (article) {
+            res.status(200).send(article);
+        } else {
+            res.status(404).send('Article not found');
+        }
+    } else {
+        res.status(400).send('Element iformations are not given');
+    }
+});
+
+/**
+ * Get all article from database of a specific list
+ *
+ * Body:
+ * listID
+ */
+router.get('/getAll', async function (req, res) {
+    const body: { listID: number } = req.body;
+
+    if (body && areNumbers([body.listID])) {
+        const articles = await articleProvider.getAllArticles(body.listID);
+
+        if (articles) {
+            res.status(200).send(articles);
+        } else {
+            res.status(404).send('No articles found');
+        }
     } else {
         res.status(400).send('Element iformations are not given');
     }

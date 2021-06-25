@@ -1,7 +1,6 @@
 import express from 'express';
 import { elementRouter } from './elements';
 import { articleRouter } from './articles';
-import { checkSignIn } from './user_authentication';
 import * as elementProvider from '../database/provider/element';
 import * as listProvider from '../database/provider/list';
 import { areNumbers } from '../parameter_util';
@@ -9,7 +8,7 @@ import { areNumbers } from '../parameter_util';
 const router = express.Router();
 
 // List homepage
-router.use('/', checkSignIn, express.static('app/pages/liste.html'));
+router.use('/', express.static('app/pages/liste.html'));
 
 router.use('/elements', elementRouter);
 router.use('/articles', articleRouter);
