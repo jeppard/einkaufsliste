@@ -37,7 +37,7 @@ export async function removeType (id: number): Promise<void> {
     let conn;
     try {
         conn = await getConnection();
-        await conn.query('DELETE FROM ' + ARTICELS_TABLE_NAME + ' id = ?;', [id]);
+        await conn.query('DELETE FROM ' + ARTICELS_TABLE_NAME + ' WHERE id = ?;', [id]);
     } catch (err) {
         // TODO Add result
         console.log('Failed to remove article type from database: ' + err);

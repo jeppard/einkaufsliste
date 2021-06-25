@@ -1,4 +1,5 @@
 import express from 'express';
+import { articleTypeRouter } from './article_types';
 import { Article } from '../database/types/article';
 import * as articleProvider from '../database/provider/articel';
 import { areNotNullOrEmpty, areNumbers } from '../parameter_util';
@@ -8,6 +9,8 @@ const router = express.Router();
 router.get('/', function (req, res) {
     res.send('List article specific stuff');
 });
+
+router.use('/types', articleTypeRouter);
 
 /**
  * Adds new article to database

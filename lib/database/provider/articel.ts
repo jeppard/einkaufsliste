@@ -37,7 +37,7 @@ export async function removeArticle (articleID: number): Promise<void> {
     let conn;
     try {
         conn = await getConnection();
-        await conn.query('DELETE FROM ' + ARTICELS_TABLE_NAME + ' id = ?;', [articleID]);
+        await conn.query('DELETE FROM ' + ARTICELS_TABLE_NAME + ' WHERE id = ?;', [articleID]);
     } catch (err) {
         // TODO Add result
         console.log('Failed to remove article from database: ' + err);
