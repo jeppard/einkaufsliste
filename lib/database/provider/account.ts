@@ -1,3 +1,4 @@
+import { User } from '../types/user';
 import { getConnection } from '../db';
 
 const TABLE_NAME = 'Accounts';
@@ -23,10 +24,33 @@ export async function addAccount (username: string, password: string): Promise<v
         conn = await getConnection();
         await conn.query('INSERT INTO ' + TABLE_NAME + ' (username, password) VALUES (?, ?);', [username, password]);
     } catch (err) {
+        console.log(err);
         // TODO Add result
     } finally {
         if (conn) conn.end();
     }
+}
+
+export async function getAccountByUsername (username: string): Promise<User | null> {
+    let conn;
+    let res;
+    try {
+        conn = await getConnection();
+        const rows = await conn.query('SELECT id, username FROM ' + TABLE_NAME + ' WHERE username=? LIMIT 1;', [username]);
+
+        if (rows && rows.length > 0) {
+            const account: { id: number, username: string} = rows[0];
+
+            res = new User(account.id, account.username);
+        }
+    } catch (err) {
+        // TODO Add result
+    } finally {
+        if (conn) conn.end();
+    }
+
+    if (res) return res;
+    else return null;
 }
 
 export async function verifyUser (username: string, password: string): Promise<boolean> {
