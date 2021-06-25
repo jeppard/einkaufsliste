@@ -32,6 +32,25 @@ router.post('/add', async function (req, res) {
 });
 
 /**
+ * Remove article from database
+ *
+ * Body:
+ * articleID
+ */
+
+router.post('/remove', async function (req, res) {
+    const body: {articleID: number} = req.body;
+
+    if (body && areNumbers([body.articleID])) {
+        await articleProvider.removeArticle(body.articleID);
+
+        res.status(200).send('Article removed');
+    } else {
+        res.status(400).send('Article is is not given');
+    }
+});
+
+/**
  * Get one article from database
  *
  * Body:
