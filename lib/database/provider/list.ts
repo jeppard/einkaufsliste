@@ -1,5 +1,5 @@
 import { getConnection } from '../db';
-import { List } from '../list';
+import { List } from '../types/list';
 
 const TABLE_NAME = 'Lists';
 

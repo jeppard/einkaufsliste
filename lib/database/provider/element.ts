@@ -1,5 +1,5 @@
-import { ListElement } from '../list_element';
-import { Article } from '../article';
+import { ListElement } from '../types/list_element';
+import { Article } from '../types/article';
 import * as articleProvider from './articel';
 import { getConnection } from '../db';
 
@@ -76,15 +76,17 @@ export async function getAllElementsWithArticles (listID: number): Promise<ListE
     const res: ListElement[] = [];
     try {
         conn = await getConnection();
-        const articles = await articleProvider.getAllArticles();
+        const articles = await articleProvider.getAllArticles(listID);
         const elements = await conn.query('SELECT * FROM ' + ELEMENTS_TABLE_NAME + ' WHERE listID=?;', [listID]);
 
         if (articles != null && elements != null) {
             elements.forEach((e: { id: number, articleID: number; listID: number; count: number; unitType: string; }) => {
-                const article = (articles.filter((a) => e.articleID === a.id))[0];
+                const arr = articles.filter((a) => e.articleID === a.id);
 
-                if (article != null) {
-                    res.push(new ListElement(e.id, e.listID, new Article(article.id, article.userID, article.name, article.description, article.type), e.count, e.unitType));
+                if (arr != null && arr.length > 0) {
+                    const article = arr[0];
+
+                    res.push(new ListElement(e.id, e.listID, new Article(article.id, article.listID, article.name, article.description, article.type), e.count, e.unitType));
                 }
             });
         }
