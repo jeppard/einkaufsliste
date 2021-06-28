@@ -1,7 +1,8 @@
-let articleID = new URLSearchParams(window.location.search).get('articleId');
+let searchParams = new URLSearchParams(window.location.search)
+let articleID = searchParams.get('articleId');
+let listID = searchParams.get('listID');
 
 let type = 1; //TODO select Type
-let userID = 1; //TODO select UserID
 
 if (articleID != null) {
     fetch(window.location.origin + "/lists/articles/get", {
@@ -33,7 +34,7 @@ function submitFunction(params) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                "userID": userID,
+                "listID": listID,
                 "name": document.getElementById("article_name").value,
                 "description": document.getElementById("description").value,
                 "type": type
