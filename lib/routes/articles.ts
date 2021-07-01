@@ -15,6 +15,8 @@ router.use('/types', articleTypeRouter);
 /**
  * Adds new article to database
  *
+ * route: "/lists/articles/add"
+ *
  * Body:
  * listID       - ID of the specific list which owns the article
  * name         - Name of the article
@@ -37,6 +39,8 @@ router.post('/add', async function (req, res) {
 /**
  * Remove article from database
  *
+ * route: "/lists/articles/remove"
+ *
  * Body:
  * articleID
  */
@@ -55,6 +59,8 @@ router.post('/remove', async function (req, res) {
 
 /**
  * Get one article from database
+ *
+ * route: "/lists/articles/get"
  *
  * Body:
  * articleID
@@ -77,6 +83,8 @@ router.get('/get', async function (req, res) {
 
 /**
  * Get all article from database of a specific list
+ *
+ * route: "/lists/articles/getAll"
  *
  * Body:
  * listID

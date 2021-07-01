@@ -11,6 +11,8 @@ router.get('/', function (req, res) {
 /**
  * Adds new element to database
  *
+ * route: "/lists/elements/add"
+ *
  * Body:
  * listID       - ID of the list where the element is located
  * articleID    - ID of the article for the given elment
@@ -33,6 +35,8 @@ router.post('/add', async function (req, res) {
 /**
  * Remove element from database
  *
+ * route: "/lists/elements/remove"
+ *
  * Body:
  * elementID
  * listID
@@ -52,6 +56,8 @@ router.post('/remove', async function (req, res) {
 
 /**
  * Get one element from database
+ *
+ * route: "/lists/elements/get"
  *
  * Body:
  * elementID
@@ -75,7 +81,9 @@ router.get('/get', async function (req, res) {
 
 /**
  * Get all elements from database of a specific list
- * *
+ *
+ * route: "/lists/elements/getAll"
+ *
  * Body:
  * listID
  */
