@@ -7,7 +7,7 @@ import { areNumbers } from '../parameter_util';
 
 const router = express.Router();
 
-// List homepage
+// route: "/lists/"
 router.use('/', express.static('app/pages/liste.html'));
 
 router.use('/elements', elementRouter);
