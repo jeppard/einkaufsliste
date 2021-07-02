@@ -11,6 +11,8 @@ router.get('/', function (req, res) {
 /**
  * Adds new article-type to database
  *
+ * route: "/lists/articles/types/add"
+ *
  * Body:
  * name
  * color
@@ -31,6 +33,8 @@ router.post('/add', async function (req, res) {
 /**
  * Remove article-type from database
  *
+ * route: "/lists/articles/types/remove"
+ *
  * Body:
  * typeID
  */
@@ -49,6 +53,8 @@ router.post('/remove', async function (req, res) {
 
 /**
  * Get one article-type from database
+ *
+ * route: "/lists/articles/types/get"
  *
  * Body:
  * typeID
@@ -71,6 +77,8 @@ router.get('/get', async function (req, res) {
 
 /**
  * Get all article-types from database
+ *
+ * route: "/lists/articles/types/getAll"
  */
 router.get('/getAll', async function (req, res) {
     const types = await articleTypeProvider.getAllTypes();

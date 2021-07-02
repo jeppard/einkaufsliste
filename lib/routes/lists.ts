@@ -16,6 +16,8 @@ router.use('/articles', articleRouter);
 /**
  * Response content of a list
  *
+ * route: "/lists/content"
+ *
  * Body:
  * listID
  */
@@ -38,6 +40,8 @@ router.post('/content', async function (req, res) {
 
 /**
  * Remove list from database
+ *
+ * route: "/lists/removeList"
  *
  * Body:
  * listID

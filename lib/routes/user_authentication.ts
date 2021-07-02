@@ -26,6 +26,8 @@ router.get('/page', checkSignIn, async function (req, res) {
 /**
  * Create new user account and set session parameter
  *
+ * route: "/auth/signup"
+ *
  * Body:
  * username
  * password
@@ -56,6 +58,8 @@ router.post('/signup', async function (req, res) {
 
 /**
  * Set session parameter
+ *
+ * route: "/auth/signin"
  *
  * Body:
  * username
