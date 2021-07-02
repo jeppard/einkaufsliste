@@ -3,6 +3,7 @@ import * as accountProvider from '../database/provider/account';
 
 const router = express.Router();
 
+// route: "/auth/"
 router.get('/', function (req, res) {
     res.send('Account specific stuff');
 });
@@ -25,6 +26,8 @@ router.get('/page', checkSignIn, async function (req, res) {
 
 /**
  * Create new user account and set session parameter
+ *
+ * route: "/auth/signup"
  *
  * Body:
  * username
@@ -56,6 +59,8 @@ router.post('/signup', async function (req, res) {
 
 /**
  * Set session parameter
+ *
+ * route: "/auth/signin"
  *
  * Body:
  * username

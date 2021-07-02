@@ -20,17 +20,28 @@ export async function initDatabase (): Promise<void> {
     }
 }
 
-export async function addArticle (article: Article): Promise<void> {
+export async function addArticle (article: Article): Promise<number | null> {
     let conn;
+    let res;
     try {
         conn = await getConnection();
+        // TODO better sulution to get inserted article id
         await conn.query('INSERT INTO ' + ARTICELS_TABLE_NAME + ' (listID, name, description, type) VALUES (?, ?, ?, ?);', [article.listID, article.name, article.description, article.type]);
+        const articles = await conn.query('SELECT * FROM ' + ARTICELS_TABLE_NAME + ' WHERE id = LAST_INSERT_ID();');
+
+        if (articles && articles.length > 0) {
+            const a : { id: number, name: string, listID: number} = articles[0];
+
+            if (a.name === article.name && a.listID === article.listID) res = a.id;
+        }
     } catch (err) {
         // TODO Add result
         console.log('Failed to add new article to database: ' + err);
     } finally {
         if (conn) conn.end();
     }
+    if (res) return res;
+    else return null;
 }
 
 export async function removeArticle (articleID: number): Promise<void> {
@@ -55,8 +66,7 @@ export async function getArticle (articleID: number): Promise<Article | null> {
 
         if (article && article.length > 0) {
             article = article[0];
-            res = new Article(article.ID, article.userID, article.name, article.description, article.type);
-            console.log(res)
+            res = new Article(article.id, article.userID, article.name, article.description, article.type);
         }
     } catch (err) {
         console.log('Failed to get all articles from database: ' + err);

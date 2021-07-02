@@ -11,3 +11,10 @@ export function areNotNullOrEmpty (elements: any[]): boolean {
     }
     return true;
 }
+
+export function areNotNullButEmpty (elements: any[]): boolean {
+    for (const element of elements) {
+        if (!element && element !== '') return false;
+    }
+    return true;
+}

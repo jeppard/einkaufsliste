@@ -2,10 +2,11 @@ import express from 'express';
 import { articleTypeRouter } from './article_types';
 import { Article } from '../database/types/article';
 import * as articleProvider from '../database/provider/articel';
-import { areNotNullOrEmpty, areNumbers } from '../parameter_util';
+import { areNotNullOrEmpty, areNumbers, areNotNullButEmpty } from '../parameter_util';
 
 const router = express.Router();
 
+// route: "/lists/articles/"
 router.get('/', function (req, res) {
     res.send('List article specific stuff');
 });
@@ -14,6 +15,8 @@ router.use('/types', articleTypeRouter);
 
 /**
  * Adds new article to database
+ *
+ * route: "/lists/articles/add"
  *
  * Body:
  * listID       - ID of the specific list which owns the article
@@ -25,10 +28,13 @@ router.use('/types', articleTypeRouter);
 router.post('/add', async function (req, res) {
     const article: { listID: number, name: string, description: string, type: number } = req.body;
 
-    if (article && areNumbers([article.listID, article.type]) && areNotNullOrEmpty([article.description, article.name])) {
-        await articleProvider.addArticle(new Article(0, article.listID, article.name, article.description, article.type));
+    if (article && areNumbers([article.listID, article.type]) && areNotNullOrEmpty([article.name]) && areNotNullButEmpty([article.description])) {
+        const articleID = await articleProvider.addArticle(new Article(0, article.listID, article.name, article.description, article.type));
 
-        res.status(201).send('Added article to list');
+        if (articleID) {
+            const newArticle = await articleProvider.getArticle(articleID);
+            res.status(200).send(newArticle);
+        } else res.status(500).send('Failed to add article');
     } else {
         res.status(400).send('The given article is not in correct form');
     }
@@ -36,6 +42,8 @@ router.post('/add', async function (req, res) {
 
 /**
  * Remove article from database
+ *
+ * route: "/lists/articles/remove"
  *
  * Body:
  * articleID
@@ -55,6 +63,8 @@ router.post('/remove', async function (req, res) {
 
 /**
  * Get one article from database
+ *
+ * route: "/lists/articles/get"
  *
  * Body:
  * articleID
@@ -77,6 +87,8 @@ router.post('/get', async function (req, res) {
 
 /**
  * Get all article from database of a specific list
+ *
+ * route: "/lists/articles/getAll"
  *
  * Body:
  * listID
