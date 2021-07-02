@@ -26,7 +26,7 @@
 
 </head>
 
-<body>
+<body onload="init()">
     <div id="main" class="center">
         <div id="title" class="center">
             <h1>Add Article</h1>
@@ -35,13 +35,18 @@
             <table id="table" class="center">
                 <tr>
                     <th><label for="article_name">Name:</label></th>
-                    <th><input type="text" name="article_name" id="article_name" placeholder="Article Name"></th>
+                    <th><input type="text" name="article_name" id="article_name" placeholder="Article Name" class="text-input"></th>
                 </tr>
                 <tr>
-                    <th><label for="description">Description: </label></th>
+                    <th><label for="description">Description:</label></th>
                     <th><textarea name="description" id="description" cols="18" rows="3" placeholder="Description..."></textarea></th>
                 </tr>
+                <tr>
+                    <th><label for="article-type">Type:</label></th>
+                    <th><input type="text" name="article_type" id="artile_type" placeholder="Article Type" class="text-input"></th>
+                </tr>
             </table>
+            <div id="type-container"></div>
             <input type="submit" value="Add" class="center" onclick="submitFunction()">
             </form>
         </div>

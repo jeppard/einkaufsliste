@@ -11,6 +11,6 @@ textarea {
     width: 100%;
 }
 
-#article_name {
+.text-input {
     width: calc(100% - 8px);
 }
