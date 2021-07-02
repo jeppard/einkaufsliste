@@ -4,6 +4,7 @@ import { areNotNullOrEmpty, areNumbers } from '../parameter_util';
 
 const router = express.Router();
 
+// route: "/lists/articles/types/"
 router.get('/', function (req, res) {
     res.send('articleType specific stuff');
 });

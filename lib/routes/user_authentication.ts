@@ -3,6 +3,7 @@ import * as accountProvider from '../database/provider/account';
 
 const router = express.Router();
 
+// route: "/auth/"
 router.get('/', function (req, res) {
     res.send('Account specific stuff');
 });
