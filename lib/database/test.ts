@@ -4,6 +4,7 @@ import * as listProvider from './provider/list';
 import * as articleProvider from './provider/articel';
 import * as elementProvider from './provider/element';
 import * as articleTypeProvider from './provider/article_type';
+import * as userListProvider from './provider/link_user_list';
 import { Article } from './types/article';
 
 export async function initDatabase (): Promise<void> {
@@ -12,6 +13,7 @@ export async function initDatabase (): Promise<void> {
     await articleProvider.initDatabase();
     await elementProvider.initDatabase();
     await articleTypeProvider.initDatabase();
+    await userListProvider.initDatabase();
 }
 
 export async function initData (): Promise<void> {
@@ -28,4 +30,6 @@ export async function initData (): Promise<void> {
 
     await elementProvider.addElement(1, 1, 10, 'Stück');
     await elementProvider.addElement(1, 2, 10, 'Bäume');
+
+    await userListProvider.addLink(1, 1);
 }
