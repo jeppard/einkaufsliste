@@ -1,9 +1,11 @@
+import { ArticleType } from './aritcle_type';
+
 export class Article {
     id: number;
     listID: number;
     name: string;
     description: string;
-    type: number;
+    type: ArticleType;
 
     /**
      * Create new article
@@ -13,7 +15,7 @@ export class Article {
      * @param description description of the article
      * @param type Type number of the article
      */
-    constructor (id: number, listID: number, name: string, description: string, type: number) {
+    constructor (id: number, listID: number, name: string, description: string, type: ArticleType) {
         this.id = id;
         this.listID = listID;
         this.name = name;

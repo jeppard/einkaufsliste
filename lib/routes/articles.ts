@@ -1,6 +1,5 @@
 import express from 'express';
 import { articleTypeRouter } from './article_types';
-import { Article } from '../database/types/article';
 import * as articleProvider from '../database/provider/articel';
 import { areNotNullOrEmpty, areNumbers, areNotNullButEmpty } from '../parameter_util';
 
@@ -29,7 +28,7 @@ router.post('/add', async function (req, res) {
     const article: { listID: number, name: string, description: string, type: number } = req.body;
 
     if (article && areNumbers([article.listID, article.type]) && areNotNullOrEmpty([article.name]) && areNotNullButEmpty([article.description])) {
-        const articleID = await articleProvider.addArticle(new Article(0, article.listID, article.name, article.description, article.type));
+        const articleID = await articleProvider.addArticle(article.listID, article.name, article.description, article.type);
 
         if (articleID) {
             const newArticle = await articleProvider.getArticle(articleID);
@@ -68,6 +67,9 @@ router.post('/remove', async function (req, res) {
  *
  * Body:
  * articleID
+ *
+ * return:
+ * article
  */
 router.post('/get', async function (req, res) {
     const body: { articleID: number } = req.body;
@@ -92,6 +94,9 @@ router.post('/get', async function (req, res) {
  *
  * Body:
  * listID
+ *
+ * return:
+ * array of articles
  */
 router.get('/getAll', async function (req, res) {
     const body: { listID: number } = req.body;
