@@ -1,9 +1,13 @@
 import { getConnection } from '../db';
+import { List } from '../types/list';
+import { User } from '../types/user';
+import { getAccountByID } from './account';
+import { getListById } from './list';
 
 const ARTICELS_TABLE_NAME = 'Link_User_List';
 
 /**
- * Initialize the database for article types
+ * Initialize the database for user list connection
  */
 export async function initDatabase (): Promise<void> {
     const query = 'CREATE TABLE IF NOT EXISTS ' + ARTICELS_TABLE_NAME + ' (userID int, listID int);';
@@ -49,17 +53,19 @@ export async function removeLink (userID: number, listID: number): Promise<void>
     }
 }
 
-export async function getListsByUser (userID: number): Promise<number[]> {
+export async function getListsByUser (userID: number): Promise<List[]> {
     let conn;
-    const res: number[] = [];
+    const res: List[] = [];
     try {
         conn = await getConnection();
         const rows = await conn.query('SELECT listID FROM ' + ARTICELS_TABLE_NAME + ' WHERE userID=?;', [userID]);
 
-        if (rows != null) {
-            rows.forEach((r: { listID: number; }) => {
-                res.push(r.listID);
-            });
+        if (rows && rows.length > 0) {
+            for (const row of rows) {
+                const list = await getListById(row.listID);
+
+                if (list) res.push(list);
+            }
         }
     } catch (err) {
         console.log('Failed to get all lists by user from database: ' + err);
@@ -71,17 +77,19 @@ export async function getListsByUser (userID: number): Promise<number[]> {
     return res;
 }
 
-export async function getUsersByList (listID: number): Promise<number[]> {
+export async function getUsersByList (listID: number): Promise<User[]> {
     let conn;
-    const res: number[] = [];
+    const res: User[] = [];
     try {
         conn = await getConnection();
         const rows = await conn.query('SELECT userID FROM ' + ARTICELS_TABLE_NAME + ' WHERE listID=?;', [listID]);
 
-        if (rows != null) {
-            rows.forEach((r: { userID: number; }) => {
-                res.push(r.userID);
-            });
+        if (rows && rows.length > 0) {
+            for (const row of rows) {
+                const user = await getAccountByID(row.userID);
+
+                if (user) res.push(user);
+            }
         }
     } catch (err) {
         console.log('Failed to get all users by list from database: ' + err);
