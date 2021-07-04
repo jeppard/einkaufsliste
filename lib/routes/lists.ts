@@ -4,6 +4,7 @@ import { articleRouter } from './articles';
 import * as elementProvider from '../database/provider/element';
 import * as listProvider from '../database/provider/list';
 import * as linkUserListProvider from '../database/provider/link_user_list';
+import * as accountProvider from '../database/provider/account';
 import { areNumbers, areNotNullButEmpty, areNotNullOrEmpty } from '../parameter_util';
 
 const router = express.Router();
@@ -75,17 +76,27 @@ router.post('/removeList', async function (req, res) {
  * desription
  *
  * return:
- * listID
+ * list object without content
  */
 router.post('/add', async function (req, res) {
     const body: { name: string, ownerID: number, desription: string } = req.body;
 
     if (body && areNumbers([body.ownerID]) && areNotNullOrEmpty([body.name]) && areNotNullButEmpty([body.desription])) {
-        const listID = await listProvider.addList(body.name, body.ownerID, body.desription);
+        // check for existing user
+        const user = await accountProvider.getAccountByID(body.ownerID);
+        if (!user) {
+            res.send(404).send('This user doesn\'t exist');
+            return;
+        }
 
+        const listID = await listProvider.addList(body.name, user.id, body.desription);
+
+        // check if addition worked and add user list connection
         if (listID) {
-            const list = await listProvider.getListById(listID);
+            linkUserListProvider.addLink(user.id, listID);
 
+            // return confirmation message and list object without content
+            const list = await listProvider.getListById(listID);
             res.status(200).send(list);
         } else res.status(500).send('Failed to add list');
     } else {
