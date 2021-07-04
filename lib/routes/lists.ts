@@ -48,7 +48,7 @@ router.post('/content', async function (req, res) {
  * Body:
  * listID
  */
-router.post('/removeList', async function (req, res) {
+router.post('/remove', async function (req, res) {
     const body: { listID: number } = req.body;
 
     if (body && areNumbers([body.listID])) {
@@ -59,7 +59,7 @@ router.post('/removeList', async function (req, res) {
 
         if (list) {
             await listProvider.removeList(body.listID);
-            res.send(list);
+            res.status(200).send('List removed');
         } else {
             res.status(404).send('No List');
         }
@@ -76,15 +76,15 @@ router.post('/removeList', async function (req, res) {
  * Body:
  * name
  * ownerID
- * desription
+ * description
  *
  * return:
  * list object without content
  */
 router.post('/add', async function (req, res) {
-    const body: { name: string, ownerID: number, desription: string } = req.body;
+    const body: { name: string, ownerID: number, description: string } = req.body;
 
-    if (body && areNumbers([body.ownerID]) && areNotNullOrEmpty([body.name]) && areNotNullButEmpty([body.desription])) {
+    if (body && areNumbers([body.ownerID]) && areNotNullOrEmpty([body.name]) && areNotNullButEmpty([body.description])) {
         // check for existing user
         const user = await accountProvider.getAccountByID(body.ownerID);
         if (!user) {
@@ -92,7 +92,7 @@ router.post('/add', async function (req, res) {
             return;
         }
 
-        const listID = await listProvider.addList(body.name, user.id, body.desription);
+        const listID = await listProvider.addList(body.name, user.id, body.description);
 
         // check if addition worked and add user list connection
         if (listID) {
@@ -118,7 +118,7 @@ router.post('/add', async function (req, res) {
  * return:
  * list
  */
-router.get('/get', async function (req, res) {
+router.post('/get', async function (req, res) {
     const body: { listID: number } = req.body;
 
     if (body && areNumbers([body.listID])) {
@@ -143,7 +143,7 @@ router.get('/get', async function (req, res) {
  * return:
  * Array of lists
  */
-router.get('/getListsOfUser', async function (req, res) {
+router.post('/getListsOfUser', async function (req, res) {
     const body: { userID: number } = req.body;
 
     if (body && areNumbers([body.userID])) {
@@ -168,7 +168,7 @@ router.get('/getListsOfUser', async function (req, res) {
  * return:
  * Array of Users
  */
-router.get('/getUsersOfList', async function (req, res) {
+router.post('/getUsersOfList', async function (req, res) {
     const body: { listID: number } = req.body;
 
     if (body && areNumbers([body.listID])) {

@@ -27,7 +27,7 @@ export async function addLink (userID: number, listID: number): Promise<void> {
     let conn;
     try {
         conn = await getConnection();
-        const check = await conn.query('SELECT COUNT(*) FROM ' + ARTICELS_TABLE_NAME + ';');
+        const check = await conn.query('SELECT COUNT(*) FROM ' + ARTICELS_TABLE_NAME + ' WHERE userID=? AND listID=?;', [userID, listID]);
 
         if (!isNaN(check[0]['COUNT(*)']) && check[0]['COUNT(*)'] === 0) {
             await conn.query('INSERT INTO ' + ARTICELS_TABLE_NAME + ' (userID, listID) VALUES (?, ?);', [userID, listID]);
