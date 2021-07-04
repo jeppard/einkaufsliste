@@ -53,7 +53,7 @@ router.post('/removeList', async function (req, res) {
     if (body && areNumbers([body.listID])) {
         const list = await listProvider.getListById(body.listID);
 
-        if (list != null) {
+        if (list) {
             await listProvider.removeList(body.listID);
             res.send(list);
         } else {
@@ -84,7 +84,9 @@ router.post('/add', async function (req, res) {
         const listID = await listProvider.addList(body.name, body.ownerID, body.desription);
 
         if (listID) {
-            res.status(200).send(listID);
+            const list = await listProvider.getListById(listID);
+
+            res.status(200).send(list);
         } else res.status(500).send('Failed to add list');
     } else {
         res.status(400).send('Incorrect body');
