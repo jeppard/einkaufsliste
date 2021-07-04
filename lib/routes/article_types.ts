@@ -4,12 +4,15 @@ import { areNotNullOrEmpty, areNumbers } from '../parameter_util';
 
 const router = express.Router();
 
+// route: "/lists/articles/types/"
 router.get('/', function (req, res) {
     res.send('articleType specific stuff');
 });
 
 /**
  * Adds new article-type to database
+ *
+ * route: "/lists/articles/types/add"
  *
  * Body:
  * name
@@ -31,6 +34,8 @@ router.post('/add', async function (req, res) {
 /**
  * Remove article-type from database
  *
+ * route: "/lists/articles/types/remove"
+ *
  * Body:
  * typeID
  */
@@ -49,6 +54,8 @@ router.post('/remove', async function (req, res) {
 
 /**
  * Get one article-type from database
+ *
+ * route: "/lists/articles/types/get"
  *
  * Body:
  * typeID
@@ -71,6 +78,8 @@ router.get('/get', async function (req, res) {
 
 /**
  * Get all article-types from database
+ *
+ * route: "/lists/articles/types/getAll"
  */
 router.get('/getAll', async function (req, res) {
     const types = await articleTypeProvider.getAllTypes();

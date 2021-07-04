@@ -7,7 +7,7 @@ import { areNumbers } from '../parameter_util';
 
 const router = express.Router();
 
-// List homepage
+// route: "/lists/"
 router.use('/', express.static('app/pages/liste.html'));
 
 router.use('/elements', elementRouter);
@@ -15,6 +15,8 @@ router.use('/articles', articleRouter);
 
 /**
  * Response content of a list
+ *
+ * route: "/lists/content"
  *
  * Body:
  * listID
@@ -38,6 +40,8 @@ router.post('/content', async function (req, res) {
 
 /**
  * Remove list from database
+ *
+ * route: "/lists/removeList"
  *
  * Body:
  * listID
