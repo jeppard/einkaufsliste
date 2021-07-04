@@ -25,15 +25,9 @@ export async function addArticle (article: Article): Promise<number | null> {
     let res;
     try {
         conn = await getConnection();
-        // TODO better sulution to get inserted article id
-        await conn.query('INSERT INTO ' + ARTICELS_TABLE_NAME + ' (listID, name, description, type) VALUES (?, ?, ?, ?);', [article.listID, article.name, article.description, article.type]);
-        const articles = await conn.query('SELECT * FROM ' + ARTICELS_TABLE_NAME + ' WHERE id = LAST_INSERT_ID();');
+        const rows = await conn.query('INSERT INTO ' + ARTICELS_TABLE_NAME + ' (listID, name, description, type) VALUES (?, ?, ?, ?) RETURNING id;', [article.listID, article.name, article.description, article.type]);
 
-        if (articles && articles.length > 0) {
-            const a : { id: number, name: string, listID: number} = articles[0];
-
-            if (a.name === article.name && a.listID === article.listID) res = a.id;
-        }
+        if (rows && rows.length > 0) res = rows[0].id;
     } catch (err) {
         // TODO Add result
         console.log('Failed to add new article to database: ' + err);
