@@ -54,6 +54,9 @@ router.post('/removeList', async function (req, res) {
     if (body && areNumbers([body.listID])) {
         const list = await listProvider.getListById(body.listID);
 
+        const users = await linkUserListProvider.getUsersByList(body.listID);
+        for (const user of users) await linkUserListProvider.removeLink(user.id, body.listID);
+
         if (list) {
             await listProvider.removeList(body.listID);
             res.send(list);
