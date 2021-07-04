@@ -210,4 +210,25 @@ router.post('/addUserListLink', async function (req, res) {
     }
 });
 
+/**
+ * remove user list connection from database
+ *
+ * route: "/lists/removeUserListLink"
+ *
+ * Body:
+ * listID
+ * userID
+ */
+router.post('/removeUserListLink', async function (req, res) {
+    const body: { listID: number, userID: number } = req.body;
+
+    if (body && areNumbers([body.listID, body.userID])) {
+        await linkUserListProvider.removeLink(body.userID, body.listID);
+
+        res.status(200).send('Removed user list link');
+    } else {
+        res.status(400).send('Incorrect body');
+    }
+});
+
 export { router as listRouter };
