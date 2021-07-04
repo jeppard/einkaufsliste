@@ -179,4 +179,32 @@ router.get('/getUsersOfList', async function (req, res) {
     }
 });
 
+/**
+ * add user list connection to database
+ *
+ * route: "/lists/addUserListLink"
+ *
+ * Body:
+ * listID
+ * userID
+ */
+router.post('/addUserListLink', async function (req, res) {
+    const body: { listID: number, userID: number } = req.body;
+
+    if (body && areNumbers([body.listID, body.userID])) {
+        const user = await accountProvider.getAccountByID(body.userID);
+        const list = await listProvider.getListById(body.listID);
+
+        if (user && list) {
+            await linkUserListProvider.addLink(user.id, list.id);
+
+            res.status(200).send('Added user list link');
+        } else {
+            res.status(404).send('user or list not found');
+        }
+    } else {
+        res.status(400).send('Incorrect body');
+    }
+});
+
 export { router as listRouter };
