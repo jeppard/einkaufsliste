@@ -14,3 +14,28 @@ textarea {
 .text-input {
     width: calc(100% - 8px);
 }
+
+.text-left {
+    text-align: left;
+}
+
+.vertical-top {
+    vertical-align: top;
+}
+
+.type-div {
+    background-color: rgb(var(--blue-90));
+    border-left: 10px solid;
+    display: inline;
+    padding: 0.2rem;
+    margin: 0.2rem;
+    font-weight: normal;
+}
+
+#table,
+#table>tr,
+#table>tr>th {
+    text-decoration: none;
+    overflow: wrap;
+    font-weight: normal;
+}

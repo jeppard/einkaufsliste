@@ -98,7 +98,7 @@ router.post('/get', async function (req, res) {
  * return:
  * array of articles
  */
-router.get('/getAll', async function (req, res) {
+router.post('/getAll', async function (req, res) {
     const body: { listID: number } = req.body;
 
     if (body && areNumbers([body.listID])) {

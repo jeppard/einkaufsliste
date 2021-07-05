@@ -81,7 +81,7 @@ router.get('/get', async function (req, res) {
  *
  * route: "/lists/articles/types/getAll"
  */
-router.get('/getAll', async function (req, res) {
+router.post('/getAll', async function (req, res) {
     const types = await articleTypeProvider.getAllTypes();
 
     if (types) {
