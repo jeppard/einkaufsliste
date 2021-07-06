@@ -31,7 +31,7 @@ export async function initData (): Promise<void> {
     await articleProvider.addArticle(1, 'Baum', 'Ein Baum', 3);
     await articleProvider.addArticle(1, 'Spaghetti', 'Lange Nudeln', 1);
     await articleProvider.addArticle(1, 'Brot', 'Weizen', 1);
-    await articleProvider.addArticle(1, 'Rohr', 'Metal', 3);
+    await articleProvider.addArticle(1, 'Rohr', 'Metall', 3);
     await articleProvider.addArticle(2, 'Gurke', 'Gemüse', 1);
     await articleProvider.addArticle(2, 'Tomaten', 'Rote Tomaten', 1);
     await articleProvider.addArticle(2, 'Maultaschen', 'In der Verpackung', 1);
