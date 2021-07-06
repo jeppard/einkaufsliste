@@ -53,6 +53,28 @@ export async function getAccountByUsername (username: string): Promise<User | nu
     else return null;
 }
 
+export async function getAccountByID (id: number): Promise<User | null> {
+    let conn;
+    let res;
+    try {
+        conn = await getConnection();
+        const rows = await conn.query('SELECT id, username FROM ' + TABLE_NAME + ' WHERE id=? LIMIT 1;', [id]);
+
+        if (rows && rows.length > 0) {
+            const account: { id: number, username: string } = rows[0];
+
+            res = new User(account.id, account.username);
+        }
+    } catch (err) {
+        // TODO Add result
+    } finally {
+        if (conn) conn.end();
+    }
+
+    if (res) return res;
+    else return null;
+}
+
 export async function verifyUser (username: string, password: string): Promise<boolean> {
     let conn;
     let res = false;

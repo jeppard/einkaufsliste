@@ -3,7 +3,9 @@ import { elementRouter } from './elements';
 import { articleRouter } from './articles';
 import * as elementProvider from '../database/provider/element';
 import * as listProvider from '../database/provider/list';
-import { areNumbers } from '../parameter_util';
+import * as linkUserListProvider from '../database/provider/link_user_list';
+import * as accountProvider from '../database/provider/account';
+import { areNumbers, areNotNullButEmpty, areNotNullOrEmpty } from '../parameter_util';
 
 const router = express.Router();
 
@@ -46,20 +48,186 @@ router.post('/content', async function (req, res) {
  * Body:
  * listID
  */
-router.post('/removeList', async function (req, res) {
+router.post('/remove', async function (req, res) {
     const body: { listID: number } = req.body;
 
     if (body && areNumbers([body.listID])) {
         const list = await listProvider.getListById(body.listID);
 
-        if (list != null) {
+        const users = await linkUserListProvider.getUsersByList(body.listID);
+        for (const user of users) await linkUserListProvider.removeLink(user.id, body.listID);
+
+        if (list) {
             await listProvider.removeList(body.listID);
-            res.send(list);
+            res.status(200).send('List removed');
         } else {
             res.status(404).send('No List');
         }
     } else {
         res.status(400).send('Failed');
+    }
+});
+
+/**
+ * Add list to database
+ *
+ * route: "/lists/add"
+ *
+ * Body:
+ * name
+ * ownerID
+ * description
+ *
+ * return:
+ * list object without content
+ */
+router.post('/add', async function (req, res) {
+    const body: { name: string, ownerID: number, description: string } = req.body;
+
+    if (body && areNumbers([body.ownerID]) && areNotNullOrEmpty([body.name]) && areNotNullButEmpty([body.description])) {
+        // check for existing user
+        const user = await accountProvider.getAccountByID(body.ownerID);
+        if (!user) {
+            res.send(404).send('This user doesn\'t exist');
+            return;
+        }
+
+        const listID = await listProvider.addList(body.name, user.id, body.description);
+
+        // check if addition worked and add user list connection
+        if (listID) {
+            linkUserListProvider.addLink(user.id, listID);
+
+            // return confirmation message and list object without content
+            const list = await listProvider.getListById(listID);
+            res.status(200).send(list);
+        } else res.status(500).send('Failed to add list');
+    } else {
+        res.status(400).send('Incorrect body');
+    }
+});
+
+/**
+ * get list from database
+ *
+ * route: "/lists/get"
+ *
+ * Body:
+ * listID
+ *
+ * return:
+ * list
+ */
+router.post('/get', async function (req, res) {
+    const body: { listID: number } = req.body;
+
+    if (body && areNumbers([body.listID])) {
+        const list = await listProvider.getListById(body.listID);
+
+        if (list) {
+            res.status(200).send(list);
+        } else res.status(404).send('Failed to get list');
+    } else {
+        res.status(400).send('Incorrect body');
+    }
+});
+
+/**
+ * get lists of user from database
+ *
+ * route: "/lists/getListsOfUser"
+ *
+ * Body:
+ * userID
+ *
+ * return:
+ * Array of lists
+ */
+router.post('/getListsOfUser', async function (req, res) {
+    const body: { userID: number } = req.body;
+
+    if (body && areNumbers([body.userID])) {
+        const lists = await linkUserListProvider.getListsByUser(body.userID);
+
+        if (lists) {
+            res.status(200).send(lists);
+        } else res.status(404).send('Failed to get list of user');
+    } else {
+        res.status(400).send('Incorrect body');
+    }
+});
+
+/**
+ * get users of list from database
+ *
+ * route: "/lists/getUsersOfList"
+ *
+ * Body:
+ * listID
+ *
+ * return:
+ * Array of Users
+ */
+router.post('/getUsersOfList', async function (req, res) {
+    const body: { listID: number } = req.body;
+
+    if (body && areNumbers([body.listID])) {
+        const users = await linkUserListProvider.getUsersByList(body.listID);
+
+        if (users) {
+            res.status(200).send(users);
+        } else res.status(404).send('Failed to get users of list');
+    } else {
+        res.status(400).send('Incorrect body');
+    }
+});
+
+/**
+ * add user list connection to database
+ *
+ * route: "/lists/addUserListLink"
+ *
+ * Body:
+ * listID
+ * userID
+ */
+router.post('/addUserListLink', async function (req, res) {
+    const body: { listID: number, userID: number } = req.body;
+
+    if (body && areNumbers([body.listID, body.userID])) {
+        const user = await accountProvider.getAccountByID(body.userID);
+        const list = await listProvider.getListById(body.listID);
+
+        if (user && list) {
+            await linkUserListProvider.addLink(user.id, list.id);
+
+            res.status(200).send('Added user list link');
+        } else {
+            res.status(404).send('user or list not found');
+        }
+    } else {
+        res.status(400).send('Incorrect body');
+    }
+});
+
+/**
+ * remove user list connection from database
+ *
+ * route: "/lists/removeUserListLink"
+ *
+ * Body:
+ * listID
+ * userID
+ */
+router.post('/removeUserListLink', async function (req, res) {
+    const body: { listID: number, userID: number } = req.body;
+
+    if (body && areNumbers([body.listID, body.userID])) {
+        await linkUserListProvider.removeLink(body.userID, body.listID);
+
+        res.status(200).send('Removed user list link');
+    } else {
+        res.status(400).send('Incorrect body');
     }
 });
 
