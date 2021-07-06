@@ -103,14 +103,6 @@ function submitFunction(params) {
                 name.style.backgroundColor = "";
             }
         }
-        let description = document.getElementById("description");
-        if (description.value == "") {
-            valid = false;
-            description.style.backgroundColor = "red";
-            description.onfocus = function() {
-                description.style.backgroundColor = "";
-            }
-        }
         if (!selected_type) {
             valid = false;
             let selectedTypeDiv = document.getElementById("selectdType");
