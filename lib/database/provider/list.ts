@@ -1,5 +1,5 @@
 import { getConnection } from '../db';
-import { List } from '../list';
+import { List } from '../types/list';
 
 const TABLE_NAME = 'Lists';
 
@@ -18,16 +18,22 @@ export async function initDatabase (): Promise<void> {
     }
 }
 
-export async function addList (name: string, ownerid: number, description: string): Promise<void> {
+export async function addList (name: string, ownerid: number, description: string): Promise<number | null> {
     let conn;
+    let res;
     try {
         conn = await getConnection();
-        await conn.query('INSERT INTO ' + TABLE_NAME + ' (Name, OwnerID, Description) VALUES (?, ?, ?);', [name, ownerid, description]);
+        const rows = await conn.query('INSERT INTO ' + TABLE_NAME + ' (Name, OwnerID, Description) VALUES (?, ?, ?) RETURNING ID;', [name, ownerid, description]);
+
+        if (rows && rows.length > 0) res = rows[0].ID;
     } catch (err) {
         // TODO add result
     } finally {
         if (conn) conn.end();
     }
+
+    if (res) return res;
+    else return null;
 }
 
 export async function removeList (listID: number): Promise<void> {

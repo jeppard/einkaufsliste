@@ -46,12 +46,12 @@
 
 .listElement {
     padding: 0.5rem;
-    background-color: var(--blue-90);
+    background-color: rgb(var(--blue-90));
     border-left: 10px solid;
 }
 
 .listElement:hover {
-    background-color: var(--gray-80);
+    background-color: rgb(var(--gray-80));
 }
 
 .element-summary {
@@ -68,7 +68,7 @@
 .element-quantity {
     font-weight: bold;
     text-align: right;
-    color: white;
+    color: rgb(var(--white));
     flex-shrink: 0;
 }
 
@@ -94,7 +94,7 @@
 }
 
 .element-buttons>img:hover {
-    border-color: black;
+    border-color: rgb(var(--black));
     border-style: outset;
     border-width: 1px;
     margin: 0px;

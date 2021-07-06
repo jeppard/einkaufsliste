@@ -1,90 +1,90 @@
 :root {
     /*Gray*/
-    --black: #000000;
-    --white: #ffffff;
+    --black: 0, 0, 0;
+    --white: 255, 255, 255;
     --gray-0: var(--black);
-    --gray-10: #191919;
-    --gray-20: #333333;
-    --gray-30: #4c4c4c;
-    --gray-40: #666666;
-    --gray-50: #7f7f7f;
-    --gray-60: #999999;
-    --gray-70: #b2b2b2;
-    --gray-80: #cccccc;
-    --gray-90: #e5e5e5;
+    --gray-10: 25, 25, 25;
+    --gray-20: 51, 51, 51;
+    --gray-30: 76, 76, 76;
+    --gray-40: 102, 102, 102;
+    --gray-50: 127, 127, 127;
+    --gray-60: 153, 153, 153;
+    --gray-70: 178, 178, 178;
+    --gray-80: 204, 204, 204;
+    --gray-90: 229, 229, 229;
     --gray-100: var(--white);
     /*Blue*/
-    --blue-0: #00112B;
-    --blue-10: #002255;
-    --blue-20: #003380;
-    --blue-30: #0044AA;
-    --blue-40: #0055D4;
-    --blue-50: #0066FF;
-    --blue-60: #2a7fff;
-    --blue-70: #5599ff;
-    --blue-80: #80B3FF;
-    --blue-90: #AACCFF;
-    --blue-100: #D5E5FF;
+    --blue-0: 0, 16, 41;
+    --blue-10: 0, 35, 87;
+    --blue-20: 0, 51, 128;
+    --blue-30: 0, 68, 170;
+    --blue-40: 0, 85, 212;
+    --blue-50: 0, 102, 255;
+    --blue-60: 42, 127, 255;
+    --blue-70: 85, 153, 255;
+    --blue-80: 128, 179, 255;
+    --blue-90: 170, 204, 255;
+    --blue-100: 213, 229, 255;
     /*Accent (Blue)*/
-    --accent-0: #00112B;
-    --accent-10: #002255;
-    --accent-20: #003380;
-    --accent-30: #0044AA;
-    --accent-40: #0055D4;
-    --accent-50: #0066FF;
-    --accent-60: #2a7fff;
-    --accent-70: #5599ff;
-    --accent-80: #80B3FF;
-    --accent-90: #AACCFF;
-    --accent-100: #D5E5FF;
+    --accent-0: 0, 17, 43;
+    --accent-10: 0, 34, 85;
+    --accent-20: 0, 51, 128;
+    --accent-30: 0, 68, 170;
+    --accent-40: 0, 85, 212;
+    --accent-50: 0, 102, 255;
+    --accent-60: 42, 127, 255;
+    --accent-70: 85, 153, 255;
+    --accent-80: 128, 179, 255;
+    --accent-90: 170, 204, 255;
+    --accent-100: 213, 229, 255;
     /*Green*/
-    --green-0: #112b00;
-    --green-10: #225500;
-    --green-20: #338000;
-    --green-30: #44AA00;
-    --green-40: #55D400;
-    --green-50: #66FF00;
-    --green-60: #7FFF2A;
-    --green-70: #99FF55;
-    --green-80: #B3FF80;
-    --green-90: #CCFFAA;
-    --green-100: #E5FFD5;
+    --green-0: 17, 43, 0;
+    --green-10: 34, 85, 0;
+    --green-20: 51, 128, 0;
+    --green-30: 68, 170, 0;
+    --green-40: 85, 212, 0;
+    --green-50: 102, 255, 0;
+    --green-60: 127, 255, 42;
+    --green-70: 153, 255, 85;
+    --green-80: 179, 255, 128;
+    --green-90: 204, 255, 170;
+    --green-100: 229, 255, 213;
     /*Red*/
-    --red-0: #2b0000;
-    --red-10: #550000;
-    --red-20: #800000;
-    --red-30: #AA0000;
-    --red-40: #D40000;
-    --red-50: #FF0000;
-    --red-60: #FF2a2a;
-    --red-70: #FF5555;
-    --red-80: #FF8080;
-    --red-90: #FFAAAA;
-    --red-100: #FFD5D5;
+    --red-0: 43, 0, 0;
+    --red-10: 85, 0, 0;
+    --red-20: 128, 0, 0;
+    --red-30: 170, 0, 0;
+    --red-40: 212, 0, 0;
+    --red-50: 255, 0, 0;
+    --red-60: 255, 42, 42;
+    --red-70: 255, 85, 85;
+    --red-80: 255, 128, 128;
+    --red-90: 255, 170, 170;
+    --red-100: 255, 213, 213;
     /*Yellow*/
-    --yellow-0: #2b2b00;
-    --yellow-10: #555500;
-    --yellow-20: #808000;
-    --yellow-30: #AAAA00;
-    --yellow-40: #D4D400;
-    --yellow-50: #FFFF00;
-    --yellow-60: #FFFF2a;
-    --yellow-70: #FFFF55;
-    --yellow-80: #FFFF80;
-    --yellow-90: #FFFFAA;
-    --yellow-100: #FFFFD5;
+    --yellow-0: 43, 43, 0;
+    --yellow-10: 85, 85, 0;
+    --yellow-20: 128, 128, 0;
+    --yellow-30: 170, 170, 0;
+    --yellow-40: 212, 212, 0;
+    --yellow-50: 255, 255, 0;
+    --yellow-60: 255, 255, 42;
+    --yellow-70: 255, 255, 85;
+    --yellow-80: 255, 255, 128;
+    --yellow-90: 255, 255, 170;
+    --yellow-100: 255, 255, 213;
     /*Magenta*/
-    --magenta-0: #22002b;
-    --magenta-10: #440055;
-    --magenta-20: #660080;
-    --magenta-30: #8800AA;
-    --magenta-40: #AA00D4;
-    --magenta-50: #CC00FF;
-    --magenta-60: #D42Aff;
-    --magenta-70: #DD55FF;
-    --magenta-80: #E580FF;
-    --magenta-90: #EEAAFF;
-    --magenta-100: #F6D5FF;
+    --magenta-0: 34, 0, 43;
+    --magenta-10: 68, 0, 85;
+    --magenta-20: 102, 0, 128;
+    --magenta-30: 136, 0, 170;
+    --magenta-40: 170, 0, 212;
+    --magenta-50: 204, 0, 255;
+    --magenta-60: 212, 42, 255;
+    --magenta-70: 221, 85, 255;
+    --magenta-80: 229, 128, 255;
+    --magenta-90: 238, 170, 255;
+    --magenta-100: 246, 213, 255;
 }
 
 html {
@@ -92,7 +92,7 @@ html {
 }
 
 body {
-    background: linear-gradient(135deg, var(--blue-50), var(--blue-70));
+    background: linear-gradient(135deg, rgb(var(--blue-50)), rgb(var(--blue-70)));
     font-family: 'Ubuntu', sans-serif;
     min-height: 100%;
 }

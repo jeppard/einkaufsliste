@@ -4,9 +4,22 @@ import { areNotNullOrEmpty, areNumbers } from '../parameter_util';
 
 const router = express.Router();
 
+// route: "/lists/elements/"
 router.get('/', function (req, res) {
     res.send('List element specific stuff');
 });
+
+/**
+ * Adds new element to database
+ *
+ * route: "/lists/elements/add"
+ *
+ * Body:
+ * listID       - ID of the list where the element is located
+ * articleID    - ID of the article for the given elment
+ * count        - Count of the article for the unit type
+ * unitType     - Specific type for the count of the article
+ */
 
 router.post('/add', async function (req, res) {
     const element: { listID: number, articleID: number, count: number, unitType: string} = req.body;
@@ -20,6 +33,16 @@ router.post('/add', async function (req, res) {
     }
 });
 
+/**
+ * Remove element from database
+ *
+ * route: "/lists/elements/remove"
+ *
+ * Body:
+ * elementID
+ * listID
+ */
+
 router.post('/remove', async function (req, res) {
     const element: {elementID: number, listID: number} = req.body;
 
@@ -32,4 +55,53 @@ router.post('/remove', async function (req, res) {
     }
 });
 
-export { router };
+/**
+ * Get one element from database
+ *
+ * route: "/lists/elements/get"
+ *
+ * Body:
+ * elementID
+ * listID
+ */
+router.get('/get', async function (req, res) {
+    const body: {elementID: number, listID: number} = req.body;
+
+    if (body && areNumbers([body.listID, body.elementID])) {
+        const element = await elementProvider.getElement(body.listID, body.elementID);
+
+        if (element) {
+            res.status(200).send(element);
+        } else {
+            res.status(400).send('Element not found');
+        }
+    } else {
+        res.status(400).send('Element iformations are not given');
+    }
+});
+
+/**
+ * Get all elements from database of a specific list
+ *
+ * route: "/lists/elements/getAll"
+ *
+ * Body:
+ * listID
+ */
+router.get('/getAll', async function (req, res) {
+    const body: {listID: number} = req.body;
+
+    if (body && areNumbers([body.listID])) {
+        const elements = await elementProvider.getAllElementsWithArticles(body.listID);
+
+        if (elements && elements.length > 0) {
+            res.status(200).send(elements);
+        } else {
+            res.status(400).send('Elements not found');
+        }
+    } else {
+        res.status(400).send('ListID is not given');
+    }
+});
+
+export { router as elementRouter };
