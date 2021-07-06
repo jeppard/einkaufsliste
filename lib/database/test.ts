@@ -16,9 +16,12 @@ export async function initDatabase (): Promise<void> {
 }
 
 export async function initData (): Promise<void> {
-    await accountProvider.addAccount('Test', '123');
+    await accountProvider.addAccount('Maria', '123');
+    await accountProvider.addAccount('Peter', '123');
+    await accountProvider.addAccount('Gunther', '123');
 
-    await listProvider.addList('Test', 1, 'This is a List');
+    await listProvider.addList('Mein Einkauf', 1, 'Alle Sachen die ich brauche');
+    await listProvider.addList('Wochenkauf', 2, 'Einkauf für jede Woche');
 
     await articleTypeProvider.addType('Essen', '#17A717');
     await articleTypeProvider.addType('Werkzeug', '#6C8188');
@@ -26,9 +29,28 @@ export async function initData (): Promise<void> {
 
     await articleProvider.addArticle(1, 'Apfel', 'Ein netter Apfel', 1);
     await articleProvider.addArticle(1, 'Baum', 'Ein Baum', 3);
+    await articleProvider.addArticle(1, 'Spaghetti', 'Lange Nudeln', 1);
+    await articleProvider.addArticle(1, 'Brot', 'Weizen', 1);
+    await articleProvider.addArticle(1, 'Rohr', 'Metal', 3);
+    await articleProvider.addArticle(2, 'Gurke', 'Gemüse', 1);
+    await articleProvider.addArticle(2, 'Tomaten', 'Rote Tomaten', 1);
+    await articleProvider.addArticle(2, 'Maultaschen', 'In der Verpackung', 1);
+    await articleProvider.addArticle(2, 'Besen', '', 2);
+    await articleProvider.addArticle(2, 'Eisenplatte', 'Metal', 3);
 
     await elementProvider.addElement(1, 1, 10, 'Stück');
     await elementProvider.addElement(1, 2, 10, 'Bäume');
+    await elementProvider.addElement(1, 3, 2, 'Packung');
+    await elementProvider.addElement(1, 4, 1, 'Laib');
+    await elementProvider.addElement(1, 5, 10, '10 cm');
+    await elementProvider.addElement(2, 6, 2, 'Stück');
+    await elementProvider.addElement(2, 7, 6, 'Stück');
+    await elementProvider.addElement(2, 8, 1, 'Packung');
+    await elementProvider.addElement(2, 9, 1, 'Stück');
+    await elementProvider.addElement(2, 10, 2, '10x10 cm');
 
     await userListProvider.addLink(1, 1);
+    await userListProvider.addLink(2, 1);
+    await userListProvider.addLink(3, 1);
+    await userListProvider.addLink(2, 2);
 }
