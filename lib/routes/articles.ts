@@ -71,7 +71,7 @@ router.post('/remove', async function (req, res) {
  * return:
  * article
  */
-router.get('/get', async function (req, res) {
+router.post('/get', async function (req, res) {
     const body: { articleID: number } = req.body;
 
     if (body && areNumbers([body.articleID])) {
@@ -98,7 +98,7 @@ router.get('/get', async function (req, res) {
  * return:
  * array of articles
  */
-router.get('/getAll', async function (req, res) {
+router.post('/getAll', async function (req, res) {
     const body: { listID: number } = req.body;
 
     if (body && areNumbers([body.listID])) {
@@ -110,7 +110,7 @@ router.get('/getAll', async function (req, res) {
             res.status(404).send('No articles found');
         }
     } else {
-        res.status(400).send('Element iformations are not given');
+        res.status(400).send('Element informations are not given');
     }
 });
 
