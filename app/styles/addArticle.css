@@ -39,3 +39,8 @@ textarea {
     overflow: wrap;
     font-weight: normal;
 }
+
+#type-container {
+    display: flex;
+    flex-wrap: wrap;
+}

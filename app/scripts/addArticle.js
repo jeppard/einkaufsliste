@@ -2,9 +2,9 @@ const searchParams = new URLSearchParams(window.location.search)
 const articleID = searchParams.get('articleID');
 const listID = searchParams.get('listID');
 let listContainer;
-let typeInput;
 
-let selected_type; //TODO select Type
+let selected_type;
+
 
 //Get all Types
 let allTypes;
@@ -13,14 +13,14 @@ let prommise = fetch(window.location.origin + "/lists/articles/types/getAll", {
     })
     .then(data => data.json())
     .then(data => {
-        allTypes = data
+        allTypes = data;
     });
 
 
 async function init() {
-
+    //TODO listID not givven
     listContainer = document.getElementById("type-container");
-    typeInput = document.getElementById("artile_type");
+    const typeInput = document.getElementById("artile_type");
     typeInput.addEventListener("input", function() { autoComplete(typeInput) });
 
     if (articleID != null) {
@@ -41,7 +41,13 @@ async function init() {
             })
     } else {
         await prommise;
-        console.log(allTypes);
+        allTypes.forEach(type => {
+            let typeDiv = generateTypeDiv(type);
+            listContainer.appendChild(typeDiv);
+            typeDiv.onclick = function() {
+                setSelectedType(type);
+            }
+        });
     }
 }
 
@@ -49,9 +55,10 @@ async function init() {
 function setSelectedType(type) {
     selected_type = type;
     listContainer.textContent = "";
-    const selecedTypeDiv = document.getElementById("selectdType");
-    selecedTypeDiv.textContent = "";
-    selecedTypeDiv.appendChild(generateTypeDiv(selected_type, selected_type.name.length));
+    const selectedTypeDiv = document.getElementById("selectdType");
+    selectedTypeDiv.textContent = "";
+    selectedTypeDiv.style.color = "";
+    selectedTypeDiv.appendChild(generateTypeDiv(selected_type, selected_type.name.length));
     document.getElementById("artile_type").value = type.name;
 }
 
@@ -87,20 +94,46 @@ function submitFunction(params) {
     if (articleID) {
         return null; //TODO edit Element
     } else {
-        console.log(document.getElementById("article_name").value)
-        fetch(window.location.origin + "/lists/articles/add", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                "listID": listID,
-                "name": document.getElementById("article_name").value,
-                "description": document.getElementById("description").value,
-                "type": type
-            })
-        }).then(data => {
-            return data
-        });
+        let valid = true;
+        let name = document.getElementById("article_name");
+        if (name.value == "") {
+            valid = false;
+            name.style.backgroundColor = "red";
+            name.onfocus = function() {
+                name.style.backgroundColor = "";
+            }
+        }
+        let description = document.getElementById("description");
+        if (description.value == "") {
+            valid = false;
+            description.style.backgroundColor = "red";
+            description.onfocus = function() {
+                description.style.backgroundColor = "";
+            }
+        }
+        if (!selected_type) {
+            valid = false;
+            let selectedTypeDiv = document.getElementById("selectdType");
+            let errormsg = document.createTextNode("No type Selected!")
+            selectedTypeDiv.appendChild(errormsg);
+            selectedTypeDiv.style.color = "red";
+        }
+        if (valid) {
+            fetch(window.location.origin + "/lists/articles/add", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "listID": listID,
+                        "name": document.getElementById("article_name").value,
+                        "description": document.getElementById("description").value,
+                        "type": selected_type.id
+                    })
+                }).then(data => data.json())
+                .then(data => {
+                    window.location.replace(window.location.origin + "/static/addElement.html?listID=" + listID + "&articleID=" + data.id)
+                });
+        }
     }
 }
