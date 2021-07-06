@@ -36,7 +36,7 @@ export async function initData (): Promise<void> {
     await articleProvider.addArticle(2, 'Tomaten', 'Rote Tomaten', 1);
     await articleProvider.addArticle(2, 'Maultaschen', 'In der Verpackung', 1);
     await articleProvider.addArticle(2, 'Besen', '', 2);
-    await articleProvider.addArticle(2, 'Eisenplatte', 'Metal', 3);
+    await articleProvider.addArticle(2, 'Eisenplatte', 'Metall', 3);
 
     await elementProvider.addElement(1, 1, 10, 'Stück');
     await elementProvider.addElement(1, 2, 10, 'Bäume');
