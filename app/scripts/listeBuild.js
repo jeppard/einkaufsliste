@@ -31,6 +31,7 @@ function createElements(data, listID) {
             removeElement(listElementDiv, element.id, listID);
         }
         listElementDiv.title = element.article.description + " - " + element.article.type.name;
+        listElementDiv.style.borderColor = element.article.type.color;
         listElementDiv.appendChild(createSummary(element));
         listElementDiv.appendChild(createFullInfo(element, listID));
         listElement.appendChild(listElementDiv);
