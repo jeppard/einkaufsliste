@@ -20,7 +20,7 @@ function clickedElement(element) {
 }
 
 function removeElement(element, elementID, listID) {
-    fetch(window.location.origin + "/lists/element/remove", {
+    fetch(window.location.origin + "/lists/elements/remove", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -29,9 +29,10 @@ function removeElement(element, elementID, listID) {
             "listID": listID,
             "elementID": elementID
         })
-    }).then(response => function removeListElement(response) {
+    }).then(response => {
         if (response.ok) {
-            while ((element = element.parentElement) && !el.classList.contains("listElement"));
+            while ((element = element.parentElement) && element.nodeName != "LI");
+            console.log(element.nodeName);
             element.remove();
         }
     })

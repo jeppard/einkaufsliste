@@ -1,4 +1,4 @@
-let data = new URLSearchParams(window.location.search).get('listId');
+let data = new URLSearchParams(window.location.search).get('listID');
 fetch(window.location.origin + "/lists/content", {
         method: 'POST',
         headers: {
@@ -27,9 +27,12 @@ function createElements(data, listID) {
         list.appendChild(listElement);
         let listElementDiv = document.createElement('div');
         listElementDiv.classList.add('listElement');
-        listElement.appendChild(listElementDiv);
+        listElementDiv.ondblclick = function() {
+            removeElement(listElementDiv, element.id, listID);
+        }
         listElementDiv.appendChild(createSummary(element));
         listElementDiv.appendChild(createFullInfo(element, listID));
+        listElement.appendChild(listElementDiv);
     });
 }
 
