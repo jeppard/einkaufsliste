@@ -18,29 +18,43 @@
     <link rel="stylesheet" href="/app/styles/default.css">
     <link rel="stylesheet" href="/app/styles/addElement.css">
 
+    <!-- Scripts -->
+    <script src="/app/scripts/addElement.js"></script>
+
     <title>Smartlist - Add Element</title>
 </head>
 
-<body>
+<body onload="init()">
     <div id="main" class="center">
         <div id="title">
             <h1 id="title-text">Add/Edit Element</h1>
         </div>
         <div id="content" class="center">
-            <form>
-                <table id="table" class="center">
-                    <tr>
-                        <th><label for="element">Element:</label></th>
-                        <th><input id="element" name="element" placeholder="Element"></th>
-                    </tr>
-                    <tr>
-                        <th><label for="quantity">Anzahl:</label></th>
-                        <th><input id="quantity" name="quantity" type="number" placeholder="Anzahl"></th>
-                    </tr>
-                    <tr>
-                        <th><label for="unit">Einheit:</label></th>
-                        <th><input id="unit" name="unit" list="units" placeholder="Einheit"></th>
-                        <datalist id="units">
+            <table id="table" class="center">
+                <tr>
+                    <th>Selected Article:</th>
+                    <th>
+                        <div id="selectedArticle"></div>
+                    </th>
+                </tr>
+                <tr>
+                    <th><label for="article">Article:</label></th>
+                    <th><input id="article" type="search" name="article" placeholder="Article"></th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th>
+                        <div id="article-container"></div>
+                    </th>
+                </tr>
+                <tr>
+                    <th><label for="quantity">Anzahl:</label></th>
+                    <th><input id="quantity" name="quantity" type="number" placeholder="Anzahl"></th>
+                </tr>
+                <tr>
+                    <th><label for="unit">Einheit:</label></th>
+                    <th><input id="unit" name="unit" list="units" placeholder="Einheit"></th>
+                    <datalist id="units">
                             <option value="St&uuml;ck" ></option>
                             <option value="Packungen"></option>
                             <option value="Flaschen"></option>
@@ -51,13 +65,12 @@
                             <option value="Dosen"></option>
                             <option value="Kasten"></option>
                         </datalist>
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <th><input type="submit" class="center" value="Submit"></th>
-                    </tr>
-                </table>
-            </form>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th><input type="submit" class="center" value="Submit" onclick="submitFunction()"></th>
+                </tr>
+            </table>
         </div>
     </div>
 </body>
