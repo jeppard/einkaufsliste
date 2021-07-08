@@ -30,6 +30,7 @@ function createElements(data, listID) {
         listElementDiv.ondblclick = function() {
             removeElement(listElementDiv, element.id, listID);
         }
+        listElementDiv.title = element.article.description + " - " + element.article.type.name;
         listElementDiv.appendChild(createSummary(element));
         listElementDiv.appendChild(createFullInfo(element, listID));
         listElement.appendChild(listElementDiv);
