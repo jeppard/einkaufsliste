@@ -1,4 +1,4 @@
-let data = new URLSearchParams(window.location.search).get('listId');
+let data = new URLSearchParams(window.location.search).get('listID');
 fetch(window.location.origin + "/lists/content", {
         method: 'POST',
         headers: {

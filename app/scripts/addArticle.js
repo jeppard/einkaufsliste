@@ -1,4 +1,4 @@
-const searchParams = new URLSearchParams(window.location.search)
+const searchParams = new URLSearchParams(window.location.search);
 const articleID = searchParams.get('articleID');
 const listID = searchParams.get('listID');
 let listContainer;
