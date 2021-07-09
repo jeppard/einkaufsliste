@@ -3,7 +3,7 @@ const articleID = searchParams.get('articleID');
 const elementID = searchParams.get('elementID');
 const listID = searchParams.get('listID');
 
-console.log("Test");
+
 if (listID == null) {
     console.log("ERROR: listID not given!");
 }
@@ -124,7 +124,6 @@ function submitFunction() {
                 quantity.onchange = () => {};
             }
         }
-        console.log(selected_article);
         if (!selected_article) {
             valid = false;
             let selectedTypeDiv = document.getElementById("selectedArticle");
