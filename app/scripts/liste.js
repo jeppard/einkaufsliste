@@ -2,6 +2,8 @@ const listID = new URLSearchParams(window.location.search).get('listID');
 
 let allElements;
 
+let searchInput;
+
 function init() {
     fetch(window.location.origin + "/lists/content", {
             method: 'POST',
@@ -15,9 +17,108 @@ function init() {
         .then(response => response.json())
         .then(data => {
             setListName(data.name);
-            createElements(data.content);
             allElements = data.content;
+            allElements.sort((a, b) => {
+                let r = sortByTypeName(a, b);
+                if (r == 0) {
+                    r = sortByArticleName(a, b);
+                    if (r == 0) {
+                        r = sortByElementID(a, b)
+                    }
+                }
+                return r;
+            });
+            createElements(allElements);
         })
+    searchInput = document.getElementById("search");
+    searchInput.addEventListener("input", () => autoComplete(searchInput));
+}
+
+function sortByArticleName(a, b) {
+    return a.article.name.toUpperCase().localeCompare(b.article.name.toUpperCase());
+}
+
+function sortByTypeName(a, b) {
+    return a.article.type.name.toUpperCase().localeCompare(b.article.type.name.toUpperCase());
+}
+
+function sortByElementID(a, b) {
+    return b.id - a.id;
+}
+
+function autoComplete(element) {
+    let nameMatch = [];
+    let typeMatch = [];
+    let descriptionMatch = [];
+    let noMatch = [];
+    let searchString = element.value;
+    if (searchString == "") {
+        allElements.sort((a, b) => {
+            let r = sortByTypeName(a, b);
+            if (r == 0) {
+                r = sortByArticleName(a, b);
+                if (r == 0) {
+                    r = sortByElementID(a, b)
+                }
+            }
+            return r;
+        });
+        createElements(allElements);
+        return;
+    }
+    allElements.forEach(element => {
+        if (searchString.toUpperCase() == element.article.name.substring(0, searchString.length).toUpperCase()) {
+            nameMatch.push(element);
+        } else if (searchString.toUpperCase() == element.article.type.name.substring(0, searchString.length).toUpperCase()) {
+            typeMatch.push(element);
+        } else if (element.article.description.toUpperCase().includes(searchString.toUpperCase())) {
+            descriptionMatch.push(element);
+        } else {
+            noMatch.push(element);
+        }
+    })
+    nameMatch.sort((a, b) => {
+        let r = sortByArticleName(a, b);
+        if (r == 0) {
+            r = sortByTypeName(a, b);
+            if (r == 0) {
+                r = sortByElementID(a, b);
+            }
+        }
+        return r;
+    });
+    typeMatch.sort((a, b) => {
+        let r = sortByTypeName(a, b);
+        if (r == 0) {
+            r = sortByArticleName(a, b);
+            if (r == 0) {
+                r = sortByElementID(a, b)
+            }
+        }
+        return r;
+    });
+    descriptionMatch.sort((a, b) => {
+        let r = sortByTypeName(a, b);
+        if (r == 0) {
+            r = sortByArticleName(a, b);
+            if (r == 0) {
+                r = sortByElementID(a, b)
+            }
+        }
+        return r;
+    });
+    noMatch.sort((a, b) => {
+        let r = sortByTypeName(a, b);
+        if (r == 0) {
+            r = sortByArticleName(a, b);
+            if (r == 0) {
+                r = sortByElementID(a, b)
+            }
+        }
+        return r;
+    });
+    allElements = nameMatch.concat(typeMatch, descriptionMatch, noMatch);
+    createElements(allElements);
 }
 
 function setListName(name) {
@@ -42,6 +143,7 @@ function setListName(name) {
 
 function createElements(data) {
     let list = document.getElementById("item-list")
+    list.textContent = "";
     data.forEach(element => {
         let listElement = document.createElement('li');
         list.appendChild(listElement);
