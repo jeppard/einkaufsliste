@@ -2,22 +2,24 @@
     display: grid;
     width: 90%;
     text-align: center;
-    grid-template-areas: "nav head", "content content";
     max-width: 50rem;
     margin: auto;
 }
 
-#navbar {
-    grid-area: "nav";
-}
-
 #header {
-    grid-area: "head";
-    justify-content: center;
     padding: 1rem;
     text-overflow: ellipsis;
+    overflow: hidden;
     font-size: 1.5rem;
     font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+
+#listname {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 #list_container {
@@ -83,8 +85,8 @@
 }
 
 .element-buttons {
-    justify-content: right;
     flex-shrink: 0;
+    float: right;
 }
 
 .element-buttons>img {

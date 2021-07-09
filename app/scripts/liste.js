@@ -21,9 +21,23 @@ function init() {
 }
 
 function setListName(name) {
-    let element = document.getElementById("header");
-    element.textContent = name;
+    let headerDiv = document.getElementById("header");
+    let nameNode = document.createTextNode(name);
+    headerDiv.title = name;
     document.title += name;
+    document.getElementById("listname").textContent = "";
+    document.getElementById("listname").appendChild(nameNode);
+    let addDiv = document.createElement("DIV");
+    addDiv.classList.add("element-buttons");
+    let addButton = document.createElement("img");
+    addButton.src = '/app/images/Add.png';
+    addButton.alt = 'Edit';
+    addButton.onclick = function() {
+        window.location.assign(window.location.origin + "/static/addElement.html?listID=" + listID);
+    }
+    addButton.style.textAlign = "left";
+    addDiv.appendChild(addButton);
+    headerDiv.appendChild(addDiv);
 }
 
 function createElements(data) {
@@ -89,7 +103,7 @@ function createButtons(element) {
     editButton.src = '/app/images/Edit.png';
     editButton.alt = 'Edit';
     editButton.onclick = function() {
-        window.location.assign(window.location.origin + "/static/addElement.html?listID=" + listID + "&elementID=" + element.id)
+        window.location.assign(window.location.origin + "/static/addElement.html?listID=" + listID + "&elementID=" + element.id);
     }
     elementButtonDiv.appendChild(editButton);
 
