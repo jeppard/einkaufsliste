@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Syles -->
+    <link rel="stylesheet" href="/app/styles/default.css">
+    <link rel="stylesheet" href="/app/styles/addElement.css">
+
+    <!-- Scripts -->
+    <script src="/app/scripts/addElement.js"></script>
+
+    <title>Smartlist - Add Element</title>
+</head>
+
+<body onload="init()">
+    <div id="main" class="center">
+        <div id="title">
+            <h1 id="title-text">Add/Edit Element</h1>
+        </div>
+        <div id="content" class="center">
+            <table id="table" class="center">
+                <tr>
+                    <th>Selected Article:</th>
+                    <th>
+                        <div id="selectedArticle"></div>
+                    </th>
+                </tr>
+                <tr>
+                    <th><label for="article">Article:</label></th>
+                    <th><input id="article" type="search" name="article" placeholder="Article"></th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th>
+                        <div id="article-container"></div>
+                    </th>
+                </tr>
+                <tr>
+                    <th><label for="quantity">Anzahl:</label></th>
+                    <th><input id="quantity" name="quantity" type="number" placeholder="Anzahl"></th>
+                </tr>
+                <tr>
+                    <th><label for="unit">Einheit:</label></th>
+                    <th><input id="unit" name="unit" list="units" placeholder="Einheit"></th>
+                    <datalist id="units">
+                            <option value="St&uuml;ck" ></option>
+                            <option value="Packungen"></option>
+                            <option value="Flaschen"></option>
+                            <option value="l"></option>
+                            <option value="kg"></option>
+                            <option value="g"></option>
+                            <option value="ml"></option>
+                            <option value="Dosen"></option>
+                            <option value="Kasten"></option>
+                        </datalist>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th><input type="submit" class="center" value="Submit" onclick="submitFunction()"></th>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -64,7 +64,7 @@ router.post('/remove', async function (req, res) {
  * elementID
  * listID
  */
-router.get('/get', async function (req, res) {
+router.post('/get', async function (req, res) {
     const body: {elementID: number, listID: number} = req.body;
 
     if (body && areNumbers([body.listID, body.elementID])) {
@@ -76,7 +76,7 @@ router.get('/get', async function (req, res) {
             res.status(400).send('Element not found');
         }
     } else {
-        res.status(400).send('Element iformations are not given');
+        res.status(400).send('Element informations are not given');
     }
 });
 
