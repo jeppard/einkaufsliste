@@ -15,9 +15,6 @@ function toogleThisElement(element) {
     }
 }
 
-function clickedElement(element) {
-    console.log(element)
-}
 
 function removeElement(element, elementID, listID) {
     fetch(window.location.origin + "/lists/elements/remove", {
@@ -32,7 +29,6 @@ function removeElement(element, elementID, listID) {
     }).then(response => {
         if (response.ok) {
             while ((element = element.parentElement) && element.nodeName != "LI");
-            console.log(element.nodeName);
             element.remove();
         }
     })
