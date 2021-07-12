@@ -110,7 +110,7 @@ function submitFunction() {
     } else {
         let valid = true;
         let quantity = document.getElementById("quantity");
-        if (quantity.value == "" || parseInt(quantity.value) < 0) {
+        if (quantity.value == "" || parseInt(quantity.value) <= 0) {
             valid = false;
             quantity.style.backgroundColor = "red";
             quantity.onfocus = function() {
