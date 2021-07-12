@@ -150,7 +150,7 @@ function submitFunction() {
                         "listID": listID,
                         "count": document.getElementById("quantity").value,
                         "unitType": document.getElementById("unit").value,
-                        "articleID": selectedArticle.id
+                        "articleID": selected_article.id
                     })
                 })
                 .then(data => {
