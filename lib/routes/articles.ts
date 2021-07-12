@@ -61,6 +61,31 @@ router.post('/remove', async function (req, res) {
 });
 
 /**
+ * Updates article in database
+ *
+ * route: "/lists/articles/update"
+ *
+ * Body:
+ * articleID
+ * listID
+ * name
+ * description
+ * type
+ */
+
+router.post('/update', async function (req, res) {
+    const article: { articleID: number, listID: number, name: string, description: string, type: number } = req.body;
+
+    if (article && areNumbers([article.articleID, article.listID, article.type]) && areNotNullOrEmpty([article.name]) && areNotNullButEmpty([article.description])) {
+        await articleProvider.updateArticle(article.articleID, article.listID, article.name, article.description, article.type);
+
+        res.status(201).send('Updated article in database');
+    } else {
+        res.status(400).send('The given article is not in correct form');
+    }
+});
+
+/**
  * Get one article from database
  *
  * route: "/lists/articles/get"

@@ -56,6 +56,31 @@ router.post('/remove', async function (req, res) {
 });
 
 /**
+ * Update element in database
+ *
+ * route: "/lists/elements/update"
+ *
+ * Body:
+ * elementID
+ * listID
+ * articleID
+ * count
+ * unitType
+ */
+
+router.post('/update', async function (req, res) {
+    const element: { elementID: number, listID: number, articleID: number, count: number, unitType: string} = req.body;
+
+    if (element && areNumbers([element.elementID, element.listID, element.articleID, element.count]) && areNotNullOrEmpty([element.unitType])) {
+        await elementProvider.updateElement(element.elementID, element.listID, element.articleID, element.count, element.unitType);
+
+        res.status(201).send('Updated element in list');
+    } else {
+        res.status(400).send('Element iformations are not given');
+    }
+});
+
+/**
  * Get one element from database
  *
  * route: "/lists/elements/get"

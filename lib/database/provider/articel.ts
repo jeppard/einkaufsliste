@@ -52,6 +52,19 @@ export async function removeArticle (articleID: number): Promise<void> {
     }
 }
 
+export async function updateArticle (id: number, listID: number, name: string, description: string, type: number): Promise<void> {
+    let conn;
+    try {
+        conn = await getConnection();
+        await conn.query('UPDATE ' + ARTICELS_TABLE_NAME + ' SET listID=?, name=?, description=?, type=? WHERE id=?;', [listID, name, description, type, id]);
+    } catch (err) {
+        // TODO Add result
+        console.log('Failed to update article in database: ' + err);
+    } finally {
+        if (conn) conn.end();
+    }
+}
+
 export async function getArticle (articleID: number): Promise<Article | null> {
     let conn;
     let res;

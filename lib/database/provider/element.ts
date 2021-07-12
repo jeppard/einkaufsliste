@@ -45,6 +45,19 @@ export async function removeElement (elementID: number, listID: number): Promise
     }
 }
 
+export async function updateElement (id: number, listID: number, articleID: number, count: number, unitType: string): Promise<void> {
+    let conn;
+    try {
+        conn = await getConnection();
+        await conn.query('UPDATE ' + ELEMENTS_TABLE_NAME + ' SET listID=?, articleID=?, count=?, unitType=? WHERE id=?;', [listID, articleID, count, unitType, id]);
+    } catch (err) {
+        console.log('Failed to update element in database: ' + err);
+        // TODO Add result
+    } finally {
+        if (conn) conn.end();
+    }
+}
+
 export async function getElement (listID: number, elementID: number): Promise<ListElement | null> {
     let conn;
     let res;
