@@ -62,7 +62,7 @@ form.form1 {
 
 .un:focus,
 .pass:focus,
-.repPass {
+.repPass:focus {
     border: 2px solid rgba(43, 255, 0, 0.295) !important;
 }
 
