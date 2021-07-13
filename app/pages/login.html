@@ -2,99 +2,52 @@
 <html>
 
 <head>
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8" />
-    <link rel="stylesheet" href="/app/styles/default.css">
-    <link rel="stylesheet" href="/app/styles/login.css">
-    <link rel="javascript" href="/app/styles/user_authentication.ts">
-    <link rel="javascript" href="/app/styles/test.js">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
-    <script src="server.js"></script>
-    <title>Sign in</title>
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Styles-->
+    <link rel="stylesheet" href="/app/styles/default.css">
+    <link rel="stylesheet" href="/app/styles/login.css">
+
+    <!-- Scripts -->
+    <script src="/app/scripts/login.js"></script>
+
+    <title>Login</title>
 </head>
 
 <body>
-    <form action="index.html" method="post">
-        <div class="main">
-            <p class="sign" align="center">Sign in</p>
-            <form class="form1">
-
-                <div class="textcenter center">
-                    <input class="un" name="input" type="text" align="center" placeholder="Username" required>
-                </div>
-
-                <div class="textcenter center">
-                    <input class="pass" name="input" type="password" align="center" placeholder="Password" required>
-                </div>
-
-                <span id="upWarn" style="visibility: hidden">username or password is false</span>
-
-                <div class="textcenter center">
-                    <button class="submit" id="log-in" onclick="signin()">Sign in</button>
-                </div>
-                <br>
-
-                <div class="textcenter center">
-                    <a class="register button" href="register.html">new account</a>
-                </div>
-
+    <div class="main">
+        <p class="sign">Sign in</p>
+        <div class="textcenter center">
+            <input id="username" class="un" name="input" type="text" placeholder="Username" required>
         </div>
-    </form>
+
+        <div class="textcenter center">
+            <input id="password" class="pass" name="input" type="password" placeholder="Password" required>
+        </div>
+
+        <span id="upWarn" style="visibility: hidden">username or password is false</span>
+
+        <div class="textcenter center">
+            <button class="submit" id="log-in" onclick="signin()">Sign in</button>
+        </div>
+        <br>
+
+        <div class="textcenter center">
+            <a class="register button" href="register.html">new account</a>
+        </div>
+
+    </div>
 </body>
 
 </html>
-<script type="text/javascript">
-    window.onload = () => {
-        document.getElementById('upWarn').style.visibility = "hidden";
-        this.sessionStorage.setItem("username", "test");
-        this.sessionStorage.setItem("password", "123");
-    }
-
-    function setCookie(cname, cvalue) {
-        document.cookie = cname + "=" + cvalue + ";path=/";
-    }
-
-    function sendRequ() {
-        var serverIp = "localhost";
-        resObjekt.open('post', serverIp, true);
-        resObjekt.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        resObjekt.onreadystatechange = handleResponse;
-        resObjekt.send('name=' + escape(document.formular.name.value));
-    }
-
-    //function handler(){}
-
-    var input = document.getElementsByTagName('input');
-    var login = document.getElementById('log-in');
-    var register = document.getElementById('regist');
-    var form = document.querySelector('form');
-    form.onsubmit = () => { return false }
-
-    login.onclick = () => {
-        if ((input[0].value != "") && (input[1].value != "")) {
-            //true = serverabfrage erfolgreich
-            if ((input[0].value == sessionStorage.getItem("username")) && (input[1].value == sessionStorage.getItem("password")))//(true)
-            {
-                var rCode = "worked";
-                setCookie("login");
-
-                if(document.getElementById('log-in').onclick)
-                {
-                    button.sendRequ();
-                    checkSignIn();
-                }
-            }
-            else {
-                if ((input[0].value != sessionStorage.getItem("username"))) {
-                    document.getElementById('upWarn').style.visibility = "visible";
-                }
-                if ((input[1].value != sessionStorage.getItem("passwort"))) {
-                    document.getElementById('upWarn').style.visibility = "visible";
-                }
-            }
-
-        }
-    }
-
-</script>
