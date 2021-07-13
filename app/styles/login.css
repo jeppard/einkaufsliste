@@ -39,7 +39,7 @@ div{
 form.form1 {
     padding-top: 40px;
 }
-
+.pass, 
 .repPass {
     width: 76%;
     color: rgb(var(--blue-50));
