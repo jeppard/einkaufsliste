@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8" />
     <link rel="stylesheet" href="/app/styles/default.css">
     <link rel="stylesheet" href="/app/styles/login.css">
+    <link rel="javascript" href="/app/styles/user_authentication.ts">
+    <link rel="javascript" href="/app/styles/test.js">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
     <script src="server.js"></script>
     <title>Sign in</title>
 </head>
@@ -17,22 +21,19 @@
             <form class="form1">
 
                 <div class="textcenter center">
-                    <input class="un" name="input" type="text" align="center" placeholder="Username">
+                    <input class="un" name="input" type="text" align="center" placeholder="Username" required>
                 </div>
 
                 <div class="textcenter center">
-                    <input class="pass" name="input" type="password" align="center" placeholder="Password">
+                    <input class="pass" name="input" type="password" align="center" placeholder="Password" required>
                 </div>
 
-                <span id="upWarn" style="visibility: hidden">username or password is empty or false</span>
-
-                <div class="textcenter center">
-                    <button class="submit" id="log-in">Sign in</button>
-                </div>
+                <span id="upWarn" style="visibility: hidden">username or password is false</span>
 
                 <div class="textcenter center">
-                    <p class="forgot"><a href="#">Forgot Password?</a></p>
+                    <button class="submit" id="log-in" onclick="signin()">Sign in</button>
                 </div>
+                <br>
 
                 <div class="textcenter center">
                     <a class="register button" href="register.html">new account</a>
@@ -46,8 +47,8 @@
 <script type="text/javascript">
     window.onload = () => {
         document.getElementById('upWarn').style.visibility = "hidden";
-        this.sessionStorage.setItem("username", "example_user");
-        this.sessionStorage.setItem("password", "example_password");
+        this.sessionStorage.setItem("username", "test");
+        this.sessionStorage.setItem("password", "123");
     }
 
     function setCookie(cname, cvalue) {
@@ -62,9 +63,7 @@
         resObjekt.send('name=' + escape(document.formular.name.value));
     }
 
-    function handler() {
-
-    }
+    //function handler(){}
 
     var input = document.getElementsByTagName('input');
     var login = document.getElementById('log-in');
@@ -75,10 +74,16 @@
     login.onclick = () => {
         if ((input[0].value != "") && (input[1].value != "")) {
             //true = serverabfrage erfolgreich
-            if (true)//(input[0].value == sessionStorage.getItem("username")) && (input[1].value == sessionStorage.getItem("password")))
+            if ((input[0].value == sessionStorage.getItem("username")) && (input[1].value == sessionStorage.getItem("password")))//(true)
             {
-                var rCode = "false";
-                setCookie("test", "nö");
+                var rCode = "worked";
+                setCookie("login");
+
+                if(document.getElementById('log-in').onclick)
+                {
+                    button.sendRequ();
+                    return checkSignIn();
+                }
             }
             else {
                 if ((input[0].value != sessionStorage.getItem("username"))) {
@@ -89,11 +94,6 @@
                 }
             }
 
-        }
-        else {
-            if (input[0].value == "" || input[1].value == "") {
-                document.getElementById('upWarn').style.visibility = "visible";
-            }
         }
     }
 

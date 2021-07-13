@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8" />
     <link rel="stylesheet" href="/app/styles/default.css">
     <link rel="stylesheet" href="/app/styles/login.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
     <script src="server.js"></script>
     <title>Sign up</title>
 </head>
@@ -17,13 +19,17 @@
             <form class="form1">
 
                 <div class="textcenter center">
-                    <input class="un" name="input" type="text" align="center" placeholder="your username">
+                    <input class="un" name="input" type="text" align="center" placeholder="new username" required>
                 </div>
 
                 <span id="userInv" style="visibility: hidden">invalid username</span>
 
                 <div class="textcenter center">
-                    <input class="pass" name="input" type="password" align="center" placeholder="your Password">
+                    <input class="pass" name="input" type="password" align="center" placeholder="new Password" required>
+                </div>
+
+                <div class="textcenter center">
+                    <input class="repPass" name="input" type="repeatPassword" align="center" placeholder="repeat Password" required>
                 </div>
 
                 <span id="passInv" style="visibility: hidden">invalid password</span>
@@ -31,7 +37,10 @@
                 <div class="textcenter center">
                     <button class="submit" id="log-in">register</button>
                 </div>
-
+                <br>
+                <div class="textcenter center">
+                    <a class="login-page button" href="login.html">back to login</a>
+                </div>
         </div>
     </form>
 </body>

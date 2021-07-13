@@ -40,7 +40,7 @@ form.form1 {
     padding-top: 40px;
 }
 
-.pass {
+.repPass {
     width: 76%;
     color: rgb(var(--blue-50));
     font-weight: 700;
@@ -58,7 +58,8 @@ form.form1 {
 }
 
 .un:focus,
-.pass:focus {
+.pass:focus,
+.repPass{
     border: 2px solid rgba(43, 255, 0, 0.295) !important;
 }
 .textcenter{
