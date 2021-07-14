@@ -68,8 +68,10 @@ router.post('/update', async function (req, res) {
 
     if (body && areNumbers([body.typeID]) && areNotNullOrEmpty([body.name, body.color])) {
         await articleTypeProvider.updateType(body.typeID, body.name, body.color);
+        const at = await articleTypeProvider.getType(body.typeID);
 
-        res.status(200).send('Article-type updated');
+        if (at) res.status(200).send(at);
+        else res.status(500).send('Something wen\'t wrong');
     } else {
         res.status(400).send('Article-type informations not given');
     }

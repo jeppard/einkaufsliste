@@ -78,8 +78,10 @@ router.post('/update', async function (req, res) {
 
     if (article && areNumbers([article.articleID, article.listID, article.type]) && areNotNullOrEmpty([article.name]) && areNotNullButEmpty([article.description])) {
         await articleProvider.updateArticle(article.articleID, article.listID, article.name, article.description, article.type);
+        const a = await articleProvider.getArticle(article.articleID);
 
-        res.status(201).send('Updated article in database');
+        if (a) res.status(201).send(a);
+        else res.status(500).send('Something wen\'t wrong');
     } else {
         res.status(400).send('The given article is not in correct form');
     }

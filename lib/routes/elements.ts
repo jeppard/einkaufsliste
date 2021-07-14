@@ -73,8 +73,10 @@ router.post('/update', async function (req, res) {
 
     if (element && areNumbers([element.elementID, element.listID, element.articleID, element.count]) && areNotNullOrEmpty([element.unitType])) {
         await elementProvider.updateElement(element.elementID, element.listID, element.articleID, element.count, element.unitType);
+        const e = await elementProvider.getElement(element.listID, element.elementID);
 
-        res.status(201).send('Updated element in list');
+        if (e) res.status(201).send(e);
+        else res.status(500).send('Something wen\'t wrong');
     } else {
         res.status(400).send('Element iformations are not given');
     }
