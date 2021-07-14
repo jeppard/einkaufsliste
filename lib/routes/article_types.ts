@@ -71,7 +71,7 @@ router.post('/update', async function (req, res) {
         const at = await articleTypeProvider.getType(body.typeID);
 
         if (at) res.status(200).send(at);
-        else res.status(500).send('Something wen\'t wrong');
+        else res.status(404).send('Article-type not found');
     } else {
         res.status(400).send('Article-type informations not given');
     }

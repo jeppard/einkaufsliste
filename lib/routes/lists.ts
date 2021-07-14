@@ -136,7 +136,7 @@ router.post('/update', async function (req, res) {
         const list = await listProvider.getListById(body.listID);
 
         if (list) res.status(200).send(list);
-        else res.status(500).send('Something wen\'t wrong');
+        else res.status(404).send('List not found');
     } else {
         res.status(400).send('Incorrect body');
     }

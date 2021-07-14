@@ -76,7 +76,7 @@ router.post('/update', async function (req, res) {
         const e = await elementProvider.getElement(element.listID, element.elementID);
 
         if (e) res.status(201).send(e);
-        else res.status(500).send('Something wen\'t wrong');
+        else res.status(404).send('Element not found');
     } else {
         res.status(400).send('Element iformations are not given');
     }
