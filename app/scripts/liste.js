@@ -58,7 +58,7 @@ function autoComplete(element) {
             if (r == 0) {
                 r = sortByArticleName(a, b);
                 if (r == 0) {
-                    r = sortByElementID(a, b)
+                    r = sortByElementID(a, b);
                 }
             }
             return r;
