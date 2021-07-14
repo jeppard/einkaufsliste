@@ -50,7 +50,7 @@ router.post('/signup', async function (req, res) {
 
             if (user) {
                 req.session.userID = user.id;
-                res.status(200).send("Added user and logged in");
+                res.status(200).send('Added user and logged in');
             } else {
                 res.status(500).send('Something didnt work');
             }

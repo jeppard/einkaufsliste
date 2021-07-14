@@ -14,7 +14,7 @@ const app = express();
 const port = 3000;
 
 app.get('/', (req, res) => {
-    res.redirect('/lists');
+    res.redirect('/lists?listID=1');
 });
 
 app.use(express.json());
@@ -27,7 +27,8 @@ app.use('/favicon/', express.static('favicon/'));
 app.use('/lists', listRouter);
 app.use('/auth', authRouter);
 
-app.use('/login', express.static('app/pages/test.html'));
+app.use('/login', express.static('app/pages/login.html'));
+app.use('/register', express.static('app/pages/register.html'));
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
