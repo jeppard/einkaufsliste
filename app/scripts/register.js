@@ -43,7 +43,7 @@ function submit() {
             })
             .then(response => {
                 if (response.ok) {
-                    window.location.assign(window.location.origin + "/static/dashbord.html");
+                    window.location.assign(window.location.origin + "/dashboard");
                 } else {
                     response.text().then(data => {
                         if (response.status == 406 && data == "This user already exists") {

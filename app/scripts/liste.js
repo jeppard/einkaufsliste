@@ -134,7 +134,7 @@ function setListName(name) {
     addButton.src = '/app/images/Add.png';
     addButton.alt = 'Edit';
     addButton.onclick = function() {
-        window.location.assign(window.location.origin + "/static/addElement.html?listID=" + listID);
+        window.location.assign(window.location.origin + "/addElement?listID=" + listID);
     }
     addButton.style.textAlign = "left";
     addDiv.appendChild(addButton);
@@ -205,7 +205,7 @@ function createButtons(element) {
     editButton.src = '/app/images/Edit.png';
     editButton.alt = 'Edit';
     editButton.onclick = function() {
-        window.location.assign(window.location.origin + "/static/addElement.html?listID=" + listID + "&elementID=" + element.id);
+        window.location.assign(window.location.origin + "/addElement?listID=" + listID + "&elementID=" + element.id);
     }
     elementButtonDiv.appendChild(editButton);
 
