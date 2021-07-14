@@ -30,7 +30,7 @@ function signin() {
             })
             .then(response => {
                 if (response.ok) {
-                    window.location.assign(window.location.origin + "/dashbord");
+                    window.location.assign(window.location.origin + "/dashboard");
                 } else {
                     errorField.style.visibility = "";
                 }
