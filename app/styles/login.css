@@ -1,7 +1,8 @@
-div{
-    width:100%;
+div {
+    width: 100%;
     margin: 0 auto;
 }
+
 .main {
     background-color: rgb(var(--white));
     width: 90%;
@@ -18,6 +19,7 @@ div{
     font-family: 'Ubuntu', sans-serif;
     font-weight: bold;
     font-size: 23px;
+    text-align: center;
 }
 
 .un {
@@ -40,7 +42,8 @@ form.form1 {
     padding-top: 40px;
 }
 
-.pass {
+.pass,
+.repPass {
     width: 76%;
     color: rgb(var(--blue-50));
     font-weight: 700;
@@ -58,12 +61,15 @@ form.form1 {
 }
 
 .un:focus,
-.pass:focus {
+.pass:focus,
+.repPass:focus {
     border: 2px solid rgba(43, 255, 0, 0.295) !important;
 }
-.textcenter{
+
+.textcenter {
     text-align: center;
 }
+
 .submit {
     cursor: pointer;
     border-radius: 5em;
@@ -107,7 +113,7 @@ button:hover {
     opacity: 0.8;
 }
 
-span{
+span {
     display: block;
     color: red;
     font-style: italic;
@@ -118,6 +124,5 @@ a.button {
     -webkit-appearance: button;
     -moz-appearance: button;
     appearance: button;
-    
     text-decoration: none;
 }
