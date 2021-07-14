@@ -124,7 +124,7 @@ function submitFunction(params) {
                     })
                 }).then(data => data.json())
                 .then(data => {
-                    window.location.replace(window.location.origin + "/static/addElement.html?listID=" + listID + "&articleID=" + data.id)
+                    window.location.replace(window.location.origin + "/addElement?listID=" + listID + "&articleID=" + data.id)
                 });
         }
     }

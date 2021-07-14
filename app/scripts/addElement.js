@@ -154,7 +154,7 @@ function submitFunction() {
                     })
                 })
                 .then(data => {
-                    window.location.replace(window.location.origin + "/static/liste.html?listID=" + listID)
+                    window.location.replace(window.location.origin + "/liste?listID=" + listID)
                 });
         }
     }
