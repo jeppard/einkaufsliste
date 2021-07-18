@@ -46,6 +46,19 @@ export async function removeType (id: number): Promise<void> {
     }
 }
 
+export async function updateType (id: number, name: string, color: string): Promise<void> {
+    let conn;
+    try {
+        conn = await getConnection();
+        await conn.query('UPDATE ' + ARTICELS_TABLE_NAME + ' SET name=?, color=? WHERE id=?;', [name, color, id]);
+    } catch (err) {
+        // TODO Add result
+        console.log('Failed to update article type in database: ' + err);
+    } finally {
+        if (conn) conn.end();
+    }
+}
+
 export async function getType (id: number): Promise<ArticleType | null> {
     let conn;
     let res;

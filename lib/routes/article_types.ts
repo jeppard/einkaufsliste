@@ -53,6 +53,31 @@ router.post('/remove', async function (req, res) {
 });
 
 /**
+ * Update article-type in database
+ *
+ * route: "/lists/articles/types/update"
+ *
+ * Body:
+ * typeID
+ * name
+ * color
+ */
+
+router.post('/update', async function (req, res) {
+    const body: {typeID: number, name: string, color: string} = req.body;
+
+    if (body && areNumbers([body.typeID]) && areNotNullOrEmpty([body.name, body.color])) {
+        await articleTypeProvider.updateType(body.typeID, body.name, body.color);
+        const at = await articleTypeProvider.getType(body.typeID);
+
+        if (at) res.status(200).send(at);
+        else res.status(404).send('Article-type not found');
+    } else {
+        res.status(400).send('Article-type informations not given');
+    }
+});
+
+/**
  * Get one article-type from database
  *
  * route: "/lists/articles/types/get"

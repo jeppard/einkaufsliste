@@ -48,6 +48,19 @@ export async function removeList (listID: number): Promise<void> {
     }
 }
 
+export async function updateList (id: number, name: string, ownerid: number, description: string): Promise<void> {
+    let conn;
+    try {
+        conn = await getConnection();
+        await conn.query('UPDATE ' + TABLE_NAME + ' Set Name=?, OwnerID=?, Description=? WHERE ID=?;', [name, ownerid, description, id]);
+    } catch (err) {
+        // TODO add result
+        console.log("Failed to update List in Database: " + err);
+    } finally {
+        if (conn) conn.end();
+    }
+}
+
 export async function getListById (listID: number): Promise<List | null> {
     let conn;
     let rows;

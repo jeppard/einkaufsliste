@@ -108,6 +108,41 @@ router.post('/add', async function (req, res) {
 });
 
 /**
+ * Update list in database
+ *
+ * route: "/lists/update"
+ *
+ * Body:
+ * listID
+ * name
+ * ownerID
+ * description
+ *
+ */
+router.post('/update', async function (req, res) {
+    const body: { listID: number, name: string, ownerID: number, description: string } = req.body;
+
+    if (body && areNumbers([body.listID, body.ownerID]) && areNotNullOrEmpty([body.name]) && areNotNullButEmpty([body.description])) {
+        // check for existing user
+        const user = await accountProvider.getAccountByID(body.ownerID);
+        if (!user) {
+            res.send(404).send('This user doesn\'t exist');
+            return;
+        }
+
+        await listProvider.updateList(body.listID, body.name, user.id, body.description);
+
+        // return confirmation message and list object without content
+        const list = await listProvider.getListById(body.listID);
+
+        if (list) res.status(200).send(list);
+        else res.status(404).send('List not found');
+    } else {
+        res.status(400).send('Incorrect body');
+    }
+});
+
+/**
  * get list from database
  *
  * route: "/lists/get"
