@@ -39,7 +39,9 @@
                 </tr>
                 <tr>
                     <th><label for="article">Article:</label></th>
-                    <th><input id="article" type="search" name="article" placeholder="Article"></th>
+                    <th>
+                        <div class="article-select"><input id="article" type="search" name="article" placeholder="Article" class="text-input-short"><button onclick="newArticle()">New</button></div>
+                    </th>
                 </tr>
                 <tr>
                     <th></th>
@@ -49,11 +51,11 @@
                 </tr>
                 <tr>
                     <th><label for="quantity">Anzahl:</label></th>
-                    <th><input id="quantity" name="quantity" type="number" placeholder="Anzahl"></th>
+                    <th><input id="quantity" name="quantity" type="number" placeholder="Anzahl" class="text-input"></th>
                 </tr>
                 <tr>
                     <th><label for="unit">Einheit:</label></th>
-                    <th><input id="unit" name="unit" list="units" placeholder="Einheit"></th>
+                    <th><input id="unit" name="unit" list="units" placeholder="Einheit" class="text-input"></th>
                     <datalist id="units">
                             <option value="St&uuml;ck" ></option>
                             <option value="Packungen"></option>
@@ -68,7 +70,8 @@
                 </tr>
                 <tr>
                     <th></th>
-                    <th><input type="submit" class="center" value="Submit" onclick="submitFunction()"></th>
+                    <th><input type="submit" class="center" value="Add" onclick="submitFunction(true)">
+                        <input type="submit" class="center" value="Add more" onclick="submitFunction(false)"></th>
                 </tr>
             </table>
         </div>

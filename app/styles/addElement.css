@@ -15,6 +15,15 @@ textarea {
     width: calc(100% - 8px);
 }
 
+.text-input-short {
+    width: 100%;
+}
+
+.article-select {
+    width: 100%;
+    display: flex;
+}
+
 .text-left {
     text-align: left;
 }

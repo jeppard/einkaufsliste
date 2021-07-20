@@ -104,7 +104,7 @@ function autoComplete(element) {
     });
 }
 
-function submitFunction() {
+function submitFunction(redirect = true) {
     if (elementID) {
         return null; //TODO edit Element
     } else {
@@ -154,8 +154,16 @@ function submitFunction() {
                     })
                 })
                 .then(data => {
-                    window.location.replace(window.location.origin + "/liste?listID=" + listID)
+                    if (redirect) {
+                        window.location.replace(window.location.origin + "/liste?listID=" + listID)
+                    } else {
+                        window.location.replace(window.location.origin + "/addElement?listID=" + listID)
+                    }
                 });
         }
     }
+}
+
+function newArticle() {
+    window.location.assign(window.location.origin + "/addArticle?listID=" + listID);
 }

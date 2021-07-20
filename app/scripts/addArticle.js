@@ -39,15 +39,6 @@ async function init() {
                 setSelectedType(data.type);
                 userID = data.userID;
             })
-    } else {
-        await prommise;
-        allTypes.forEach(type => {
-            let typeDiv = generateTypeDiv(type);
-            listContainer.appendChild(typeDiv);
-            typeDiv.onclick = function() {
-                setSelectedType(type);
-            }
-        });
     }
 }
 
@@ -90,7 +81,7 @@ function autoComplete(element) {
     });
 }
 
-function submitFunction(params) {
+function submitFunction(redirect = true) {
     if (articleID) {
         return null; //TODO edit Element
     } else {
@@ -124,8 +115,16 @@ function submitFunction(params) {
                     })
                 }).then(data => data.json())
                 .then(data => {
-                    window.location.replace(window.location.origin + "/addElement?listID=" + listID + "&articleID=" + data.id)
+                    if (redirect) {
+                        window.location.replace(window.location.origin + "/addElement?listID=" + listID + "&articleID=" + data.id)
+                    } else {
+                        window.location.replace(window.location.origin + "/addArticle?listID=" + listID);
+                    }
                 });
         }
     }
+}
+
+function newType() {
+    window.location.assign(window.location.origin + "/addType?listID=" + listID);
 }

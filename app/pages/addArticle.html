@@ -50,7 +50,7 @@
                 <tr>
                     <th class="vertical-top"><label for="article-type">Type:</label></th>
                     <th>
-                        <div><input type="search" name="article_type" id="artile_type" placeholder="Article Type" class="text-input"></div>
+                        <div class="type-select"><input type="search" name="article_type" id="artile_type" placeholder="Article Type" class="text-input-short"><button onclick="newType()">New</button></div>
                         <div id="typeSelect"></div>
                     </th>
                 </tr>
@@ -61,7 +61,8 @@
                     </th>
                 </tr>
             </table>
-            <input type="submit" value="Add" class="center" onclick="submitFunction()">
+            <input type="submit" value="Add" class="center" onclick="submitFunction(true)">
+            <input type="submit" value="Add more" class="center" onclick="submitFunction(false)">
             </form>
         </div>
     </div>
