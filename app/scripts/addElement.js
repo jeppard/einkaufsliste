@@ -86,6 +86,14 @@ function generateArticleDiv(article, bold = 0) {
     articleDiv.appendChild(strong);
     articleDiv.appendChild(name2);
     articleDiv.title = article.description + " - " + article.type.name;
+    let button = document.createElement("img");
+    button.src = "app/images/Edit.png";
+    button.alt = "Edit";
+    button.addEventListener("click", () => {
+        window.location.assign(window.location.origin + "/addArticle?listID=" + listID + "&articleID=" + article.id);
+    });
+    button.classList.add("edit-button")
+    articleDiv.appendChild(button);
     return articleDiv;
 }
 
@@ -105,42 +113,61 @@ function autoComplete(element) {
 }
 
 function submitFunction(redirect = true) {
-    if (elementID) {
-        return null; //TODO edit Element
-    } else {
-        let valid = true;
-        let quantity = document.getElementById("quantity");
-        if (quantity.value == "" || parseInt(quantity.value) <= 0) {
-            valid = false;
-            quantity.style.backgroundColor = "red";
-            quantity.onfocus = function() {
-                quantity.style.backgroundColor = "";
-                quantity.onfocus = () => {};
-                quantity.onchange = () => {};
-            }
-            quantity.onchange = function() {
-                quantity.style.backgroundColor = "";
-                quantity.onfocus = () => {};
-                quantity.onchange = () => {};
-            }
+    let valid = true;
+    let quantity = document.getElementById("quantity");
+    if (quantity.value == "" || parseInt(quantity.value) <= 0) {
+        valid = false;
+        quantity.style.backgroundColor = "red";
+        quantity.onfocus = function() {
+            quantity.style.backgroundColor = "";
+            quantity.onfocus = () => {};
+            quantity.onchange = () => {};
         }
-        if (!selected_article) {
-            valid = false;
-            let selectedTypeDiv = document.getElementById("selectedArticle");
-            let errormsg = document.createTextNode("No Article Selected!")
-            selectedTypeDiv.appendChild(errormsg);
-            selectedTypeDiv.style.color = "red";
+        quantity.onchange = function() {
+            quantity.style.backgroundColor = "";
+            quantity.onfocus = () => {};
+            quantity.onchange = () => {};
         }
-        let unitType = document.getElementById("unit");
-        if (unitType.value == "") {
-            valid = false;
-            unitType.style.backgroundColor = "red";
-            unitType.onfocus = function() {
-                unitType.style.backgroundColor = "";
-                unitType.onfocus = () => {};
-            }
+    }
+    if (!selected_article) {
+        valid = false;
+        let selectedTypeDiv = document.getElementById("selectedArticle");
+        let errormsg = document.createTextNode("No Article Selected!")
+        selectedTypeDiv.appendChild(errormsg);
+        selectedTypeDiv.style.color = "red";
+    }
+    let unitType = document.getElementById("unit");
+    if (unitType.value == "") {
+        valid = false;
+        unitType.style.backgroundColor = "red";
+        unitType.onfocus = function() {
+            unitType.style.backgroundColor = "";
+            unitType.onfocus = () => {};
         }
-        if (valid) {
+    }
+    if (valid) {
+        if (elementID) {
+            fetch(window.location.origin + "/lists/elements/update", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "listID": listID,
+                        "count": document.getElementById("quantity").value,
+                        "unitType": document.getElementById("unit").value,
+                        "articleID": selected_article.id,
+                        "elementID": elementID
+                    })
+                })
+                .then(() => {
+                    if (redirect) {
+                        window.location.assign(window.location.origin + "/liste?listID=" + listID)
+                    } else {
+                        window.location.replace(window.location.origin + "/addElement?listID=" + listID)
+                    }
+                });
+        } else {
             fetch(window.location.origin + "/lists/elements/add", {
                     method: "POST",
                     headers: {
@@ -153,9 +180,9 @@ function submitFunction(redirect = true) {
                         "articleID": selected_article.id
                     })
                 })
-                .then(data => {
+                .then(() => {
                     if (redirect) {
-                        window.location.replace(window.location.origin + "/liste?listID=" + listID)
+                        window.location.assign(window.location.origin + "/liste?listID=" + listID)
                     } else {
                         window.location.replace(window.location.origin + "/addElement?listID=" + listID)
                     }

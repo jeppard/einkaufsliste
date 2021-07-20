@@ -24,6 +24,13 @@ textarea {
     width: 100%;
 }
 
+.edit-button {
+    height: 2ch;
+    margin-left: 0.5rem;
+    top: 0.25rem;
+    position: relative;
+}
+
 .text-left {
     text-align: left;
 }

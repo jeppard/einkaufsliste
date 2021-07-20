@@ -35,26 +35,43 @@ function submitFunction(redirect = true) {
         }
     }
     if (valid) {
-        if (typeID != null) {
-            //todo edit type
-        } else(
+        if (typeID) {
+            fetch(window.location.origin + "/lists/articles/types/update", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        "name": nameField.value,
+                        "color": colorField.value,
+                        "typeID": typeID
+                    })
+                }) //.then(data => data.json())
+                .then(data => {
+                    if (redirect) {
+                        window.location.assign(window.location.origin + "/addArticle?listID=" + listID);
+                    } else {
+                        window.location.replace(window.location.origin + "/addType?listID=" + listID);
+                    }
+                });
+        } else {
             fetch(window.location.origin + "/lists/articles/types/add", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    "name": nameField.value,
-                    "color": colorField.value
-                })
-            }) //.then(data => data.json())
-            .then(data => {
-                if (redirect) {
-                    window.location.assign(window.location.origin + "/addArticle?listID=" + listID);
-                } else {
-                    window.location.replace(window.location.origin + "/addType?listID=" + listID);
-                }
-            })
-        )
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        "name": nameField.value,
+                        "color": colorField.value
+                    })
+                }) //.then(data => data.json())
+                .then(data => {
+                    if (redirect) {
+                        window.location.assign(window.location.origin + "/addArticle?listID=" + listID);
+                    } else {
+                        window.location.replace(window.location.origin + "/addType?listID=" + listID);
+                    }
+                });
+        }
     }
 }

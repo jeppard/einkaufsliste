@@ -63,6 +63,14 @@ function generateTypeDiv(type, bold = 0) {
     strong.appendChild(name1);
     typeDiv.appendChild(strong);
     typeDiv.appendChild(name2);
+    let button = document.createElement("img");
+    button.src = "app/images/Edit.png";
+    button.alt = "Edit";
+    button.addEventListener("click", () => {
+        window.location.assign(window.location.origin + "/addType?listID=" + listID + "&typeID=" + type.id);
+    });
+    button.classList.add("edit-button");
+    typeDiv.appendChild(button);
     return typeDiv;
 }
 
@@ -82,26 +90,44 @@ function autoComplete(element) {
 }
 
 function submitFunction(redirect = true) {
-    if (articleID) {
-        return null; //TODO edit Element
-    } else {
-        let valid = true;
-        let name = document.getElementById("article_name");
-        if (name.value == "") {
-            valid = false;
-            name.style.backgroundColor = "red";
-            name.onfocus = function() {
-                name.style.backgroundColor = "";
-            }
+    let valid = true;
+    let name = document.getElementById("article_name");
+    if (name.value == "") {
+        valid = false;
+        name.style.backgroundColor = "red";
+        name.onfocus = function() {
+            name.style.backgroundColor = "";
         }
-        if (!selected_type) {
-            valid = false;
-            let selectedTypeDiv = document.getElementById("selectdType");
-            let errormsg = document.createTextNode("No type Selected!")
-            selectedTypeDiv.appendChild(errormsg);
-            selectedTypeDiv.style.color = "red";
-        }
-        if (valid) {
+    }
+    if (!selected_type) {
+        valid = false;
+        let selectedTypeDiv = document.getElementById("selectdType");
+        let errormsg = document.createTextNode("No type Selected!")
+        selectedTypeDiv.appendChild(errormsg);
+        selectedTypeDiv.style.color = "red";
+    }
+    if (valid) {
+        if (articleID) {
+            fetch(window.location.origin + "/lists/articles/update", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "listID": listID,
+                    "name": document.getElementById("article_name").value,
+                    "description": document.getElementById("description").value,
+                    "type": selected_type.id,
+                    "articleID": articleID
+                })
+            }).then(() => {
+                if (redirect) {
+                    window.location.assign(window.location.origin + "/addElement?listID=" + listID + "&articleID=" + articleID);
+                } else {
+                    window.location.replace(window.location.origin + "/addArticle?listID=" + listID);
+                }
+            })
+        } else {
             fetch(window.location.origin + "/lists/articles/add", {
                     method: "POST",
                     headers: {
@@ -116,7 +142,7 @@ function submitFunction(redirect = true) {
                 }).then(data => data.json())
                 .then(data => {
                     if (redirect) {
-                        window.location.replace(window.location.origin + "/addElement?listID=" + listID + "&articleID=" + data.id)
+                        window.location.assign(window.location.origin + "/addElement?listID=" + listID + "&articleID=" + data.id)
                     } else {
                         window.location.replace(window.location.origin + "/addArticle?listID=" + listID);
                     }
