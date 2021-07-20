@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Syles -->
+    <link rel="stylesheet" href="/app/styles/default.css">
+    <link rel="stylesheet" href="/app/styles/addType.css">
+
+    <!-- Scripts -->
+    <script src="/app/scripts/addType.js"></script>
+
+    <title>Smartlist - Add Type</title>
+</head>
+
+<body onload="init()">
+    <div id="main" class="center">
+        <div id="title" class="center">
+            <h1>Add/Edit Type</h1>
+        </div>
+        <div id="form_container" class="center">
+            <table id="table" class="center">
+                <tr>
+                    <th class="vertical-top"><label for="type_name">Name:</label></th>
+                    <th><input type="text" name="type_name" id="type_name" placeholder="Type Name" class="text-input"></th>
+                </tr>
+                <tr>
+                    <th class="vertical-top"><label for="color">Color:</label></th>
+                    <th><input type="color" name="color" id="color"></th>
+                </tr>
+            </table>
+            <input type="submit" value="Add" class="center" onclick="submitFunction(true)">
+            <input type="submit" value="Add more" class="center" onclick="submitFunction(false)">
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

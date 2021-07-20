@@ -34,6 +34,7 @@ app.use('/login', express.static('app/pages/login.html'));
 app.use('/register', express.static('app/pages/register.html'));
 app.use('/addArticle', express.static('app/pages/addArticle.html'));
 app.use('/addElement', express.static('app/pages/addElement.html'));
+app.use('/addType', express.static('app/pages/addType.html'));
 app.use('/liste', express.static('app/pages/liste.html'));
 app.use('/dashboard', express.static('app/pages/dashboard.html'));
 
