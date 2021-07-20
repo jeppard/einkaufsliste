@@ -85,7 +85,7 @@ router.post('/update', async function (req, res) {
  * Body:
  * typeID
  */
-router.get('/get', async function (req, res) {
+router.post('/get', async function (req, res) {
     const body: { typeID: number } = req.body;
 
     if (body && areNumbers([body.typeID])) {
