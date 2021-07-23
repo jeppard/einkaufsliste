@@ -18,17 +18,23 @@ export async function initDatabase (): Promise<void> {
     }
 }
 
-export async function addAccount (username: string, password: string): Promise<void> {
+export async function addAccount (username: string, password: string): Promise<number | null> {
     let conn;
+    let res;
     try {
         conn = await getConnection();
-        await conn.query('INSERT INTO ' + TABLE_NAME + ' (username, password) VALUES (?, ?);', [username, password]);
+        const rows = await conn.query('INSERT INTO ' + TABLE_NAME + ' (username, password) VALUES (?, ?) RETURNING id;', [username, password]);
+
+        if (rows && rows.length > 0) res = rows[0].id;
     } catch (err) {
         console.log(err);
         // TODO Add result
     } finally {
         if (conn) conn.end();
     }
+
+    if (!isNaN(res)) return res;
+    else return null;
 }
 
 export async function getAccountByUsername (username: string): Promise<User | null> {

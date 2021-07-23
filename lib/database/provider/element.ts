@@ -19,17 +19,23 @@ export async function initDatabase (): Promise<void> {
     }
 }
 
-export async function addElement (listID: number, articleID: number, count: number, unitType: string): Promise<void> {
+export async function addElement (listID: number, articleID: number, count: number, unitType: string): Promise<number | null> {
     let conn;
+    let res;
     try {
         conn = await getConnection();
-        await conn.query('INSERT INTO ' + ELEMENTS_TABLE_NAME + ' (listID, articleID, count, unitType) VALUES (?, ?, ?, ?);', [listID, articleID, count, unitType]);
+        const rows = await conn.query('INSERT INTO ' + ELEMENTS_TABLE_NAME + ' (listID, articleID, count, unitType) VALUES (?, ?, ?, ?) RETURNING id;', [listID, articleID, count, unitType]);
+
+        if (rows && rows.length > 0) res = rows[0].id;
     } catch (err) {
         console.log('Failed to add new Element to database: ' + err);
         // TODO Add result
     } finally {
         if (conn) conn.end();
     }
+
+    if (!isNaN(res)) return res;
+    else return null;
 }
 
 export async function removeElement (elementID: number, listID: number): Promise<void> {
