@@ -38,7 +38,6 @@ app.use('/addType', express.static('app/pages/addType.html'));
 app.use('/liste', express.static('app/pages/liste.html'));
 app.use('/dashboard', express.static('app/pages/dashboard.html'));
 
-
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
