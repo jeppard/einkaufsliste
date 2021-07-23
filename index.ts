@@ -38,18 +38,8 @@ app.use('/addType', express.static('app/pages/addType.html'));
 app.use('/liste', express.static('app/pages/liste.html'));
 app.use('/dashboard', express.static('app/pages/dashboard.html'));
 
-
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
-});
-
-app.use('/list', (req, res) => {
-    res.send('{"list": ["Ich bin das Erste Element", "Ich bin das zweite Element"]}');
-});
-
-app.get('/init', async function (req, res) {
-    test.initData();
-    res.send('Database filled with example data');
 });
 
 test.initDatabase();

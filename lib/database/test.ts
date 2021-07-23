@@ -13,12 +13,15 @@ export async function initDatabase (): Promise<void> {
     await elementProvider.initDatabase();
     await articleTypeProvider.initDatabase();
     await userListProvider.initDatabase();
+
+    const test = await accountProvider.getAccountByUsername('Test');
+    if (!test) await initData();
 }
 
 export async function initData (): Promise<void> {
     await accountProvider.addAccount('Maria', '123');
     await accountProvider.addAccount('Peter', '123');
-    await accountProvider.addAccount('Gunther', '123');
+    await accountProvider.addAccount('Test', '123');
 
     await listProvider.addList('Mein Einkauf', 1, 'Alle Sachen die ich brauche');
     await listProvider.addList('Wochenkauf', 2, 'Einkauf für jede Woche');
@@ -53,4 +56,6 @@ export async function initData (): Promise<void> {
     await userListProvider.addLink(2, 1);
     await userListProvider.addLink(3, 1);
     await userListProvider.addLink(2, 2);
+
+    console.log('Database filled with example data');
 }
