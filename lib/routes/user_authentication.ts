@@ -1,5 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import * as accountProvider from '../database/provider/account';
+import { areNumbers } from '../parameter_util';
 
 const router = express.Router();
 
@@ -22,6 +23,25 @@ export async function checkSignIn (req: Request, res: Response, next: NextFuncti
 // Simple test page to show the user its id
 router.get('/page', checkSignIn, async function (req, res) {
     res.send('ID: ' + req.session.userID);
+});
+
+/**
+ * Get own UserID
+ *
+ * route: "/auth/getOwnID"
+ *
+ * Body:
+ * <empty>
+ *
+ * returns userID if succesfull
+ */
+router.post('/getOwnID', async function (req, res) {
+    if (req.session.userID && areNumbers([req.session.userID])){
+        res.status(200).send(req.session.userID.toString());
+    }
+    else {
+        res.status(401).send('Session does not have a userID!');
+    }
 });
 
 /**

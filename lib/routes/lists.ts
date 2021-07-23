@@ -43,7 +43,7 @@ router.post('/content', async function (req, res) {
 /**
  * Remove list from database
  *
- * route: "/lists/removeList"
+ * route: "/lists/remove"
  *
  * Body:
  * listID
@@ -179,10 +179,9 @@ router.post('/get', async function (req, res) {
  * Array of lists
  */
 router.post('/getListsOfUser', async function (req, res) {
-    const body: { userID: number } = req.body;
 
-    if (body && areNumbers([body.userID])) {
-        const lists = await linkUserListProvider.getListsByUser(body.userID);
+    if (req.session.userID && areNumbers([req.session.userID])) {
+        const lists = await linkUserListProvider.getListsByUser(req.session.userID);
 
         if (lists) {
             res.status(200).send(lists);
