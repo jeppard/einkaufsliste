@@ -75,6 +75,7 @@ export async function getListById (listID: number): Promise<List | null> {
 
     if (rows != null && rows.length > 0) {
         const row = rows[0];
-        return new List(row.ID, row.Name, row.OwnerID, row.description, []);
+        console.log(row);
+        return new List(row.ID, row.Name, row.OwnerID, row.Description, []);
     } else return null;
 }

@@ -43,6 +43,7 @@ function generateListElement(element) {
     nameDiv.appendChild(name);
     nameDiv.classList.add("list-name");
     elementDiv.appendChild(nameDiv);
+    elementDiv.appendChild(document.createTextNode(element.description));
     if (userID == element.ownerID) {
         let buttonContainer = document.createElement("div");
         let editButton = document.createElement("img");
