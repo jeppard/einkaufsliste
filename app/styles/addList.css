@@ -1,0 +1,9 @@
+#user-area {
+    display: hidden;
+}
+
+#main {
+    width: 90%;
+    max-width: 50rem;
+    text-align: center;
+}

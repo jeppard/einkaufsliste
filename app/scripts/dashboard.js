@@ -51,7 +51,7 @@ function generateListElement(element) {
         editButton.alt = "Edit"
         editButton.onclick = (event) => {
             event.stopPropagation();
-            window.location.assign(window.location.origin + "/editList?listID=" +
+            window.location.assign(window.location.origin + "/addList?listID=" +
                 element.id);
 
         }
