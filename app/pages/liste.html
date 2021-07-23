@@ -25,8 +25,14 @@
 
 <body onload="init()">
     <div id="main">
-        <div id="header">
-            <div id="listname" class="center">List not found</div>
+        <div id="page-header">
+            <img src="/app/images/Icon.png" alt="Logo" id="logo" title="Dashboard" onclick="window.location.assign(window.location.origin + '/dashboard')">
+            <h1>
+                <div id="listname" class="center">List not found</div>
+            </h1>
+            <div id="header-buttons">
+                <img src="/app/images/Add.png" alt="Add List" title="Add Element" id="add-button">
+            </div>
         </div>
         <hr>
         <div id="searchdiv"><input type="search" id="search" placeholder="Suchen..."></div>
