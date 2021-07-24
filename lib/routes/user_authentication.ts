@@ -174,17 +174,14 @@ router.post('/signin', async function (req, res) {
  * <empty>
  */
 router.post('/logout', async function (req, res) {
-    console.log('test0');
     req.session.destroy(function (err) {
-        console.log('test1');
         if (err) {
             res.status(500).send('Failed to destroy session');
         } else {
-            console.log('test');
             res.clearCookie('connect.sid', { path: '/' });
+            res.status(200).send('Session destroyed');
         }
     });
-    console.log('test2');
 });
 
 export { router as authRouter };

@@ -31,7 +31,7 @@
                 <div id="listname" class="center">List not found</div>
             </h1>
             <div id="header-buttons">
-                <img src="/app/images/Logout.png" alt="Logout" title="Logout" onclick="fetch(window.location.origin + '/auth/logout', {method:'POST'}).then(window.location.assign(window.location.origin))">
+                <img src="/app/images/Logout.png" alt="Logout" title="Logout" onclick="fetch(window.location.origin + '/auth/logout', {method:'POST'}).then(() => window.location.assign(window.location.origin + '/'))">
                 <img src="/app/images/Add.png" alt="Add List" title="Add Element" id="add-button">
             </div>
         </div>
