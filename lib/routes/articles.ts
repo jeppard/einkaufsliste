@@ -2,6 +2,7 @@ import express from 'express';
 import { articleTypeRouter } from './article_types';
 import * as articleProvider from '../database/provider/articel';
 import { areNotNullOrEmpty, areNumbers, areNotNullButEmpty } from '../parameter_util';
+import { checkListMember, checkListMemberMidle } from './user_authentication';
 
 const router = express.Router();
 
@@ -24,7 +25,7 @@ router.use('/types', articleTypeRouter);
  * type         - Type number of the article
  */
 
-router.post('/add', async function (req, res) {
+router.post('/add', checkListMemberMidle, async function (req, res) {
     const article: { listID: number, name: string, description: string, type: number } = req.body;
 
     if (article && areNumbers([article.listID, article.type]) && areNotNullOrEmpty([article.name]) && areNotNullButEmpty([article.description])) {
@@ -50,11 +51,15 @@ router.post('/add', async function (req, res) {
 
 router.post('/remove', async function (req, res) {
     const body: {articleID: number} = req.body;
+    const userID = req.session.userID;
 
     if (body && areNumbers([body.articleID])) {
-        await articleProvider.removeArticle(body.articleID);
+        const article = await articleProvider.getArticle(body.articleID);
+        if (userID && article && await checkListMember(userID, article.listID)) {
+            await articleProvider.removeArticle(body.articleID);
 
-        res.status(200).send('Article removed');
+            res.status(200).send('Article removed');
+        } else res.status(401).send('Unauthorized');
     } else {
         res.status(400).send('Article is is not given');
     }
@@ -73,7 +78,7 @@ router.post('/remove', async function (req, res) {
  * type
  */
 
-router.post('/update', async function (req, res) {
+router.post('/update', checkListMemberMidle, async function (req, res) {
     const article: { articleID: number, listID: number, name: string, description: string, type: number } = req.body;
 
     if (article && areNumbers([article.articleID, article.listID, article.type]) && areNotNullOrEmpty([article.name]) && areNotNullButEmpty([article.description])) {
@@ -100,12 +105,14 @@ router.post('/update', async function (req, res) {
  */
 router.post('/get', async function (req, res) {
     const body: { articleID: number } = req.body;
+    const userID = req.session.userID;
 
     if (body && areNumbers([body.articleID])) {
         const article = await articleProvider.getArticle(body.articleID);
 
-        if (article) {
-            res.status(200).send(article);
+        if (article && userID) {
+            if (await checkListMember(userID, article.listID)) res.status(200).send(article);
+            else res.status(401).send('Unauthorized');
         } else {
             res.status(404).send('Article not found');
         }
@@ -125,7 +132,7 @@ router.post('/get', async function (req, res) {
  * return:
  * array of articles
  */
-router.post('/getAll', async function (req, res) {
+router.post('/getAll', checkListMemberMidle, async function (req, res) {
     const body: { listID: number } = req.body;
 
     if (body && areNumbers([body.listID])) {

@@ -6,13 +6,12 @@ import * as listProvider from '../database/provider/list';
 import * as linkUserListProvider from '../database/provider/link_user_list';
 import * as accountProvider from '../database/provider/account';
 import { areNumbers, areNotNullButEmpty, areNotNullOrEmpty } from '../parameter_util';
+import { checkListMemberMidle, checkListOwnerMidle } from './user_authentication';
 
 const router = express.Router();
 
 // route: "/lists/"
-router.use('/', express.static('app/pages/liste.html'));
-
-router.use('/elements', elementRouter);
+router.use('/elements', checkListMemberMidle, elementRouter);
 router.use('/articles', articleRouter);
 
 /**
@@ -23,7 +22,7 @@ router.use('/articles', articleRouter);
  * Body:
  * listID
  */
-router.post('/content', async function (req, res) {
+router.post('/content', checkListMemberMidle, async function (req, res) {
     const body : { listID: number} = req.body;
 
     if (body && areNumbers([body.listID])) {
@@ -48,7 +47,7 @@ router.post('/content', async function (req, res) {
  * Body:
  * listID
  */
-router.post('/remove', async function (req, res) {
+router.post('/remove', checkListOwnerMidle, async function (req, res) {
     const body: { listID: number } = req.body;
 
     if (body && areNumbers([body.listID])) {
@@ -118,7 +117,7 @@ router.post('/add', async function (req, res) {
  * description
  *
  */
-router.post('/update', async function (req, res) {
+router.post('/update', checkListOwnerMidle, async function (req, res) {
     const body: { listID: number, name: string, ownerID: number, description: string } = req.body;
 
     if (body && areNumbers([body.listID, body.ownerID]) && areNotNullOrEmpty([body.name]) && areNotNullButEmpty([body.description])) {
@@ -152,7 +151,7 @@ router.post('/update', async function (req, res) {
  * return:
  * list
  */
-router.post('/get', async function (req, res) {
+router.post('/get', checkListMemberMidle, async function (req, res) {
     const body: { listID: number } = req.body;
 
     if (body && areNumbers([body.listID])) {
@@ -178,9 +177,10 @@ router.post('/get', async function (req, res) {
  * Array of lists
  */
 router.post('/getListsOfUser', async function (req, res) {
+    const userID = req.session.userID;
 
-    if (req.session.userID && areNumbers([req.session.userID])) {
-        const lists = await linkUserListProvider.getListsByUser(req.session.userID);
+    if (userID && areNumbers([userID])) {
+        const lists = await linkUserListProvider.getListsByUser(userID);
 
         if (lists) {
             res.status(200).send(lists);
@@ -201,7 +201,7 @@ router.post('/getListsOfUser', async function (req, res) {
  * return:
  * Array of Users
  */
-router.post('/getUsersOfList', async function (req, res) {
+router.post('/getUsersOfList', checkListMemberMidle, async function (req, res) {
     const body: { listID: number } = req.body;
 
     if (body && areNumbers([body.listID])) {
@@ -224,7 +224,7 @@ router.post('/getUsersOfList', async function (req, res) {
  * listID
  * userID
  */
-router.post('/addUserListLink', async function (req, res) {
+router.post('/addUserListLink', checkListOwnerMidle, async function (req, res) {
     const body: { listID: number, userID: number } = req.body;
 
     if (body && areNumbers([body.listID, body.userID])) {
@@ -252,7 +252,7 @@ router.post('/addUserListLink', async function (req, res) {
  * listID
  * username
  */
- router.post('/addUserByName', async function (req, res) {
+router.post('/addUserByName', checkListOwnerMidle, async function (req, res) {
     const body: { listID: number, username: string } = req.body;
 
     if (body && areNumbers([body.listID]) && areNotNullOrEmpty([body.username])) {
@@ -271,8 +271,6 @@ router.post('/addUserListLink', async function (req, res) {
     }
 });
 
-
-
 /**
  * remove user list connection from database
  *
@@ -282,7 +280,7 @@ router.post('/addUserListLink', async function (req, res) {
  * listID
  * userID
  */
-router.post('/removeUserListLink', async function (req, res) {
+router.post('/removeUserListLink', checkListOwnerMidle, async function (req, res) {
     const body: { listID: number, userID: number } = req.body;
 
     if (body && areNumbers([body.listID, body.userID])) {
