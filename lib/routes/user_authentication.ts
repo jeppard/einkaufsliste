@@ -38,6 +38,7 @@ export async function checkListMember (userID: number, listID: number): Promise<
         const lists = await linkUserListProvider.getListsByUser(userID);
         // eslint-disable-next-line eqeqeq
         const list = lists.find(o => o.id == listID);
+
         if (list) return true;
         else return false;
     } else return false;
@@ -59,7 +60,6 @@ export async function checkListOwner (userID: number, listID: number): Promise<b
     const list = await listProvider.getListById(listID);
     if (list) {
         const user = await accountProvider.getAccountByID(list.ownerid);
-
         // eslint-disable-next-line eqeqeq
         if (user && user.id == userID) return true;
         else return false;
@@ -149,18 +149,20 @@ router.post('/signin', async function (req, res) {
     }
 });
 
-
 /**
  * Enpoint to logout
- * 
+ *
  * Body:
  * <empty>
  */
 router.post('/logout', async function (req, res) {
-    req.session.destroy((err) => {
-        res.redirect('/');
+    req.session.destroy(function (err) {
+        if (err) {
+            res.status(500).send('Failed to destroy session');
+        } else {
+            res.redirect('/');
+        }
     });
-
 });
 
 export { router as authRouter };
