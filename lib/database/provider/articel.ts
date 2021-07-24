@@ -35,7 +35,7 @@ export async function addArticle (listID: number, name: string, description: str
     } finally {
         if (conn) conn.end();
     }
-    if (res) return res;
+    if (!isNaN(res)) return res;
     else return null;
 }
 

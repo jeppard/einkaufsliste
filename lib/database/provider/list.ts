@@ -32,7 +32,7 @@ export async function addList (name: string, ownerid: number, description: strin
         if (conn) conn.end();
     }
 
-    if (res) return res;
+    if (!isNaN(res)) return res;
     else return null;
 }
 
