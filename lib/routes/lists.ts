@@ -43,7 +43,7 @@ router.post('/content', async function (req, res) {
 /**
  * Remove list from database
  *
- * route: "/lists/removeList"
+ * route: "/lists/remove"
  *
  * Body:
  * listID
@@ -75,18 +75,17 @@ router.post('/remove', async function (req, res) {
  *
  * Body:
  * name
- * ownerID
  * description
  *
  * return:
  * list object without content
  */
 router.post('/add', async function (req, res) {
-    const body: { name: string, ownerID: number, description: string } = req.body;
+    const body: { name: string, description: string } = req.body;
 
-    if (body && areNumbers([body.ownerID]) && areNotNullOrEmpty([body.name]) && areNotNullButEmpty([body.description])) {
+    if (body && req.session.userID && areNumbers([req.session.userID]) && areNotNullOrEmpty([body.name]) && areNotNullButEmpty([body.description])) {
         // check for existing user
-        const user = await accountProvider.getAccountByID(body.ownerID);
+        const user = await accountProvider.getAccountByID(req.session.userID);
         if (!user) {
             res.send(404).send('This user doesn\'t exist');
             return;
@@ -179,10 +178,9 @@ router.post('/get', async function (req, res) {
  * Array of lists
  */
 router.post('/getListsOfUser', async function (req, res) {
-    const body: { userID: number } = req.body;
 
-    if (body && areNumbers([body.userID])) {
-        const lists = await linkUserListProvider.getListsByUser(body.userID);
+    if (req.session.userID && areNumbers([req.session.userID])) {
+        const lists = await linkUserListProvider.getListsByUser(req.session.userID);
 
         if (lists) {
             res.status(200).send(lists);
@@ -244,6 +242,36 @@ router.post('/addUserListLink', async function (req, res) {
         res.status(400).send('Incorrect body');
     }
 });
+
+/**
+ * add user list connection to database
+ *
+ * route: "/lists/addUserByName"
+ *
+ * Body:
+ * listID
+ * username
+ */
+ router.post('/addUserByName', async function (req, res) {
+    const body: { listID: number, username: string } = req.body;
+
+    if (body && areNumbers([body.listID]) && areNotNullOrEmpty([body.username])) {
+        const user = await accountProvider.getAccountByUsername(body.username);
+        const list = await listProvider.getListById(body.listID);
+
+        if (user && list) {
+            await linkUserListProvider.addLink(user.id, list.id);
+
+            res.status(200).send(user);
+        } else {
+            res.status(404).send('user or list not found');
+        }
+    } else {
+        res.status(400).send('Incorrect body');
+    }
+});
+
+
 
 /**
  * remove user list connection from database

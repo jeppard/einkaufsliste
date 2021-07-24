@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
@@ -15,22 +14,21 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
-    <!-- Styles-->
+    <!-- Syles -->
     <link rel="stylesheet" href="/app/styles/default.css">
-    <link rel="stylesheet" href="/app/styles/addArticle.css">
+    <link rel="stylesheet" href="/app/styles/addList.css">
 
     <!-- Scripts -->
-    <script src="/app/scripts/addArticle.js"></script>
+    <script src="/app/scripts/addList.js"></script>
 
-    <title>Add Article</title>
-
+    <title>Smartlist - Add List</title>
 </head>
 
 <body onload="init()">
     <div id="main" class="center">
         <div id="page-header">
             <img src="/app/images/Icon_default.png" alt="Logo" id="logo" title="Dashboard" onclick="window.location.assign(window.location.origin + '/dashboard')">
-            <h1>Add/Edit Article</h1>
+            <h1>Add/Edit List</h1>
             <div id="header-buttons">
                 <img src="/app/images/Logout.png" alt="Logout" title="Logout" onclick="fetch(window.location.origin + '/auth/logout', {method:'POST'}).then(window.location.assign(window.location.origin))">
 
@@ -40,36 +38,26 @@
         <div id="form_container" class="center">
             <table id="table" class="center">
                 <tr>
-                    <th class="vertical-top"><label for="article_name">Name:</label></th>
-                    <th><input type="text" name="article_name" id="article_name" placeholder="Article Name" class="text-input"></th>
+                    <th class="vertical-top"><label for="list_name">Name:</label></th>
+                    <th><input type="text" name="list_name" id="list_name" placeholder="List Name" class="text-input"></th>
                 </tr>
                 <tr>
                     <th class="vertical-top"><label for="description">Description:</label></th>
                     <th><textarea name="description" id="description" cols="18" rows="3" placeholder="Description..."></textarea></th>
                 </tr>
-                <tr>
-                    <th class="vertical-top">Selected Type:</th>
-                    <th>
-                        <div id="selectdType"></div>
-                    </th>
-                </tr>
-                <tr>
-                    <th class="vertical-top"><label for="article-type">Type:</label></th>
-                    <th>
-                        <div class="type-select"><input type="search" name="article_type" id="artile_type" placeholder="Article Type" class="text-input-short"><button onclick="newType()">New</button></div>
-                        <div id="typeSelect"></div>
-                    </th>
-                </tr>
-                <tr>
-                    <th></th>
-                    <th>
-                        <div id="type-container"></div>
-                    </th>
-                </tr>
             </table>
             <input type="submit" value="Add" class="center" onclick="submitFunction(true)">
             <input type="submit" value="Add more" class="center" onclick="submitFunction(false)">
-            </form>
+        </div>
+        <hr>
+        <div id="user-area">
+            <div id="addUser" class="center">
+                <label for="username">Add User</label>
+                <input type="text" name="username" id="username" placeholder="Add user">
+                <img src="/app/images/Add.png" alt="Add" title="Add User" onclick="addUser()">
+            </div>
+            <div id="currentUsers">
+            </div>
         </div>
     </div>
 </body>
