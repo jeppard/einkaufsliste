@@ -14,6 +14,7 @@ function init() {
                 "listID": listID
             })
         })
+        .then(res => isError(res))
         .then(response => response.json())
         .then(data => {
             setListName(data.name);
@@ -230,18 +231,20 @@ function toogleThisElement(element) {
 
 function removeElement(element, elementID) {
     fetch(window.location.origin + "/lists/elements/remove", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            "listID": listID,
-            "elementID": elementID
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "listID": listID,
+                "elementID": elementID
+            })
         })
-    }).then(response => {
-        if (response.ok) {
-            while ((element = element.parentElement) && element.nodeName != "LI");
-            element.remove();
-        }
-    })
+        .then(res => isError(res))
+        .then(response => {
+            if (response.ok) {
+                while ((element = element.parentElement) && element.nodeName != "LI");
+                element.remove();
+            }
+        })
 }

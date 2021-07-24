@@ -11,7 +11,7 @@ if (listID == null) {
 let selected_article;
 
 
-//Get all Types
+//Get all Articles
 let allArticles;
 let prommise = fetch(window.location.origin + "/lists/articles/getAll", {
         method: "POST",
@@ -22,6 +22,7 @@ let prommise = fetch(window.location.origin + "/lists/articles/getAll", {
             "listID": listID
         })
     })
+    .then(res => isError(res))
     .then(data => data.json())
     .then(data => {
         allArticles = data;
@@ -44,7 +45,9 @@ async function init() {
                     "listID": listID,
                     "elementID": elementID
                 })
-            }).then(data => data.json())
+            })
+            .then(res => isError(res))
+            .then(data => data.json())
             .then(data => {
                 document.getElementById("quantity").value = data.count;
                 document.getElementById("unit").value = data.unitType;
@@ -59,7 +62,9 @@ async function init() {
                 body: JSON.stringify({
                     "articleID": articleID
                 })
-            }).then(data => data.json())
+            })
+            .then(res => isError(res))
+            .then(data => data.json())
             .then(data => setSelectedArticle(data));
     }
 }
@@ -160,6 +165,7 @@ function submitFunction(redirect = true) {
                         "elementID": elementID
                     })
                 })
+                .then(res => isError(res))
                 .then(() => {
                     if (redirect) {
                         window.location.assign(window.location.origin + "/liste?listID=" + listID)
@@ -180,6 +186,7 @@ function submitFunction(redirect = true) {
                         "articleID": selected_article.id
                     })
                 })
+                .then(res => isError(res))
                 .then(() => {
                     if (redirect) {
                         window.location.assign(window.location.origin + "/liste?listID=" + listID)

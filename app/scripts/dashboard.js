@@ -4,6 +4,7 @@ let lists;
 let promise = fetch(window.location.origin + "/auth/getOwnID", {
         method: "POST"
     })
+    .then(res => isError(res))
     .then(data => data.json())
     .then(data => userID = data);
 
@@ -14,6 +15,7 @@ async function init() {
     fetch(window.location.origin + "/lists/getListsOfUser", {
             method: "POST"
         })
+        .then(res => isError(res))
         .then(data => data.json())
         .then(data => {
             lists = data;
@@ -62,19 +64,21 @@ function generateListElement(element) {
             event.stopPropagation();
             if (confirm("Are you sure you want to delete  this list?")) {
                 fetch(window.location.origin + "/lists/remove", {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        "listID": element.id
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            "listID": element.id
+                        })
                     })
-                }).then(() => {
-                    let index = lists.map(x => x.id).indexOf(element.id);
-                    lists.splice(index, 1);
-                    console.log(lists);
-                    populateList(lists);
-                });
+                    .then(res => isError(res))
+                    .then(() => {
+                        let index = lists.map(x => x.id).indexOf(element.id);
+                        lists.splice(index, 1);
+                        console.log(lists);
+                        populateList(lists);
+                    });
             }
 
         }

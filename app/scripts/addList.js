@@ -6,6 +6,7 @@ let ownID;
 let prommise2 = fetch(window.location.origin + "/auth/getOwnID", {
         method: "POST"
     })
+    .then(res => isError(res))
     .then(data => data.json())
     .then(data => ownID = data);
 
@@ -22,6 +23,7 @@ if (listID != null) {
                 "listID": listID
             })
         })
+        .then(res => isError(res))
         .then(data => data.json())
         .then(data => listUsers = data);
 }
@@ -38,6 +40,7 @@ async function init() {
                     "listID": listID
                 })
             })
+            .then(res => isError(res))
             .then(data => data.json())
             .then(data => {
                 document.getElementById("list_name").value = data.name;
@@ -81,6 +84,7 @@ function createUserDiv(user) {
                             "userID": user.id
                         })
                     })
+                    .then(res => isError(res))
                     .then(() => {
                         let index = listUsers.map(x => x.id).indexOf(user.id)
                         listUsers.splice(index, 1);
@@ -117,6 +121,7 @@ function submitFunction(redirect = true) {
                         "listID": listID
                     })
                 })
+                .then(res => isError(res))
                 .then(() => {
                     if (redirect) {
                         window.location.assign(window.location.origin + "/dashboard");
@@ -135,6 +140,7 @@ function submitFunction(redirect = true) {
                         "description": document.getElementById("description").value
                     })
                 })
+                .then(res => isError(res))
                 .then(() => {
                     if (redirect) {
                         window.location.assign(window.location.origin + "/dashboard");
@@ -160,6 +166,7 @@ function addUser() {
                     "username": usernameField.value
                 })
             })
+            .then(res => isError(res))
             .then(data => data.json())
             .then(data => {
                 listUsers.push(data);

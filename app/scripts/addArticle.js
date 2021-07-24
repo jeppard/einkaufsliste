@@ -11,6 +11,7 @@ let allTypes;
 let prommise = fetch(window.location.origin + "/lists/articles/types/getAll", {
         method: "POST"
     })
+    .then(res => isError(res))
     .then(data => data.json())
     .then(data => {
         allTypes = data;
@@ -32,7 +33,9 @@ async function init() {
                 body: JSON.stringify({
                     "articleID": articleID
                 })
-            }).then(data => data.json())
+            })
+            .then(res => isError(res))
+            .then(data => data.json())
             .then(data => {
                 document.getElementById("description").value = data.description;
                 document.getElementById("article_name").value = data.name;
@@ -109,24 +112,26 @@ function submitFunction(redirect = true) {
     if (valid) {
         if (articleID) {
             fetch(window.location.origin + "/lists/articles/update", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    "listID": listID,
-                    "name": document.getElementById("article_name").value,
-                    "description": document.getElementById("description").value,
-                    "type": selected_type.id,
-                    "articleID": articleID
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "listID": listID,
+                        "name": document.getElementById("article_name").value,
+                        "description": document.getElementById("description").value,
+                        "type": selected_type.id,
+                        "articleID": articleID
+                    })
                 })
-            }).then(() => {
-                if (redirect) {
-                    window.location.assign(window.location.origin + "/addElement?listID=" + listID + "&articleID=" + articleID);
-                } else {
-                    window.location.replace(window.location.origin + "/addArticle?listID=" + listID);
-                }
-            })
+                .then(res => isError(res))
+                .then(() => {
+                    if (redirect) {
+                        window.location.assign(window.location.origin + "/addElement?listID=" + listID + "&articleID=" + articleID);
+                    } else {
+                        window.location.replace(window.location.origin + "/addArticle?listID=" + listID);
+                    }
+                })
         } else {
             fetch(window.location.origin + "/lists/articles/add", {
                     method: "POST",
@@ -139,7 +144,9 @@ function submitFunction(redirect = true) {
                         "description": document.getElementById("description").value,
                         "type": selected_type.id
                     })
-                }).then(data => data.json())
+                })
+                .then(res => isError(res))
+                .then(data => data.json())
                 .then(data => {
                     if (redirect) {
                         window.location.assign(window.location.origin + "/addElement?listID=" + listID + "&articleID=" + data.id)

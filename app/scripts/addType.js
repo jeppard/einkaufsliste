@@ -17,7 +17,9 @@ function init() {
                 body: JSON.stringify({
                     "typeID": typeID
                 })
-            }).then(data => data.json())
+            })
+            .then(res => isError(res))
+            .then(data => data.json())
             .then(data => {
                 nameField.value = data.name;
                 colorField.value = data.color;
@@ -47,6 +49,7 @@ function submitFunction(redirect = true) {
                         "typeID": typeID
                     })
                 })
+                .then(res => isError(res))
                 .then(data => data.json())
                 .then(data => {
                     if (redirect) {
@@ -66,6 +69,7 @@ function submitFunction(redirect = true) {
                         "color": colorField.value
                     })
                 })
+                .then(res => isError(res))
                 .then(data => data.json())
                 .then(data => {
                     if (redirect) {

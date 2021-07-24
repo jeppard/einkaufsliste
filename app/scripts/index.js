@@ -1,5 +1,5 @@
-
-fetch(window.location.origin + "/list" )
+fetch(window.location.origin + "/list")
+    .then(res => isError(res))
     .then(response => response.json())
     .then(data => addToList(data['list'])).then(console.log("Added..."));
 
