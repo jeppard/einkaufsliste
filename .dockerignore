@@ -1,0 +1,9 @@
+*
+!app/**/*
+!etc/**/*
+!favicon/**/*
+!lib/**/*
+!index.ts
+!package.json
+!yarn.lock
+!favicon.ico
