@@ -22,6 +22,16 @@ export async function checkSignIn (req: Request, res: Response, next: NextFuncti
     }
 }
 
+export async function checkNotSignIn (req: Request, res: Response, next: NextFunction): Promise<void> {
+    if (!req.session.userID) {
+        next();
+    } else if (req.method === 'GET') {
+        res.redirect('/dashboard');
+    } else {
+        res.status(401).send('Unauthorized');
+    }
+}
+
 export async function checkListMember (userID: number, listID: number): Promise<boolean> {
     const list = await listProvider.getListById(listID);
     if (list) {
