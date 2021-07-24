@@ -122,23 +122,13 @@ function autoComplete(element) {
 }
 
 function setListName(name) {
-    let headerDiv = document.getElementById("header");
     let nameNode = document.createTextNode(name);
-    headerDiv.title = name;
-    document.title += name;
+    document.title = "Smartlist - " + name;
     document.getElementById("listname").textContent = "";
     document.getElementById("listname").appendChild(nameNode);
-    let addDiv = document.createElement("DIV");
-    addDiv.classList.add("element-buttons");
-    let addButton = document.createElement("img");
-    addButton.src = '/app/images/Add.png';
-    addButton.alt = 'Edit';
-    addButton.onclick = function() {
+    document.getElementById("add-button").onclick = function() {
         window.location.assign(window.location.origin + "/addElement?listID=" + listID);
     }
-    addButton.style.textAlign = "left";
-    addDiv.appendChild(addButton);
-    headerDiv.appendChild(addDiv);
 }
 
 function createElements(data) {

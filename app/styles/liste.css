@@ -99,11 +99,13 @@
     max-width: 2rem;
     height: auto;
     margin: 1px;
+    border-color: transparent;
+    border-style: outset;
+    border-width: 1px;
 }
 
 .element-buttons>img:hover {
     border-color: rgb(var(--black));
     border-style: outset;
     border-width: 1px;
-    margin: 0px;
 }

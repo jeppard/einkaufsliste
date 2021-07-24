@@ -23,9 +23,16 @@ router.post('/add', async function (req, res) {
     const body: { name: string, color: string } = req.body;
 
     if (body && areNotNullOrEmpty([body.name, body.color])) {
-        await articleTypeProvider.addType(body.name, body.color);
+        const typeID = await articleTypeProvider.addType(body.name, body.color);
 
-        res.status(201).send('Added article-type to database');
+        if (typeID) {
+            const type = await articleTypeProvider.getType(typeID);
+            if (type) {
+                res.status(201).send(type);
+                return;
+            }
+        }
+        res.status(500).send('Article type could not be added');
     } else {
         res.status(400).send('The given informations are not in a correct form');
     }

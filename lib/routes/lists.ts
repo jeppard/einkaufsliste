@@ -6,13 +6,12 @@ import * as listProvider from '../database/provider/list';
 import * as linkUserListProvider from '../database/provider/link_user_list';
 import * as accountProvider from '../database/provider/account';
 import { areNumbers, areNotNullButEmpty, areNotNullOrEmpty } from '../parameter_util';
+import { checkListMemberMidle, checkListOwnerMidle } from './user_authentication';
 
 const router = express.Router();
 
 // route: "/lists/"
-router.use('/', express.static('app/pages/liste.html'));
-
-router.use('/elements', elementRouter);
+router.use('/elements', checkListMemberMidle, elementRouter);
 router.use('/articles', articleRouter);
 
 /**
@@ -23,7 +22,7 @@ router.use('/articles', articleRouter);
  * Body:
  * listID
  */
-router.post('/content', async function (req, res) {
+router.post('/content', checkListMemberMidle, async function (req, res) {
     const body : { listID: number} = req.body;
 
     if (body && areNumbers([body.listID])) {
@@ -43,12 +42,12 @@ router.post('/content', async function (req, res) {
 /**
  * Remove list from database
  *
- * route: "/lists/removeList"
+ * route: "/lists/remove"
  *
  * Body:
  * listID
  */
-router.post('/remove', async function (req, res) {
+router.post('/remove', checkListOwnerMidle, async function (req, res) {
     const body: { listID: number } = req.body;
 
     if (body && areNumbers([body.listID])) {
@@ -75,18 +74,17 @@ router.post('/remove', async function (req, res) {
  *
  * Body:
  * name
- * ownerID
  * description
  *
  * return:
  * list object without content
  */
 router.post('/add', async function (req, res) {
-    const body: { name: string, ownerID: number, description: string } = req.body;
+    const body: { name: string, description: string } = req.body;
 
-    if (body && areNumbers([body.ownerID]) && areNotNullOrEmpty([body.name]) && areNotNullButEmpty([body.description])) {
+    if (body && req.session.userID && areNumbers([req.session.userID]) && areNotNullOrEmpty([body.name]) && areNotNullButEmpty([body.description])) {
         // check for existing user
-        const user = await accountProvider.getAccountByID(body.ownerID);
+        const user = await accountProvider.getAccountByID(req.session.userID);
         if (!user) {
             res.send(404).send('This user doesn\'t exist');
             return;
@@ -119,7 +117,7 @@ router.post('/add', async function (req, res) {
  * description
  *
  */
-router.post('/update', async function (req, res) {
+router.post('/update', checkListOwnerMidle, async function (req, res) {
     const body: { listID: number, name: string, ownerID: number, description: string } = req.body;
 
     if (body && areNumbers([body.listID, body.ownerID]) && areNotNullOrEmpty([body.name]) && areNotNullButEmpty([body.description])) {
@@ -153,7 +151,7 @@ router.post('/update', async function (req, res) {
  * return:
  * list
  */
-router.post('/get', async function (req, res) {
+router.post('/get', checkListMemberMidle, async function (req, res) {
     const body: { listID: number } = req.body;
 
     if (body && areNumbers([body.listID])) {
@@ -179,10 +177,10 @@ router.post('/get', async function (req, res) {
  * Array of lists
  */
 router.post('/getListsOfUser', async function (req, res) {
-    const body: { userID: number } = req.body;
+    const userID = req.session.userID;
 
-    if (body && areNumbers([body.userID])) {
-        const lists = await linkUserListProvider.getListsByUser(body.userID);
+    if (userID && areNumbers([userID])) {
+        const lists = await linkUserListProvider.getListsByUser(userID);
 
         if (lists) {
             res.status(200).send(lists);
@@ -203,7 +201,7 @@ router.post('/getListsOfUser', async function (req, res) {
  * return:
  * Array of Users
  */
-router.post('/getUsersOfList', async function (req, res) {
+router.post('/getUsersOfList', checkListMemberMidle, async function (req, res) {
     const body: { listID: number } = req.body;
 
     if (body && areNumbers([body.listID])) {
@@ -226,7 +224,7 @@ router.post('/getUsersOfList', async function (req, res) {
  * listID
  * userID
  */
-router.post('/addUserListLink', async function (req, res) {
+router.post('/addUserListLink', checkListOwnerMidle, async function (req, res) {
     const body: { listID: number, userID: number } = req.body;
 
     if (body && areNumbers([body.listID, body.userID])) {
@@ -246,6 +244,34 @@ router.post('/addUserListLink', async function (req, res) {
 });
 
 /**
+ * add user list connection to database
+ *
+ * route: "/lists/addUserByName"
+ *
+ * Body:
+ * listID
+ * username
+ */
+router.post('/addUserByName', checkListOwnerMidle, async function (req, res) {
+    const body: { listID: number, username: string } = req.body;
+
+    if (body && areNumbers([body.listID]) && areNotNullOrEmpty([body.username])) {
+        const user = await accountProvider.getAccountByUsername(body.username);
+        const list = await listProvider.getListById(body.listID);
+
+        if (user && list) {
+            await linkUserListProvider.addLink(user.id, list.id);
+
+            res.status(200).send(user);
+        } else {
+            res.status(404).send('user or list not found');
+        }
+    } else {
+        res.status(400).send('Incorrect body');
+    }
+});
+
+/**
  * remove user list connection from database
  *
  * route: "/lists/removeUserListLink"
@@ -254,7 +280,7 @@ router.post('/addUserListLink', async function (req, res) {
  * listID
  * userID
  */
-router.post('/removeUserListLink', async function (req, res) {
+router.post('/removeUserListLink', checkListOwnerMidle, async function (req, res) {
     const body: { listID: number, userID: number } = req.body;
 
     if (body && areNumbers([body.listID, body.userID])) {
