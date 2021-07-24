@@ -14,7 +14,7 @@ const app = express();
 const port = 3000;
 
 app.get('/', (req, res) => {
-    res.redirect('/lists?listID=1');
+    res.redirect('/liste?listID=1');
 });
 
 app.use(express.json());
@@ -35,7 +35,7 @@ app.use('/register', express.static('app/pages/register.html'));
 app.use('/addArticle', checkSignIn, express.static('app/pages/addArticle.html'));
 app.use('/addElement', checkSignIn, express.static('app/pages/addElement.html'));
 app.use('/addType', checkSignIn, express.static('app/pages/addType.html'));
-app.use('/list', checkSignIn, express.static('app/pages/liste.html'));
+app.use('/liste', checkSignIn, express.static('app/pages/liste.html'));
 app.use('/dashboard', checkSignIn, express.static('app/pages/dashboard.html'));
 
 app.listen(port, () => {

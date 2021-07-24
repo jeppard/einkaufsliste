@@ -1,5 +1,8 @@
 import express, { NextFunction, Request, Response } from 'express';
 import * as accountProvider from '../database/provider/account';
+import * as listProvider from '../database/provider/list';
+import * as linkUserListProvider from '../database/provider/link_user_list';
+import { areNumbers } from '../parameter_util';
 
 const router = express.Router();
 
@@ -16,6 +19,52 @@ export async function checkSignIn (req: Request, res: Response, next: NextFuncti
         res.redirect('/login');
     } else {
         res.status(401).send('Unauthorized');
+    }
+}
+
+export async function checkListMember (userID: number, listID: number): Promise<boolean> {
+    const list = await listProvider.getListById(listID);
+    if (list) {
+        const lists = await linkUserListProvider.getListsByUser(userID);
+        // eslint-disable-next-line eqeqeq
+        const list = lists.find(o => o.id == listID);
+        if (list) return true;
+        else return false;
+    } else return false;
+}
+
+export async function checkListMemberMidle (req: Request, res: Response, next: NextFunction): Promise<void> {
+    const userID = req.session.userID;
+    const body : { listID: number} = req.body;
+
+    if (userID && areNumbers([body.listID])) {
+        if (checkListMember(userID, body.listID)) next();
+        else res.status(401).send('Unauthorized');
+    } else {
+        res.status(400).send('No listID given');
+    }
+}
+
+export async function checkListOwner (userID: number, listID: number): Promise<boolean> {
+    const list = await listProvider.getListById(listID);
+    if (list) {
+        const user = await accountProvider.getAccountByID(list.ownerid);
+
+        // eslint-disable-next-line eqeqeq
+        if (user && user.id == userID) return true;
+        else return false;
+    } else return false;
+}
+
+export async function checkListOwnerMidle (req: Request, res: Response, next: NextFunction): Promise<void> {
+    const userID = req.session.userID;
+    const body : { listID: number} = req.body;
+
+    if (userID && areNumbers([body.listID])) {
+        if (checkListOwner(userID, body.listID)) next();
+        else res.status(401).send('Unauthorized');
+    } else {
+        res.status(400).send('No listID given');
     }
 }
 
