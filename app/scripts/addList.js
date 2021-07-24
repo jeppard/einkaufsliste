@@ -59,11 +59,15 @@ function populateUserDiv() {
 
 function createUserDiv(user) {
     let userDiv = document.createElement("Div");
-    userDiv.appendChild(document.createTextNode(user.username));
+    userDiv.classList.add("center");
+    let namediv = document.createElement("div");
+    namediv.appendChild(document.createTextNode(user.username))
+    userDiv.appendChild(namediv);
     if (ownID != user.id) {
         let button = document.createElement("img");
         button.src = "/app/images/Delete.png";
         button.alt = "Delete";
+        button.title = "Remove " + user.username + " from list";
         button.onclick = (event) => {
             event.stopPropagation();
             if (confirm("Remove User from list?")) {

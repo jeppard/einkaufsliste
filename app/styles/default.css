@@ -123,6 +123,7 @@ h6 {
     border-style: outset;
     border-color: transparent;
     border-width: 1px;
+    cursor: pointer;
 }
 
 #page-header>div>img:hover,

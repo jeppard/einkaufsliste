@@ -7,3 +7,37 @@
     max-width: 50rem;
     text-align: center;
 }
+
+#currentUsers>div {
+    margin-top: 0.5rem;
+    background-color: rgb(var(--blue-90));
+    display: flex;
+    align-items: center;
+    width: max-content;
+}
+
+#addUser {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    overflow: wrap;
+}
+
+#addUser>*,
+#currentUsers>div>* {
+    margin: 0.5rem
+}
+
+#currentUsers>div>img,
+#addUser>img {
+    max-width: 2rem;
+    border-style: outset;
+    border-width: 1px;
+    border-color: transparent;
+    cursor: pointer;
+}
+
+#currentUsers>div>img:hover,
+#addUser>img:hover {
+    border-color: rgb(var(--black));
+}
