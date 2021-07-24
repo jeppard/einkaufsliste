@@ -55,7 +55,7 @@ router.post('/remove', async function (req, res) {
 
     if (body && areNumbers([body.articleID])) {
         const article = await articleProvider.getArticle(body.articleID);
-        if (userID && article && checkListMember(userID, article.listID)) {
+        if (userID && article && await checkListMember(userID, article.listID)) {
             await articleProvider.removeArticle(body.articleID);
 
             res.status(200).send('Article removed');
@@ -111,7 +111,7 @@ router.post('/get', async function (req, res) {
         const article = await articleProvider.getArticle(body.articleID);
 
         if (article && userID) {
-            if (checkListMember(userID, article.listID)) res.status(200).send(article);
+            if (await checkListMember(userID, article.listID)) res.status(200).send(article);
             else res.status(401).send('Unauthorized');
         } else {
             res.status(404).send('Article not found');
