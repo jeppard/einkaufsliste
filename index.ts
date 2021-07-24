@@ -14,7 +14,7 @@ const app = express();
 const port = 3000;
 
 app.get('/', (req, res) => {
-    res.redirect('/liste?listID=1');
+    res.redirect('/dashboard');
 });
 
 app.use(express.json());
@@ -50,15 +50,6 @@ app.use('/dashboard', checkSignIn, express.static('app/pages/dashboard.html'));
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
-});
-
-app.use('/list', (req, res) => {
-    res.send('{"list": ["Ich bin das Erste Element", "Ich bin das zweite Element"]}');
-});
-
-app.get('/init', async function (req, res) {
-    test.initData();
-    res.send('Database filled with example data');
 });
 
 test.initDatabase();
