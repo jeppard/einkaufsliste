@@ -33,7 +33,7 @@
             <img src="/app/images/Icon_default.png" alt="Logo" id="logo" title="Dashboard" onclick="window.location.assign(window.location.origin + '/dashboard')">
             <h1>Add/Edit Article</h1>
             <div id="header-buttons">
-                <img src="/app/images/Logout.png" alt="Logout" title="Logout" onclick="fetch(window.location.origin + '/auth/logout', {method:'POST'}).then(window.location.assign(window.location.origin))">
+                <img src="/app/images/Logout.png" alt="Logout" title="Logout" onclick="fetch(window.location.origin + '/auth/logout', {method:'POST'}).then(() => window.location.assign(window.location.origin + '/'))">
 
             </div>
         </div>

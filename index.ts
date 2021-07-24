@@ -1,7 +1,7 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import session from 'express-session';
 import { listRouter } from './lib/routes/lists';
-import { authRouter } from './lib/routes/user_authentication';
+import { checkSignIn, authRouter, checkNotSignIn, checkListMember } from './lib/routes/user_authentication';
 import * as test from './lib/database/test';
 declare module 'express-session' {
     interface SessionData {
@@ -14,7 +14,7 @@ const app = express();
 const port = 3000;
 
 app.get('/', (req, res) => {
-    res.redirect('/lists?listID=1');
+    res.redirect('/liste?listID=1');
 });
 
 app.use(express.json());
@@ -26,20 +26,28 @@ app.use('/app/styles/', express.static('app/styles/'));
 app.use('/favicon/', express.static('favicon/'));
 
 // API
-app.use('/lists', listRouter);
+app.use('/lists', checkSignIn, listRouter);
 app.use('/auth', authRouter);
 
-// Webpages
-app.use('/login', express.static('app/pages/login.html'));
-app.use('/register', express.static('app/pages/register.html'));
-app.use('/addArticle', express.static('app/pages/addArticle.html'));
-app.use('/addElement', express.static('app/pages/addElement.html'));
-app.use('/addList', express.static('app/pages/addList.html'));
-app.use('/addType', express.static('app/pages/addType.html'));
-app.use('/liste', express.static('app/pages/liste.html'));
-app.use('/error', express.static('app/pages/error.html'));
-app.use('/dashboard', express.static('app/pages/dashboard.html'));
 
+
+async function checkListMemberParm (req: Request, res: Response, next: NextFunction): Promise<void> {
+    const userID = req.session.userID;
+    const listID = Number(req.query.listID);
+
+    if (userID && listID && await checkListMember(userID, listID)) next();
+    else res.redirect('/dashboard');
+}
+
+// Webpages
+app.use('/login', checkNotSignIn, express.static('app/pages/login.html'));
+app.use('/register', checkNotSignIn, express.static('app/pages/register.html'));
+app.use('/addArticle', checkSignIn, checkListMemberParm, express.static('app/pages/addArticle.html'));
+app.use('/addElement', checkSignIn, checkListMemberParm, express.static('app/pages/addElement.html'));
+app.use('/addList', checkSignIn, express.static('app/pages/addList.html'));
+app.use('/addType', checkSignIn, checkListMemberParm, express.static('app/pages/addType.html'));
+app.use('/liste', checkSignIn, checkListMemberParm, express.static('app/pages/liste.html'));
+app.use('/dashboard', checkSignIn, express.static('app/pages/dashboard.html'));
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
