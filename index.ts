@@ -14,7 +14,7 @@ const app = express();
 const port = 3000;
 
 app.get('/', (req, res) => {
-    res.redirect('/lists?listID=1');
+    res.redirect('/dashboard');
 });
 
 app.use(express.json());

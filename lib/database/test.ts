@@ -14,14 +14,13 @@ export async function initDatabase (): Promise<void> {
     await articleTypeProvider.initDatabase();
     await userListProvider.initDatabase();
 
-    const test = await accountProvider.getAccountByUsername('Test');
-    if (!test) await initData();
+    if (process.env.START_WITH_EXAMPEL_DATA) initData();
 }
 
 export async function initData (): Promise<void> {
     await accountProvider.addAccount('Maria', '123');
     await accountProvider.addAccount('Peter', '123');
-    await accountProvider.addAccount('Test', '123');
+    await accountProvider.addAccount('Gunther', '123');
 
     await listProvider.addList('Mein Einkauf', 1, 'Alle Sachen die ich brauche');
     await listProvider.addList('Wochenkauf', 2, 'Einkauf für jede Woche');
