@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import { elementRouter } from './elements';
 import { articleRouter } from './articles';
 import * as elementProvider from '../database/provider/element';
@@ -10,7 +10,52 @@ import { areNumbers, areNotNullButEmpty, areNotNullOrEmpty } from '../parameter_
 const router = express.Router();
 
 // route: "/lists/"
-router.use('/', express.static('app/pages/liste.html'));
+
+export async function checkListMember (userID: number, listID: number): Promise<boolean> {
+    const list = await listProvider.getListById(listID);
+    if (list) {
+        const lists = await linkUserListProvider.getListsByUser(userID);
+        // eslint-disable-next-line eqeqeq
+        const list = lists.find(o => o.id == listID);
+        if (list) return true;
+        else return false;
+    } else return false;
+}
+
+export async function checkListMemberMidle (req: Request, res: Response, next: NextFunction): Promise<void> {
+    const userID = req.session.userID;
+    const body : { listID: number} = req.body;
+
+    if (userID && areNumbers([body.listID])) {
+        if (checkListMember(userID, body.listID)) next();
+        else res.status(401).send('Unauthorized');
+    } else {
+        res.status(400).send('No listID given');
+    }
+}
+
+export async function checkListOwner (userID: number, listID: number): Promise<boolean> {
+    const list = await listProvider.getListById(listID);
+    if (list) {
+        const user = await accountProvider.getAccountByID(list.ownerid);
+
+        // eslint-disable-next-line eqeqeq
+        if (user && user.id == userID) return true;
+        else return false;
+    } else return false;
+}
+
+export async function checkListOwnerMidle (req: Request, res: Response, next: NextFunction): Promise<void> {
+    const userID = req.session.userID;
+    const body : { listID: number} = req.body;
+
+    if (userID && areNumbers([body.listID])) {
+        if (checkListOwner(userID, body.listID)) next();
+        else res.status(401).send('Unauthorized');
+    } else {
+        res.status(400).send('No listID given');
+    }
+}
 
 router.use('/elements', elementRouter);
 router.use('/articles', articleRouter);
@@ -23,7 +68,7 @@ router.use('/articles', articleRouter);
  * Body:
  * listID
  */
-router.post('/content', async function (req, res) {
+router.post('/content', checkListMemberMidle, async function (req, res) {
     const body : { listID: number} = req.body;
 
     if (body && areNumbers([body.listID])) {
@@ -48,7 +93,7 @@ router.post('/content', async function (req, res) {
  * Body:
  * listID
  */
-router.post('/remove', async function (req, res) {
+router.post('/remove', checkListOwnerMidle, async function (req, res) {
     const body: { listID: number } = req.body;
 
     if (body && areNumbers([body.listID])) {
@@ -119,7 +164,7 @@ router.post('/add', async function (req, res) {
  * description
  *
  */
-router.post('/update', async function (req, res) {
+router.post('/update', checkListOwnerMidle, async function (req, res) {
     const body: { listID: number, name: string, ownerID: number, description: string } = req.body;
 
     if (body && areNumbers([body.listID, body.ownerID]) && areNotNullOrEmpty([body.name]) && areNotNullButEmpty([body.description])) {
@@ -153,7 +198,7 @@ router.post('/update', async function (req, res) {
  * return:
  * list
  */
-router.post('/get', async function (req, res) {
+router.post('/get', checkListMemberMidle, async function (req, res) {
     const body: { listID: number } = req.body;
 
     if (body && areNumbers([body.listID])) {
@@ -179,10 +224,10 @@ router.post('/get', async function (req, res) {
  * Array of lists
  */
 router.post('/getListsOfUser', async function (req, res) {
-    const body: { userID: number } = req.body;
+    const userID = req.session.userID;
 
-    if (body && areNumbers([body.userID])) {
-        const lists = await linkUserListProvider.getListsByUser(body.userID);
+    if (userID) {
+        const lists = await linkUserListProvider.getListsByUser(userID);
 
         if (lists) {
             res.status(200).send(lists);
@@ -203,7 +248,7 @@ router.post('/getListsOfUser', async function (req, res) {
  * return:
  * Array of Users
  */
-router.post('/getUsersOfList', async function (req, res) {
+router.post('/getUsersOfList', checkListMemberMidle, async function (req, res) {
     const body: { listID: number } = req.body;
 
     if (body && areNumbers([body.listID])) {
@@ -226,7 +271,7 @@ router.post('/getUsersOfList', async function (req, res) {
  * listID
  * userID
  */
-router.post('/addUserListLink', async function (req, res) {
+router.post('/addUserListLink', checkListOwnerMidle, async function (req, res) {
     const body: { listID: number, userID: number } = req.body;
 
     if (body && areNumbers([body.listID, body.userID])) {
@@ -254,7 +299,7 @@ router.post('/addUserListLink', async function (req, res) {
  * listID
  * userID
  */
-router.post('/removeUserListLink', async function (req, res) {
+router.post('/removeUserListLink', checkListOwnerMidle, async function (req, res) {
     const body: { listID: number, userID: number } = req.body;
 
     if (body && areNumbers([body.listID, body.userID])) {

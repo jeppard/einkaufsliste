@@ -1,7 +1,7 @@
 import express from 'express';
 import session from 'express-session';
 import { listRouter } from './lib/routes/lists';
-import { authRouter } from './lib/routes/user_authentication';
+import { checkSignIn, authRouter } from './lib/routes/user_authentication';
 import * as test from './lib/database/test';
 declare module 'express-session' {
     interface SessionData {
@@ -26,18 +26,17 @@ app.use('/app/styles/', express.static('app/styles/'));
 app.use('/favicon/', express.static('favicon/'));
 
 // API
-app.use('/lists', listRouter);
+app.use('/lists', checkSignIn, listRouter);
 app.use('/auth', authRouter);
 
 // Webpages
 app.use('/login', express.static('app/pages/login.html'));
 app.use('/register', express.static('app/pages/register.html'));
-app.use('/addArticle', express.static('app/pages/addArticle.html'));
-app.use('/addElement', express.static('app/pages/addElement.html'));
-app.use('/addType', express.static('app/pages/addType.html'));
-app.use('/liste', express.static('app/pages/liste.html'));
-app.use('/dashboard', express.static('app/pages/dashboard.html'));
-
+app.use('/addArticle', checkSignIn, express.static('app/pages/addArticle.html'));
+app.use('/addElement', checkSignIn, express.static('app/pages/addElement.html'));
+app.use('/addType', checkSignIn, express.static('app/pages/addType.html'));
+app.use('/list', checkSignIn, express.static('app/pages/liste.html'));
+app.use('/dashboard', checkSignIn, express.static('app/pages/dashboard.html'));
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);

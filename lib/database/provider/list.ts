@@ -55,7 +55,7 @@ export async function updateList (id: number, name: string, ownerid: number, des
         await conn.query('UPDATE ' + TABLE_NAME + ' Set Name=?, OwnerID=?, Description=? WHERE ID=?;', [name, ownerid, description, id]);
     } catch (err) {
         // TODO add result
-        console.log("Failed to update List in Database: " + err);
+        console.log('Failed to update List in Database: ' + err);
     } finally {
         if (conn) conn.end();
     }
