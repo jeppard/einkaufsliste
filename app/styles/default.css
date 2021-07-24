@@ -110,3 +110,25 @@ h6 {
     margin-left: auto;
     margin-right: auto;
 }
+
+#page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#page-header>div>img,
+#page-header>img {
+    max-width: 4rem;
+    border-style: outset;
+    border-color: transparent;
+    border-width: 1px;
+    cursor: pointer;
+}
+
+#page-header>div>img:hover,
+#page-header>img:hover {
+    border-style: outset;
+    border-color: rgb(var(--black));
+    border-width: 1px;
+}

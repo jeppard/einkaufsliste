@@ -22,12 +22,19 @@ router.get('/', function (req, res) {
  */
 
 router.post('/add', async function (req, res) {
-    const element: { listID: number, articleID: number, count: number, unitType: string} = req.body;
+    const body: { listID: number, articleID: number, count: number, unitType: string} = req.body;
 
-    if (element && areNumbers([element.listID, element.articleID, element.count]) && areNotNullOrEmpty([element.unitType])) {
-        await elementProvider.addElement(element.listID, element.articleID, element.count, element.unitType);
+    if (body && areNumbers([body.listID, body.articleID, body.count]) && areNotNullOrEmpty([body.unitType])) {
+        const elementID = await elementProvider.addElement(body.listID, body.articleID, body.count, body.unitType);
 
-        res.status(201).send('Added Element to list');
+        if (elementID) {
+            const element = await elementProvider.getElement(body.listID, elementID);
+            if (element) {
+                res.status(201).send(element);
+                return;
+            }
+        }
+        res.status(500).send('Failed to add element');
     } else {
         res.status(400).send('Element iformations are not given');
     }

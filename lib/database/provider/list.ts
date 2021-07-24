@@ -32,7 +32,7 @@ export async function addList (name: string, ownerid: number, description: strin
         if (conn) conn.end();
     }
 
-    if (res) return res;
+    if (!isNaN(res)) return res;
     else return null;
 }
 
@@ -55,7 +55,7 @@ export async function updateList (id: number, name: string, ownerid: number, des
         await conn.query('UPDATE ' + TABLE_NAME + ' Set Name=?, OwnerID=?, Description=? WHERE ID=?;', [name, ownerid, description, id]);
     } catch (err) {
         // TODO add result
-        console.log("Failed to update List in Database: " + err);
+        console.log('Failed to update List in Database: ' + err);
     } finally {
         if (conn) conn.end();
     }
@@ -75,6 +75,6 @@ export async function getListById (listID: number): Promise<List | null> {
 
     if (rows != null && rows.length > 0) {
         const row = rows[0];
-        return new List(row.ID, row.Name, row.OwnerID, row.description, []);
+        return new List(row.ID, row.Name, row.OwnerID, row.Description, []);
     } else return null;
 }
