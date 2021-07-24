@@ -14,7 +14,7 @@ export async function initDatabase (): Promise<void> {
     await articleTypeProvider.initDatabase();
     await userListProvider.initDatabase();
 
-    if (process.env.START_WITH_EXAMPEL_DATA) initData();
+    if (process.env.START_WITH_EXAMPEL_DATA === 'yes') initData();
 }
 
 export async function initData (): Promise<void> {
