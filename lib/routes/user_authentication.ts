@@ -149,4 +149,18 @@ router.post('/signin', async function (req, res) {
     }
 });
 
+
+/**
+ * Enpoint to logout
+ * 
+ * Body:
+ * <empty>
+ */
+router.post('/logout', async function (req, res) {
+    req.session.destroy((err) => {
+        res.redirect('/');
+    });
+
+});
+
 export { router as authRouter };
