@@ -46,10 +46,11 @@ function submitFunction(redirect = true) {
                         "color": colorField.value,
                         "typeID": typeID
                     })
-                }) //.then(data => data.json())
+                })
+                .then(data => data.json())
                 .then(data => {
                     if (redirect) {
-                        window.location.assign(window.location.origin + "/addArticle?listID=" + listID);
+                        window.location.assign(window.location.origin + "/addArticle?listID=" + listID + "&typeID=" + data.id);
                     } else {
                         window.location.replace(window.location.origin + "/addType?listID=" + listID);
                     }
@@ -64,10 +65,11 @@ function submitFunction(redirect = true) {
                         "name": nameField.value,
                         "color": colorField.value
                     })
-                }) //.then(data => data.json())
+                })
+                .then(data => data.json())
                 .then(data => {
                     if (redirect) {
-                        window.location.assign(window.location.origin + "/addArticle?listID=" + listID);
+                        window.location.assign(window.location.origin + "/addArticle?listID=" + listID + "&typeID=" + data.id);
                     } else {
                         window.location.replace(window.location.origin + "/addType?listID=" + listID);
                     }
