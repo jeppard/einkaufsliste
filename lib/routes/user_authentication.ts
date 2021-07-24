@@ -59,7 +59,7 @@ export async function checkListMemberMidle (req: Request, res: Response, next: N
 export async function checkListOwner (userID: number, listID: number): Promise<boolean> {
     const list = await listProvider.getListById(listID);
     if (list) {
-        const user = await accountProvider.getAccountByID(list.ownerid);
+        const user = await accountProvider.getAccountByID(list.ownerID);
         // eslint-disable-next-line eqeqeq
         if (user && user.id == userID) return true;
         else return false;
@@ -81,6 +81,24 @@ export async function checkListOwnerMidle (req: Request, res: Response, next: Ne
 // Simple test page to show the user its id
 router.get('/page', checkSignIn, async function (req, res) {
     res.send('ID: ' + req.session.userID);
+});
+
+/**
+ * Get own UserID
+ *
+ * route: "/auth/getOwnID"
+ *
+ * Body:
+ * <empty>
+ *
+ * returns userID if succesfull
+ */
+router.post('/getOwnID', async function (req, res) {
+    if (req.session.userID && areNumbers([req.session.userID])) {
+        res.status(200).send(req.session.userID.toString());
+    } else {
+        res.status(401).send('Session does not have a userID!');
+    }
 });
 
 /**
@@ -156,13 +174,17 @@ router.post('/signin', async function (req, res) {
  * <empty>
  */
 router.post('/logout', async function (req, res) {
+    console.log('test0');
     req.session.destroy(function (err) {
+        console.log('test1');
         if (err) {
             res.status(500).send('Failed to destroy session');
         } else {
-            res.redirect('/');
+            console.log('test');
+            res.clearCookie('connect.sid', { path: '/' });
         }
     });
+    console.log('test2');
 });
 
 export { router as authRouter };

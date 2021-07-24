@@ -35,6 +35,7 @@ app.use('/login', checkNotSignIn, express.static('app/pages/login.html'));
 app.use('/register', checkNotSignIn, express.static('app/pages/register.html'));
 app.use('/addArticle', checkSignIn, express.static('app/pages/addArticle.html'));
 app.use('/addElement', checkSignIn, express.static('app/pages/addElement.html'));
+app.use('/addList', checkSignIn, express.static('app/pages/addList.html'));
 app.use('/addType', checkSignIn, express.static('app/pages/addType.html'));
 app.use('/liste', checkSignIn, async function (req, res, next) {
     const userID = req.session.userID;

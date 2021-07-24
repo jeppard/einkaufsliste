@@ -42,7 +42,7 @@ router.post('/content', checkListMemberMidle, async function (req, res) {
 /**
  * Remove list from database
  *
- * route: "/lists/removeList"
+ * route: "/lists/remove"
  *
  * Body:
  * listID
@@ -74,18 +74,17 @@ router.post('/remove', checkListOwnerMidle, async function (req, res) {
  *
  * Body:
  * name
- * ownerID
  * description
  *
  * return:
  * list object without content
  */
 router.post('/add', async function (req, res) {
-    const body: { name: string, ownerID: number, description: string } = req.body;
+    const body: { name: string, description: string } = req.body;
 
-    if (body && areNumbers([body.ownerID]) && areNotNullOrEmpty([body.name]) && areNotNullButEmpty([body.description])) {
+    if (body && req.session.userID && areNumbers([req.session.userID]) && areNotNullOrEmpty([body.name]) && areNotNullButEmpty([body.description])) {
         // check for existing user
-        const user = await accountProvider.getAccountByID(body.ownerID);
+        const user = await accountProvider.getAccountByID(req.session.userID);
         if (!user) {
             res.send(404).send('This user doesn\'t exist');
             return;
@@ -180,7 +179,7 @@ router.post('/get', checkListMemberMidle, async function (req, res) {
 router.post('/getListsOfUser', async function (req, res) {
     const userID = req.session.userID;
 
-    if (userID) {
+    if (userID && areNumbers([userID])) {
         const lists = await linkUserListProvider.getListsByUser(userID);
 
         if (lists) {
@@ -236,6 +235,34 @@ router.post('/addUserListLink', checkListOwnerMidle, async function (req, res) {
             await linkUserListProvider.addLink(user.id, list.id);
 
             res.status(200).send('Added user list link');
+        } else {
+            res.status(404).send('user or list not found');
+        }
+    } else {
+        res.status(400).send('Incorrect body');
+    }
+});
+
+/**
+ * add user list connection to database
+ *
+ * route: "/lists/addUserByName"
+ *
+ * Body:
+ * listID
+ * username
+ */
+router.post('/addUserByName', async function (req, res) {
+    const body: { listID: number, username: string } = req.body;
+
+    if (body && areNumbers([body.listID]) && areNotNullOrEmpty([body.username])) {
+        const user = await accountProvider.getAccountByUsername(body.username);
+        const list = await listProvider.getListById(body.listID);
+
+        if (user && list) {
+            await linkUserListProvider.addLink(user.id, list.id);
+
+            res.status(200).send(user);
         } else {
             res.status(404).send('user or list not found');
         }
