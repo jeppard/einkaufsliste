@@ -11,7 +11,6 @@ import { checkListMemberMidle, checkListOwnerMidle } from './user_authentication
 const router = express.Router();
 
 // route: "/lists/"
-
 router.use('/elements', checkListMemberMidle, elementRouter);
 router.use('/articles', articleRouter);
 

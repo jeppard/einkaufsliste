@@ -49,7 +49,7 @@ export async function checkListMemberMidle (req: Request, res: Response, next: N
     const body : { listID: number} = req.body;
 
     if (userID && areNumbers([body.listID])) {
-        if (checkListMember(userID, body.listID)) next();
+        if (await checkListMember(userID, body.listID)) next();
         else res.status(401).send('Unauthorized');
     } else {
         res.status(400).send('No listID given');
@@ -71,7 +71,7 @@ export async function checkListOwnerMidle (req: Request, res: Response, next: Ne
     const body : { listID: number} = req.body;
 
     if (userID && areNumbers([body.listID])) {
-        if (checkListOwner(userID, body.listID)) next();
+        if (await checkListOwner(userID, body.listID)) next();
         else res.status(401).send('Unauthorized');
     } else {
         res.status(400).send('No listID given');
