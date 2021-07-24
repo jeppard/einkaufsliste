@@ -2,7 +2,7 @@ import express from 'express';
 import { articleTypeRouter } from './article_types';
 import * as articleProvider from '../database/provider/articel';
 import { areNotNullOrEmpty, areNumbers, areNotNullButEmpty } from '../parameter_util';
-import { checkListMember, checkListOwnerMidle } from './user_authentication';
+import { checkListMember, checkListMemberMidle } from './user_authentication';
 
 const router = express.Router();
 
@@ -25,7 +25,7 @@ router.use('/types', articleTypeRouter);
  * type         - Type number of the article
  */
 
-router.post('/add', checkListOwnerMidle, async function (req, res) {
+router.post('/add', checkListMemberMidle, async function (req, res) {
     const article: { listID: number, name: string, description: string, type: number } = req.body;
 
     if (article && areNumbers([article.listID, article.type]) && areNotNullOrEmpty([article.name]) && areNotNullButEmpty([article.description])) {
@@ -78,7 +78,7 @@ router.post('/remove', async function (req, res) {
  * type
  */
 
-router.post('/update', checkListOwnerMidle, async function (req, res) {
+router.post('/update', checkListMemberMidle, async function (req, res) {
     const article: { articleID: number, listID: number, name: string, description: string, type: number } = req.body;
 
     if (article && areNumbers([article.articleID, article.listID, article.type]) && areNotNullOrEmpty([article.name]) && areNotNullButEmpty([article.description])) {
@@ -132,7 +132,7 @@ router.post('/get', async function (req, res) {
  * return:
  * array of articles
  */
-router.post('/getAll', checkListOwnerMidle, async function (req, res) {
+router.post('/getAll', checkListMemberMidle, async function (req, res) {
     const body: { listID: number } = req.body;
 
     if (body && areNumbers([body.listID])) {
