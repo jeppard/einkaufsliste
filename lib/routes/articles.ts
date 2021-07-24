@@ -111,7 +111,7 @@ router.post('/get', async function (req, res) {
         const article = await articleProvider.getArticle(body.articleID);
 
         if (article && userID) {
-            if (await checkListMember(userID, article.listID)) res.status(200).send(article);
+            if ((await checkListMember(userID, article.listID))) res.status(200).send(article);
             else res.status(401).send('Unauthorized');
         } else {
             res.status(404).send('Article not found');

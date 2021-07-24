@@ -48,6 +48,7 @@ app.use('/addList', checkSignIn, express.static('app/pages/addList.html'));
 app.use('/addType', checkSignIn, checkListMemberParm, express.static('app/pages/addType.html'));
 app.use('/liste', checkSignIn, checkListMemberParm, express.static('app/pages/liste.html'));
 app.use('/dashboard', checkSignIn, express.static('app/pages/dashboard.html'));
+app.use('/error', express.static('app/pages/error.html'));
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
