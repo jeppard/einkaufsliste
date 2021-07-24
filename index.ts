@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import session from 'express-session';
 import { listRouter } from './lib/routes/lists';
 import { checkSignIn, authRouter, checkNotSignIn, checkListMember } from './lib/routes/user_authentication';
@@ -31,19 +31,21 @@ app.use('/auth', authRouter);
 
 // Webpages
 
-app.use('/login', checkNotSignIn, express.static('app/pages/login.html'));
-app.use('/register', checkNotSignIn, express.static('app/pages/register.html'));
-app.use('/addArticle', checkSignIn, express.static('app/pages/addArticle.html'));
-app.use('/addElement', checkSignIn, express.static('app/pages/addElement.html'));
-app.use('/addList', checkSignIn, express.static('app/pages/addList.html'));
-app.use('/addType', checkSignIn, express.static('app/pages/addType.html'));
-app.use('/liste', checkSignIn, async function (req, res, next) {
+async function checkListMemberParm (req: Request, res: Response, next: NextFunction): Promise<void> {
     const userID = req.session.userID;
     const listID = Number(req.query.listID);
 
     if (userID && listID && await checkListMember(userID, listID)) next();
     else res.redirect('/dashboard');
-}, express.static('app/pages/liste.html'));
+}
+
+app.use('/login', checkNotSignIn, express.static('app/pages/login.html'));
+app.use('/register', checkNotSignIn, express.static('app/pages/register.html'));
+app.use('/addArticle', checkSignIn, checkListMemberParm, express.static('app/pages/addArticle.html'));
+app.use('/addElement', checkSignIn, checkListMemberParm, express.static('app/pages/addElement.html'));
+app.use('/addList', checkSignIn, express.static('app/pages/addList.html'));
+app.use('/addType', checkSignIn, checkListMemberParm, express.static('app/pages/addType.html'));
+app.use('/liste', checkSignIn, checkListMemberParm, express.static('app/pages/liste.html'));
 app.use('/dashboard', checkSignIn, express.static('app/pages/dashboard.html'));
 
 app.listen(port, () => {

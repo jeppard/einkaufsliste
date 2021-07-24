@@ -252,7 +252,7 @@ router.post('/addUserListLink', checkListOwnerMidle, async function (req, res) {
  * listID
  * username
  */
-router.post('/addUserByName', async function (req, res) {
+router.post('/addUserByName', checkListOwnerMidle, async function (req, res) {
     const body: { listID: number, username: string } = req.body;
 
     if (body && areNumbers([body.listID]) && areNotNullOrEmpty([body.username])) {
