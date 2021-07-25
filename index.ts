@@ -3,6 +3,9 @@ import session from 'express-session';
 import { listRouter } from './lib/routes/lists';
 import { checkSignIn, authRouter, checkNotSignIn, checkListMemberParm } from './lib/routes/user_authentication';
 import * as test from './lib/database/test';
+
+export const saltRounds = 10;
+
 declare module 'express-session' {
     interface SessionData {
         views: number;
