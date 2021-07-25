@@ -168,9 +168,10 @@ function addUser() {
             })
             .then(res => {
                 if (res.ok) {
-                    data = res.json();
-                    listUsers.push(data);
-                    populateUserDiv();
+                    res.json().then(data => {
+                        listUsers.push(data);
+                        populateUserDiv();
+                    });
                 } else if (res.status == 404) {
                     usernameField.style.backgroundColor = "red";
                     usernameField.onfocus = () => {
