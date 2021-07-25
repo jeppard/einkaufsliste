@@ -166,12 +166,20 @@ function addUser() {
                     "username": usernameField.value
                 })
             })
-            .then(res => isError(res))
-            .then(data => data.json())
-            .then(data => {
-                listUsers.push(data);
-                populateUserDiv();
-            });
+            .then(res => {
+                if (res.ok) {
+                    data = res.json();
+                    listUsers.push(data);
+                    populateUserDiv();
+                } else if (res.status == 404) {
+                    usernameField.style.backgroundColor = "red";
+                    usernameField.onfocus = () => {
+                        usernameField.style.backgroundColor = ""
+                    };
+                } else {
+                    isError(res);
+                }
+            })
     } else {
         usernameField.style.backgroundColor = "red";
         usernameField.onfocus = () => {
