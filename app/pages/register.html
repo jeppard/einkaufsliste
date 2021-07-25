@@ -2,38 +2,57 @@
 <html>
 
 <head>
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Styles-->
     <link rel="stylesheet" href="/app/styles/default.css">
     <link rel="stylesheet" href="/app/styles/login.css">
-    <script src="server.js"></script>
+
+    <!-- Scripts -->
+    <script src="/app/scripts/register.js"></script>
+    <script src="/app/scripts/error.js"></script>
+
+
     <title>Sign up</title>
 </head>
 
 <body>
-    <form action="index.html" method="post">
-        <div class="main">
-            <p class="sign" align="center">Sign up</p>
-            <form class="form1">
+    <div class="main">
+        <p class="sign">Sign up</p>
 
-                <div class="textcenter center">
-                    <input class="un" name="input" type="text" align="center" placeholder="your username">
-                </div>
-
-                <span id="userInv" style="visibility: hidden">invalid username</span>
-
-                <div class="textcenter center">
-                    <input class="pass" name="input" type="password" align="center" placeholder="your Password">
-                </div>
-
-                <span id="passInv" style="visibility: hidden">invalid password</span>
-
-                <div class="textcenter center">
-                    <button class="submit" id="log-in">register</button>
-                </div>
-
+        <div class="textcenter center">
+            <input id="username" class="un" name="input" type="text" placeholder="new username" required>
         </div>
-    </form>
+
+        <span id="userInv" style="visibility: hidden">Username allready used</span>
+
+        <div class="textcenter center">
+            <input id="password" class="pass" name="input" type="password" placeholder="new Password" required>
+
+            <input id="repeatPassword" class="repPass" name="input" type="password" placeholder="repeat Password" required>
+        </div>
+
+        <span id="passInv" style="visibility: hidden">Passwords are not the same</span>
+
+        <div class="textcenter center">
+            <button class="submit" id="log-in" onclick="submit()">register</button>
+        </div>
+        <br>
+        <div class="textcenter center">
+            <a class="login-page button" href="login">back to login</a>
+        </div>
+    </div>
 </body>
 
 </html>

@@ -1,0 +1,32 @@
+version: '3.1'
+
+services:
+  smartlist:
+    image: tk1101/smartlist:latest
+    restart: always
+    ports: 
+      - 3000:3000
+    depends_on:
+      - "db"
+    environment:
+      DB_HOST: db
+      DB_USER: smartlist
+      DB_PORT: 3306
+      DB_PASSWORD: smartlist
+      DATABASE: SmartList
+      START_WITH_EXAMPEL_DATA: "yes"
+
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: "yes"
+      MARIADB_USER: smartlist
+      MARIADB_PASSWORD: smartlist
+      MARIADB_DATABASE: SmartList
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080

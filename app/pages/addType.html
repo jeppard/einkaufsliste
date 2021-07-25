@@ -14,36 +14,43 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
-    <!-- Styles-->
+    <!-- Syles -->
     <link rel="stylesheet" href="/app/styles/default.css">
-    <link rel="stylesheet" href="/app/styles/liste.css">
+    <link rel="stylesheet" href="/app/styles/addType.css">
 
     <!-- Scripts -->
-    <script src="/app/scripts/liste.js"></script>
+    <script src="/app/scripts/addType.js"></script>
     <script src="/app/scripts/error.js"></script>
 
-    <title>Smartlist - </title>
+
+    <title>Smartlist - Add Type</title>
 </head>
 
 <body onload="init()">
-    <div id="main">
+    <div id="main" class="center">
         <div id="page-header">
             <img src="/app/images/Icon_default.png" alt="Logo" id="logo" title="Dashboard" onclick="window.location.assign(window.location.origin + '/dashboard')">
-
-            <div class="center">
-                <h1 id="listname">List not found</h1>
-            </div>
-
+            <h1>Add/Edit Type</h1>
             <div id="header-buttons">
                 <img src="/app/images/Logout.png" alt="Logout" title="Logout" onclick="fetch(window.location.origin + '/auth/logout', {method:'POST'}).then(() => window.location.assign(window.location.origin + '/'))">
-                <img src="/app/images/Add.png" alt="Add List" title="Add Element" id="add-button">
+
             </div>
         </div>
         <hr>
-        <div id="searchdiv"><input type="search" id="search" placeholder="Suchen..."></div>
-        <div id="list_container">
-            <ul id="item-list">
-            </ul>
+        <div id="form_container" class="center">
+            <table id="table" class="center">
+                <tr>
+                    <th class="vertical-top"><label for="type_name">Name:</label></th>
+                    <th><input type="text" name="type_name" id="type_name" placeholder="Type Name" class="text-input"></th>
+                </tr>
+                <tr>
+                    <th class="vertical-top"><label for="color">Color:</label></th>
+                    <th><input type="color" name="color" id="color"></th>
+                </tr>
+            </table>
+            <input type="submit" value="Add" class="center" onclick="submitFunction(true)">
+            <input type="submit" value="Add more" class="center" onclick="submitFunction(false)">
+            </form>
         </div>
     </div>
 </body>

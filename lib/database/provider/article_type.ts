@@ -20,17 +20,23 @@ export async function initDatabase (): Promise<void> {
     }
 }
 
-export async function addType (name: string, color: string): Promise<void> {
+export async function addType (name: string, color: string): Promise<number | null> {
     let conn;
+    let res;
     try {
         conn = await getConnection();
-        await conn.query('INSERT INTO ' + ARTICELS_TABLE_NAME + ' (name, color) VALUES (?, ?);', [name, color]);
+        const rows = await conn.query('INSERT INTO ' + ARTICELS_TABLE_NAME + ' (name, color) VALUES (?, ?) RETURNING id;', [name, color]);
+
+        if (rows && rows.length > 0) res = rows[0].id;
     } catch (err) {
         // TODO Add result
         console.log('Failed to add new article type to database: ' + err);
     } finally {
         if (conn) conn.end();
     }
+
+    if (!isNaN(res)) return res;
+    else return null;
 }
 
 export async function removeType (id: number): Promise<void> {
@@ -41,6 +47,19 @@ export async function removeType (id: number): Promise<void> {
     } catch (err) {
         // TODO Add result
         console.log('Failed to remove article type from database: ' + err);
+    } finally {
+        if (conn) conn.end();
+    }
+}
+
+export async function updateType (id: number, name: string, color: string): Promise<void> {
+    let conn;
+    try {
+        conn = await getConnection();
+        await conn.query('UPDATE ' + ARTICELS_TABLE_NAME + ' SET name=?, color=? WHERE id=?;', [name, color, id]);
+    } catch (err) {
+        // TODO Add result
+        console.log('Failed to update article type in database: ' + err);
     } finally {
         if (conn) conn.end();
     }

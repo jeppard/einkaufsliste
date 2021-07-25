@@ -22,10 +22,8 @@ if (!fs.existsSync(path)) {
     } catch (error) {
         console.log('Failed to create example config file');
     }
-
-    // Termite the process with information message
-    console.log('Config file is missing. Exampel file was created and the process will termite');
-    process.exit();
+    console.log('Possible database connection file created in etc folder. ' +
+        'If no environment variables are set, make sure to write the connection data in the config file and restart the application');
 }
 
 // Read connection config file
@@ -33,11 +31,11 @@ const config = JSON.parse(fs.readFileSync(path, 'utf8'));
 
 // Create pool object
 const pool = mariadb.createPool({
-    host: config.host,
-    user: config.user,
-    port: config.port,
-    password: config.password,
-    database: config.database
+    host: process.env.DB_HOST || config.host,
+    user: process.env.DB_USER || config.user,
+    port: process.env.DB_PORT || config.port,
+    password: process.env.DB_PASSWORD || config.password,
+    database: process.env.DATABASE || config.database
 });
 
 // Expose a promise to create a new connection

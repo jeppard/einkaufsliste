@@ -19,17 +19,23 @@ export async function initDatabase (): Promise<void> {
     }
 }
 
-export async function addElement (listID: number, articleID: number, count: number, unitType: string): Promise<void> {
+export async function addElement (listID: number, articleID: number, count: number, unitType: string): Promise<number | null> {
     let conn;
+    let res;
     try {
         conn = await getConnection();
-        await conn.query('INSERT INTO ' + ELEMENTS_TABLE_NAME + ' (listID, articleID, count, unitType) VALUES (?, ?, ?, ?);', [listID, articleID, count, unitType]);
+        const rows = await conn.query('INSERT INTO ' + ELEMENTS_TABLE_NAME + ' (listID, articleID, count, unitType) VALUES (?, ?, ?, ?) RETURNING id;', [listID, articleID, count, unitType]);
+
+        if (rows && rows.length > 0) res = rows[0].id;
     } catch (err) {
         console.log('Failed to add new Element to database: ' + err);
         // TODO Add result
     } finally {
         if (conn) conn.end();
     }
+
+    if (!isNaN(res)) return res;
+    else return null;
 }
 
 export async function removeElement (elementID: number, listID: number): Promise<void> {
@@ -39,6 +45,19 @@ export async function removeElement (elementID: number, listID: number): Promise
         await conn.query('DELETE FROM ' + ELEMENTS_TABLE_NAME + ' WHERE id=? AND listID=?', [elementID, listID]);
     } catch (err) {
         console.log('Failed to remove element from database: ' + err);
+        // TODO Add result
+    } finally {
+        if (conn) conn.end();
+    }
+}
+
+export async function updateElement (id: number, listID: number, articleID: number, count: number, unitType: string): Promise<void> {
+    let conn;
+    try {
+        conn = await getConnection();
+        await conn.query('UPDATE ' + ELEMENTS_TABLE_NAME + ' SET listID=?, articleID=?, count=?, unitType=? WHERE id=?;', [listID, articleID, count, unitType, id]);
+    } catch (err) {
+        console.log('Failed to update element in database: ' + err);
         // TODO Add result
     } finally {
         if (conn) conn.end();

@@ -4,12 +4,15 @@ import { areNotNullOrEmpty, areNumbers } from '../parameter_util';
 
 const router = express.Router();
 
+// route: "/lists/elements/"
 router.get('/', function (req, res) {
     res.send('List element specific stuff');
 });
 
 /**
  * Adds new element to database
+ *
+ * route: "/lists/elements/add"
  *
  * Body:
  * listID       - ID of the list where the element is located
@@ -19,12 +22,19 @@ router.get('/', function (req, res) {
  */
 
 router.post('/add', async function (req, res) {
-    const element: { listID: number, articleID: number, count: number, unitType: string} = req.body;
+    const body: { listID: number, articleID: number, count: number, unitType: string} = req.body;
 
-    if (element && areNumbers([element.listID, element.articleID, element.count]) && areNotNullOrEmpty([element.unitType])) {
-        await elementProvider.addElement(element.listID, element.articleID, element.count, element.unitType);
+    if (body && areNumbers([body.listID, body.articleID, body.count]) && areNotNullOrEmpty([body.unitType])) {
+        const elementID = await elementProvider.addElement(body.listID, body.articleID, body.count, body.unitType);
 
-        res.status(201).send('Added Element to list');
+        if (elementID) {
+            const element = await elementProvider.getElement(body.listID, elementID);
+            if (element) {
+                res.status(201).send(element);
+                return;
+            }
+        }
+        res.status(500).send('Failed to add element');
     } else {
         res.status(400).send('Element iformations are not given');
     }
@@ -32,6 +42,8 @@ router.post('/add', async function (req, res) {
 
 /**
  * Remove element from database
+ *
+ * route: "/lists/elements/remove"
  *
  * Body:
  * elementID
@@ -51,13 +63,42 @@ router.post('/remove', async function (req, res) {
 });
 
 /**
+ * Update element in database
+ *
+ * route: "/lists/elements/update"
+ *
+ * Body:
+ * elementID
+ * listID
+ * articleID
+ * count
+ * unitType
+ */
+
+router.post('/update', async function (req, res) {
+    const element: { elementID: number, listID: number, articleID: number, count: number, unitType: string} = req.body;
+
+    if (element && areNumbers([element.elementID, element.listID, element.articleID, element.count]) && areNotNullOrEmpty([element.unitType])) {
+        await elementProvider.updateElement(element.elementID, element.listID, element.articleID, element.count, element.unitType);
+        const e = await elementProvider.getElement(element.listID, element.elementID);
+
+        if (e) res.status(201).send(e);
+        else res.status(404).send('Element not found');
+    } else {
+        res.status(400).send('Element iformations are not given');
+    }
+});
+
+/**
  * Get one element from database
+ *
+ * route: "/lists/elements/get"
  *
  * Body:
  * elementID
  * listID
  */
-router.get('/get', async function (req, res) {
+router.post('/get', async function (req, res) {
     const body: {elementID: number, listID: number} = req.body;
 
     if (body && areNumbers([body.listID, body.elementID])) {
@@ -69,13 +110,15 @@ router.get('/get', async function (req, res) {
             res.status(400).send('Element not found');
         }
     } else {
-        res.status(400).send('Element iformations are not given');
+        res.status(400).send('Element informations are not given');
     }
 });
 
 /**
  * Get all elements from database of a specific list
- * *
+ *
+ * route: "/lists/elements/getAll"
+ *
  * Body:
  * listID
  */

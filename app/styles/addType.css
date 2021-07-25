@@ -1,0 +1,17 @@
+#table,
+#table>tr,
+#table>tr>th {
+    text-decoration: none;
+    overflow: wrap;
+    font-weight: normal;
+}
+
+.text-input {
+    width: calc(100% - 8px);
+}
+
+#main {
+    width: 90%;
+    max-width: 50rem;
+    text-align: center;
+}
