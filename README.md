@@ -77,3 +77,5 @@ Es wurden folgende Sofware verwendet
 [Bcrypt](https://www.npmjs.com/package/bcrypt)
 
 [RealFaviconGenerator](https://realfavicongenerator.net/)
+
+[TypeScript](https://www.typescriptlang.org/)
