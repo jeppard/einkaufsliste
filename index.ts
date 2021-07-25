@@ -1,7 +1,7 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express from 'express';
 import session from 'express-session';
 import { listRouter } from './lib/routes/lists';
-import { checkSignIn, authRouter, checkNotSignIn, checkListMember } from './lib/routes/user_authentication';
+import { checkSignIn, authRouter, checkNotSignIn, checkListMemberParm } from './lib/routes/user_authentication';
 import * as test from './lib/database/test';
 declare module 'express-session' {
     interface SessionData {
@@ -28,16 +28,6 @@ app.use('/favicon/', express.static('favicon/'));
 // API
 app.use('/lists', checkSignIn, listRouter);
 app.use('/auth', authRouter);
-
-
-
-async function checkListMemberParm (req: Request, res: Response, next: NextFunction): Promise<void> {
-    const userID = req.session.userID;
-    const listID = Number(req.query.listID);
-
-    if (userID && listID && await checkListMember(userID, listID)) next();
-    else res.redirect('/dashboard');
-}
 
 // Webpages
 app.use('/login', checkNotSignIn, express.static('app/pages/login.html'));
