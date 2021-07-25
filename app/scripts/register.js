@@ -41,7 +41,6 @@ function submit() {
                     "password": passwordField.value,
                 })
             })
-            .then(res => isError(res))
             .then(response => {
                 if (response.ok) {
                     window.location.assign(window.location.origin + "/dashboard");
@@ -53,7 +52,7 @@ function submit() {
                                 document.getElementById("userInv").style.visibility = "hidden";
                             }
                         } else {
-                            console.log("Somthing went wrong!");
+                            isError(response);
                         }
                     });
                 }

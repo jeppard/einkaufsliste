@@ -76,7 +76,6 @@ function generateListElement(element) {
                     .then(() => {
                         let index = lists.map(x => x.id).indexOf(element.id);
                         lists.splice(index, 1);
-                        console.log(lists);
                         populateList(lists);
                     });
             }
