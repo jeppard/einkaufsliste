@@ -52,7 +52,7 @@ function submit() {
                                 document.getElementById("userInv").style.visibility = "hidden";
                             }
                         } else {
-                            console.log("Somthing went wrong!");
+                            isError(response);
                         }
                     });
                 }

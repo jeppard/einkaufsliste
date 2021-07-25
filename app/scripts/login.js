@@ -28,6 +28,7 @@ function signin() {
                     "password": passwordField.value,
                 })
             })
+            .then(res => isError(res))
             .then(response => {
                 if (response.ok) {
                     window.location.assign(window.location.origin + "/dashboard");

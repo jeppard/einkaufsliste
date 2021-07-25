@@ -76,7 +76,7 @@ export async function getArticle (articleID: number): Promise<Article | null> {
             article = article[0];
 
             const articleType = await articleTypeProvider.getType(article.type);
-            if (articleType) res = new Article(article.id, article.userID, article.name, article.description, articleType);
+            if (articleType) res = new Article(article.id, article.listID, article.name, article.description, articleType);
         }
     } catch (err) {
         console.log('Failed to get all articles from database: ' + err);

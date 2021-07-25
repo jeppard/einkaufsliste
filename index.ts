@@ -29,7 +29,7 @@ app.use('/favicon/', express.static('favicon/'));
 app.use('/lists', checkSignIn, listRouter);
 app.use('/auth', authRouter);
 
-// Webpages
+
 
 async function checkListMemberParm (req: Request, res: Response, next: NextFunction): Promise<void> {
     const userID = req.session.userID;
@@ -39,6 +39,7 @@ async function checkListMemberParm (req: Request, res: Response, next: NextFunct
     else res.redirect('/dashboard');
 }
 
+// Webpages
 app.use('/login', checkNotSignIn, express.static('app/pages/login.html'));
 app.use('/register', checkNotSignIn, express.static('app/pages/register.html'));
 app.use('/addArticle', checkSignIn, checkListMemberParm, express.static('app/pages/addArticle.html'));
@@ -47,6 +48,7 @@ app.use('/addList', checkSignIn, express.static('app/pages/addList.html'));
 app.use('/addType', checkSignIn, checkListMemberParm, express.static('app/pages/addType.html'));
 app.use('/liste', checkSignIn, checkListMemberParm, express.static('app/pages/liste.html'));
 app.use('/dashboard', checkSignIn, express.static('app/pages/dashboard.html'));
+app.use('/error', express.static('app/pages/error.html'));
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
