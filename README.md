@@ -63,6 +63,13 @@ Die Beispieldaten werden bei Docker compose automatisch verwendet, falls 'START_
 
 Beim Start über yarn muss einmal auf die Seite /init gegangen werden um die Datenbank mit den Beispieldaten zu füllen.
 
+Falls default Daten verwendet werden, existieren Folgende Benutzer mit Folgenden Listen:
+| Username | Passwort | Listen |
+|----------|----------|--------|
+| Maria    | 123      | Owner von 'Mein Einkauf' |
+| Peter    | 123      | Owner von 'Wochenkauf' und Member von 'Mein Einkauf' |
+| Gunther  | 123      | Member von 'Mein Einkauf' und 'Wochenkauf' |
+
 ## Dependencies
 Es wurden folgende Sofware verwendet
 
