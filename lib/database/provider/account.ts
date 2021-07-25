@@ -6,7 +6,7 @@ import { getConnection } from '../db';
 const TABLE_NAME = 'Accounts';
 
 export async function initDatabase (): Promise<void> {
-    const query = 'CREATE TABLE IF NOT EXISTS ' + TABLE_NAME + ' (id int auto_increment primary key, username varchar(50) unique, password varchar(100));';
+    const query = 'CREATE TABLE IF NOT EXISTS ' + TABLE_NAME + ' (id int auto_increment primary key, username varchar(50) unique, password varchar(200));';
     let conn;
     let res;
     try {

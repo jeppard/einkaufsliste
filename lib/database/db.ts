@@ -22,6 +22,8 @@ if (!fs.existsSync(path)) {
     } catch (error) {
         console.log('Failed to create example config file');
     }
+    console.log('Possible database connection file created in etc folder. ' +
+        'If no environment variables are set, make sure to write the connection data in the config file and restart the application');
 }
 
 // Read connection config file
