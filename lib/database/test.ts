@@ -26,8 +26,8 @@ export async function initData (): Promise<void> {
     await accountProvider.addAccount('Peter', '123');
     await accountProvider.addAccount('Gunther', '123');
 
-    await listProvider.addList('Mein Einkauf', 1, 'Alle Sachen die ich brauche');
-    await listProvider.addList('Wochenkauf', 2, 'Einkauf für jede Woche');
+    await listProvider.addList('Mein Einkauf', 2, 'Alle Sachen die ich brauche');
+    await listProvider.addList('Wochenkauf', 3, 'Einkauf für jede Woche');
 
     await articleTypeProvider.addType('Essen', '#17A717');
     await articleTypeProvider.addType('Werkzeug', '#6C8188');
@@ -57,6 +57,7 @@ export async function initData (): Promise<void> {
 
     await userListProvider.addLink(2, 1);
     await userListProvider.addLink(3, 1);
+    await userListProvider.addLink(3, 2);
     await userListProvider.addLink(4, 1);
     await userListProvider.addLink(4, 2);
 
