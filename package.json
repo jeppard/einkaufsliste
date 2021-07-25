@@ -1,9 +1,9 @@
 {
   "name": "smartlist",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/jeppard/einkaufsliste.git",
-  "author": "TK221 <51761737+TK221@users.noreply.github.com>",
+  "author": "Jeppard, Sophie152, TK221",
   "license": "MIT",
   "scripts": {
     "start": "NODE_ENV=production ts-node --transpile-only index.ts",
@@ -11,6 +11,7 @@
     "dev": "nodemon index.ts"
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
@@ -19,6 +20,7 @@
     "typescript": "^4.3.2"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.12",
     "@types/express-session": "^1.17.3",
     "@types/node": "^15.12.0",

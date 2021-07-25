@@ -1,10 +1,12 @@
 import { User } from '../types/user';
+import { saltRounds } from '../../../index';
+import bcrypt from 'bcrypt';
 import { getConnection } from '../db';
 
 const TABLE_NAME = 'Accounts';
 
 export async function initDatabase (): Promise<void> {
-    const query = 'CREATE TABLE IF NOT EXISTS ' + TABLE_NAME + ' (id int auto_increment primary key, username varchar(50) unique, password varchar(50));';
+    const query = 'CREATE TABLE IF NOT EXISTS ' + TABLE_NAME + ' (id int auto_increment primary key, username varchar(50) unique, password varchar(200));';
     let conn;
     let res;
     try {
@@ -22,8 +24,10 @@ export async function addAccount (username: string, password: string): Promise<n
     let conn;
     let res;
     try {
+        const hash = await bcrypt.hash(password, saltRounds);
+
         conn = await getConnection();
-        const rows = await conn.query('INSERT INTO ' + TABLE_NAME + ' (username, password) VALUES (?, ?) RETURNING id;', [username, password]);
+        const rows = await conn.query('INSERT INTO ' + TABLE_NAME + ' (username, password) VALUES (?, ?) RETURNING id;', [username, hash]);
 
         if (rows && rows.length > 0) res = rows[0].id;
     } catch (err) {
@@ -86,9 +90,14 @@ export async function verifyUser (username: string, password: string): Promise<b
     let res = false;
     try {
         conn = await getConnection();
-        const rows = await conn.query('SELECT 1 FROM ' + TABLE_NAME + ' WHERE username=? AND password=?;', [username, password]);
+        const rows = await conn.query('SELECT * FROM ' + TABLE_NAME + ' WHERE username=?;', [username]);
 
-        if (rows && rows.length > 0) res = true;
+        if (rows && rows.length > 0) {
+            const hash = rows[0].password;
+            const match = await bcrypt.compare(password, hash);
+
+            if (match) res = true;
+        }
     } catch (err) {
         // TODO Add result
     } finally {

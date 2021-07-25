@@ -78,6 +78,14 @@ export async function checkListOwnerMidle (req: Request, res: Response, next: Ne
     }
 }
 
+export async function checkListMemberParm (req: Request, res: Response, next: NextFunction): Promise<void> {
+    const userID = req.session.userID;
+    const listID = Number(req.query.listID);
+
+    if (userID && listID && await checkListMember(userID, listID)) next();
+    else res.redirect('/dashboard');
+}
+
 // Simple test page to show the user its id
 router.get('/page', checkSignIn, async function (req, res) {
     res.send('ID: ' + req.session.userID);
