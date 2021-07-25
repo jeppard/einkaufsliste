@@ -13,6 +13,8 @@ export async function initDatabase (): Promise<void> {
     await elementProvider.initDatabase();
     await articleTypeProvider.initDatabase();
     await userListProvider.initDatabase();
+
+    if (process.env.START_WITH_EXAMPEL_DATA === 'yes') initData();
 }
 
 export async function initData (): Promise<void> {
@@ -53,4 +55,6 @@ export async function initData (): Promise<void> {
     await userListProvider.addLink(2, 1);
     await userListProvider.addLink(3, 1);
     await userListProvider.addLink(2, 2);
+
+    console.log('Database filled with example data');
 }
