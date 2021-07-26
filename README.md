@@ -70,6 +70,14 @@ Falls default Daten verwendet werden, existieren Folgende Benutzer mit Folgenden
 | Peter    | 123      | Owner von 'Wochenkauf' und Member von 'Mein Einkauf' |
 | Gunther  | 123      | Member von 'Mein Einkauf' und 'Wochenkauf' |
 
+## Benutzung
+Es wird Port 3000 für den Webserver verwendet.
+
+Es wird Port 8080 für Adminer verwendet (einsicht in die Datenbank Credentials: smartlist:smartlist@SmartList).
+Credentials stehen auch in der docker_compose.yml.
+
+Es wird Port 3306 für MariaDB verwendet.
+
 ## Dependencies
 Es wurden folgende Sofware verwendet
 
@@ -86,3 +94,5 @@ Es wurden folgende Sofware verwendet
 [RealFaviconGenerator](https://realfavicongenerator.net/)
 
 [TypeScript](https://www.typescriptlang.org/)
+
+[Adminer](https://adminer.org/)
