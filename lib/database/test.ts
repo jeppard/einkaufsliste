@@ -29,9 +29,13 @@ export async function initData (): Promise<void> {
     await listProvider.addList('Mein Einkauf', 2, 'Alle Sachen die ich brauche');
     await listProvider.addList('Wochenkauf', 3, 'Einkauf für jede Woche');
 
-    await articleTypeProvider.addType('Essen', '#17A717');
-    await articleTypeProvider.addType('Werkzeug', '#6C8188');
-    await articleTypeProvider.addType('Material', '#782A1C');
+    await articleTypeProvider.addType(1, 'Essen', '#17A717');
+    await articleTypeProvider.addType(1, 'Werkzeug', '#6C8188');
+    await articleTypeProvider.addType(1, 'Material', '#782A1C');
+
+    await articleTypeProvider.addType(2, 'Essen', '#17A717');
+    await articleTypeProvider.addType(2, 'Werkzeug', '#6C8188');
+    await articleTypeProvider.addType(2, 'Material', '#782A1C');
 
     await articleProvider.addArticle(1, 'Apfel', 'Ein netter Apfel', 1);
     await articleProvider.addArticle(1, 'Baum', 'Ein Baum', 3);
