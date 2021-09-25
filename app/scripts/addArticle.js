@@ -9,7 +9,13 @@ let selected_type;
 //Get all Types
 let allTypes;
 let prommise = fetch(window.location.origin + "/lists/articles/types/getAll", {
-        method: "POST"
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "listID": listID
+        })
     })
     .then(res => isError(res))
     .then(data => data.json())
