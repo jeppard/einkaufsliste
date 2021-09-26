@@ -1,4 +1,5 @@
 import { ArticleType } from './aritcle_type';
+import { Tag } from './tag';
 
 export class Article {
     id: number;
@@ -6,6 +7,7 @@ export class Article {
     name: string;
     description: string;
     type: ArticleType;
+    tags: Tag[];
 
     /**
      * Create new article
@@ -15,11 +17,12 @@ export class Article {
      * @param description description of the article
      * @param type Type number of the article
      */
-    constructor (id: number, listID: number, name: string, description: string, type: ArticleType) {
+    constructor (id: number, listID: number, name: string, description: string, type: ArticleType, tags: Tag[]) {
         this.id = id;
         this.listID = listID;
         this.name = name;
         this.description = description;
         this.type = type;
+        this.tags = tags;
     }
 }

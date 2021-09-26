@@ -1,6 +1,7 @@
 import { Article } from '../types/article';
 import * as articleTypeProvider from './article_type';
 import { getConnection } from '../db';
+import { getAllTagsOfArticle } from './article_tag';
 
 const ARTICELS_TABLE_NAME = 'Articles';
 
@@ -74,9 +75,9 @@ export async function getArticle (articleID: number): Promise<Article | null> {
 
         if (article && article.length > 0) {
             article = article[0];
-
+            const articleTags = getAllTagsOfArticle(article.id);
             const articleType = await articleTypeProvider.getType(article.type);
-            if (articleType) res = new Article(article.id, article.listID, article.name, article.description, articleType);
+            if (articleType) res = new Article(article.id, article.listID, article.name, article.description, articleType, await articleTags);
         }
     } catch (err) {
         console.log('Failed to get all articles from database: ' + err);
@@ -98,9 +99,10 @@ export async function getAllArticles (listID: number): Promise<Article[]> {
 
         if (articles != null) {
             for (const a of articles) {
+                const articleTags = getAllTagsOfArticle(a.id);
                 const articleType = await articleTypeProvider.getType(a.type);
 
-                if (articleType) res.push(new Article(a.id, a.listID, a.name, a.description, articleType));
+                if (articleType) res.push(new Article(a.id, a.listID, a.name, a.description, articleType, await articleTags));
             }
         }
     } catch (err) {

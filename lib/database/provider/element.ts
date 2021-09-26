@@ -2,6 +2,8 @@ import { ListElement } from '../types/list_element';
 import { Article } from '../types/article';
 import * as articleProvider from './articel';
 import { getConnection } from '../db';
+import { getAllTagsOfElement } from './element_tag';
+import { getAllTagsOfArticle } from './article_tag';
 
 const ELEMENTS_TABLE_NAME = 'Elements';
 
@@ -73,10 +75,11 @@ export async function getElement (listID: number, elementID: number): Promise<Li
 
         if (element && element.length > 0) {
             element = element[0];
+            const elementTags = getAllTagsOfElement(element.id);
             const article = await articleProvider.getArticle(element.articleID);
 
             if (article) {
-                res = new ListElement(element.id, element.listID, article, element.count, element.unitType);
+                res = new ListElement(element.id, element.listID, article, element.count, element.unitType, await elementTags);
             }
         }
     } catch (err) {
@@ -99,15 +102,14 @@ export async function getAllElementsWithArticles (listID: number): Promise<ListE
         const elements = await conn.query('SELECT * FROM ' + ELEMENTS_TABLE_NAME + ' WHERE listID=?;', [listID]);
 
         if (articles != null && elements != null) {
-            elements.forEach((e: { id: number, articleID: number; listID: number; count: number; unitType: string; }) => {
+            for (const e of elements) {
                 const arr = articles.filter((a) => e.articleID === a.id);
 
                 if (arr != null && arr.length > 0) {
                     const article = arr[0];
-
-                    res.push(new ListElement(e.id, e.listID, new Article(article.id, article.listID, article.name, article.description, article.type), e.count, e.unitType));
+                    res.push(new ListElement(e.id, e.listID, new Article(article.id, article.listID, article.name, article.description, article.type, await getAllTagsOfArticle(article.id)), e.count, e.unitType, await getAllTagsOfElement(e.id)));
                 }
-            });
+            }
         }
     } catch (err) {
         console.log('Failed to get all elements from database: ' + err);
@@ -115,6 +117,5 @@ export async function getAllElementsWithArticles (listID: number): Promise<ListE
     } finally {
         if (conn) conn.end();
     }
-
     return res;
 }
