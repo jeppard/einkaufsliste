@@ -49,20 +49,24 @@ export async function initData (): Promise<void> {
     await listProvider.addList('Mein Einkauf', 2, 'Alle Sachen die ich brauche');
     await listProvider.addList('Wochenkauf', 3, 'Einkauf für jede Woche');
 
-    await articleTypeProvider.addType('Essen', '#17A717');
-    await articleTypeProvider.addType('Werkzeug', '#6C8188');
-    await articleTypeProvider.addType('Material', '#782A1C');
+    await articleTypeProvider.addType(1, 'Essen', '#17A717');
+    await articleTypeProvider.addType(1, 'Werkzeug', '#6C8188');
+    await articleTypeProvider.addType(1, 'Material', '#782A1C');
+
+    await articleTypeProvider.addType(2, 'Essen', '#17A717');
+    await articleTypeProvider.addType(2, 'Werkzeug', '#6C8188');
+    await articleTypeProvider.addType(2, 'Material', '#782A1C');
 
     await articleProvider.addArticle(1, 'Apfel', 'Ein netter Apfel', 1);
     await articleProvider.addArticle(1, 'Baum', 'Ein Baum', 3);
     await articleProvider.addArticle(1, 'Spaghetti', 'Lange Nudeln', 1);
     await articleProvider.addArticle(1, 'Brot', 'Weizen', 1);
     await articleProvider.addArticle(1, 'Rohr', 'Metall', 3);
-    await articleProvider.addArticle(2, 'Gurke', 'Gemüse', 1);
-    await articleProvider.addArticle(2, 'Tomaten', 'Rote Tomaten', 1);
-    await articleProvider.addArticle(2, 'Maultaschen', 'In der Verpackung', 1);
-    await articleProvider.addArticle(2, 'Besen', '', 2);
-    await articleProvider.addArticle(2, 'Eisenplatte', 'Metall', 3);
+    await articleProvider.addArticle(2, 'Gurke', 'Gemüse', 4);
+    await articleProvider.addArticle(2, 'Tomaten', 'Rote Tomaten', 4);
+    await articleProvider.addArticle(2, 'Maultaschen', 'In der Verpackung', 4);
+    await articleProvider.addArticle(2, 'Besen', '', 5);
+    await articleProvider.addArticle(2, 'Eisenplatte', 'Metall', 6);
 
     await elementProvider.addElement(1, 1, 10, 'Stück');
     await elementProvider.addElement(1, 2, 10, 'Bäume');
