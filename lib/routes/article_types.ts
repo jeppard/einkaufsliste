@@ -1,6 +1,7 @@
 import express from 'express';
 import * as articleTypeProvider from '../database/provider/article_type';
 import { areNotNullOrEmpty, areNumbers } from '../parameter_util';
+import { checkListMemberMidle } from './user_authentication';
 
 const router = express.Router();
 
@@ -15,15 +16,16 @@ router.get('/', function (req, res) {
  * route: "/lists/articles/types/add"
  *
  * Body:
+ * listID
  * name
  * color
  */
 
-router.post('/add', async function (req, res) {
-    const body: { name: string, color: string } = req.body;
+router.post('/add', checkListMemberMidle, async function (req, res) {
+    const body: {listID: number, name: string, color: string } = req.body;
 
-    if (body && areNotNullOrEmpty([body.name, body.color])) {
-        const typeID = await articleTypeProvider.addType(body.name, body.color);
+    if (body && areNotNullOrEmpty([body.listID, body.name, body.color])) {
+        const typeID = await articleTypeProvider.addType(body.listID, body.name, body.color);
 
         if (typeID) {
             const type = await articleTypeProvider.getType(typeID);
@@ -109,12 +111,16 @@ router.post('/get', async function (req, res) {
 });
 
 /**
- * Get all article-types from database
+ * Get all article-types from list
  *
  * route: "/lists/articles/types/getAll"
+ *
+ * Body:
+ * listID
  */
-router.post('/getAll', async function (req, res) {
-    const types = await articleTypeProvider.getAllTypes();
+router.post('/getAll', checkListMemberMidle, async function (req, res) {
+    const body: {listID: number} = req.body;
+    const types = await articleTypeProvider.getAllTypes(body.listID);
 
     if (types) {
         res.status(200).send(types);

@@ -65,6 +65,7 @@ function submitFunction(redirect = true) {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
+                        "listID": listID,
                         "name": nameField.value,
                         "color": colorField.value
                     })

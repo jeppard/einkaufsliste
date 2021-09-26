@@ -7,7 +7,7 @@ const ARTICELS_TABLE_NAME = 'ArticleTypes';
  * Initialize the database for article types
  */
 export async function initDatabase (): Promise<void> {
-    const query = 'CREATE TABLE IF NOT EXISTS ' + ARTICELS_TABLE_NAME + ' (id int auto_increment primary key, name varchar(50), color varchar(10));';
+    const query = 'CREATE TABLE IF NOT EXISTS ' + ARTICELS_TABLE_NAME + ' (id int auto_increment primary key, listID int, name varchar(50), color varchar(10));';
 
     let conn;
     try {
@@ -20,12 +20,12 @@ export async function initDatabase (): Promise<void> {
     }
 }
 
-export async function addType (name: string, color: string): Promise<number | null> {
+export async function addType (listID: number, name: string, color: string): Promise<number | null> {
     let conn;
     let res;
     try {
         conn = await getConnection();
-        const rows = await conn.query('INSERT INTO ' + ARTICELS_TABLE_NAME + ' (name, color) VALUES (?, ?) RETURNING id;', [name, color]);
+        const rows = await conn.query('INSERT INTO ' + ARTICELS_TABLE_NAME + ' (listID, name, color) VALUES (?, ?, ?) RETURNING id;', [listID, name, color]);
 
         if (rows && rows.length > 0) res = rows[0].id;
     } catch (err) {
@@ -74,7 +74,7 @@ export async function getType (id: number): Promise<ArticleType | null> {
 
         if (type && type.length > 0) {
             type = type[0];
-            res = new ArticleType(type.id, type.name, type.color);
+            res = new ArticleType(type.id, type.listID, type.name, type.color);
         }
     } catch (err) {
         console.log('Failed to get all articles types from database: ' + err);
@@ -87,16 +87,16 @@ export async function getType (id: number): Promise<ArticleType | null> {
     else return null;
 }
 
-export async function getAllTypes (): Promise<ArticleType[]> {
+export async function getAllTypes (listID: number): Promise<ArticleType[]> {
     let conn;
     const res: ArticleType[] = [];
     try {
         conn = await getConnection();
-        const types = await conn.query('SELECT * FROM ' + ARTICELS_TABLE_NAME);
+        const types = await conn.query('SELECT * FROM ' + ARTICELS_TABLE_NAME + ' WHERE listID=?', [listID]);
 
         if (types != null) {
-            types.forEach((t: { id: number; name: string; color: string}) => {
-                res.push(new ArticleType(t.id, t.name, t.color));
+            types.forEach((t: { id: number; listID: number; name: string; color: string}) => {
+                res.push(new ArticleType(t.id, t.listID, t.name, t.color));
             });
         }
     } catch (err) {
