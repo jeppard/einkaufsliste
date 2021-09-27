@@ -13,26 +13,30 @@ import { getConnection } from './db';
 export async function initDatabase (): Promise<void> {
     if (process.env.DROP_ALL_TABLES === 'yes') {
         const conn = await getConnection();
-        await conn.query('DROP TABLE IF EXISTS Accounts');
-        await conn.query('DROP TABLE IF EXISTS articles');
-        await conn.query('DROP TABLE IF EXISTS articletypes');
-        await conn.query('DROP TABLE IF EXISTS elements');
-        await conn.query('DROP TABLE IF EXISTS link_user_list');
-        await conn.query('DROP TABLE IF EXISTS lists');
-        await conn.query('DROP TABLE IF EXISTS tags');
-        await conn.query('DROP TABLE IF EXISTS article_tag');
-        await conn.query('DROP TABLE IF EXISTS element_tag');
+        await Promise.all([
+            conn.query('DROP TABLE IF EXISTS Accounts'),
+            conn.query('DROP TABLE IF EXISTS articles'),
+            conn.query('DROP TABLE IF EXISTS articletypes'),
+            conn.query('DROP TABLE IF EXISTS elements'),
+            conn.query('DROP TABLE IF EXISTS link_user_list'),
+            conn.query('DROP TABLE IF EXISTS lists'),
+            conn.query('DROP TABLE IF EXISTS tags'),
+            conn.query('DROP TABLE IF EXISTS article_tag'),
+            conn.query('DROP TABLE IF EXISTS element_tag')
+        ]);
         conn.end();
     }
-    await accountProvider.initDatabase();
-    await listProvider.initDatabase();
-    await articleProvider.initDatabase();
-    await elementProvider.initDatabase();
-    await articleTypeProvider.initDatabase();
-    await userListProvider.initDatabase();
-    await tagProvider.initDatabase();
-    await articleTagProvider.initDatabase();
-    await elementTagProvider.initDatabase();
+    await Promise.all([
+        accountProvider.initDatabase(),
+        listProvider.initDatabase(),
+        articleProvider.initDatabase(),
+        elementProvider.initDatabase(),
+        articleTypeProvider.initDatabase(),
+        userListProvider.initDatabase(),
+        tagProvider.initDatabase(),
+        articleTagProvider.initDatabase(),
+        elementTagProvider.initDatabase()
+    ]);
 
     if (process.env.START_WITH_EXAMPEL_DATA === 'yes') {
         const user = await accountProvider.getAccountByUsername('InitialData');
@@ -48,6 +52,12 @@ export async function initData (): Promise<void> {
 
     await listProvider.addList('Mein Einkauf', 2, 'Alle Sachen die ich brauche');
     await listProvider.addList('Wochenkauf', 3, 'Einkauf für jede Woche');
+
+    await userListProvider.addLink(2, 1);
+    await userListProvider.addLink(3, 1);
+    await userListProvider.addLink(3, 2);
+    await userListProvider.addLink(4, 1);
+    await userListProvider.addLink(4, 2);
 
     await articleTypeProvider.addType(1, 'Essen', '#17A717');
     await articleTypeProvider.addType(1, 'Werkzeug', '#6C8188');
@@ -84,12 +94,6 @@ export async function initData (): Promise<void> {
 
     await elementTagProvider.addTagToElement(1, 1);
     await articleTagProvider.addTagToArticle(7, 2);
-
-    await userListProvider.addLink(2, 1);
-    await userListProvider.addLink(3, 1);
-    await userListProvider.addLink(3, 2);
-    await userListProvider.addLink(4, 1);
-    await userListProvider.addLink(4, 2);
 
     console.log('Database filled with example data');
 }
