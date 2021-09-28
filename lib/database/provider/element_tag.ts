@@ -1,6 +1,6 @@
 import { getConnection } from '../db';
 import { Tag } from '../types/tag';
-import { getTag, removeTagIfUnused } from './tag';
+import * as tagProvider from './tag';
 
 const TABLE_NAME = 'element_tag';
 
@@ -31,6 +31,21 @@ export async function addTagToElement (elementID: number, tagID: number): Promis
     }
 }
 
+export async function addTagsToElementByName (tags: string[], elementID: number, listID: number): Promise<void> {
+    tags = [...new Set(tags.map(s => s.toLowerCase()))];
+    await Promise.all(tags.map(async (tag) => {
+        const tagID = await tagProvider.getTagID(tag, listID);
+        if (tagID > 0) {
+            // Tag allready exists
+            return addTagToElement(elementID, tagID);
+        } else {
+            // Tag has to be created
+            const newTag = await tagProvider.addTag(listID, tag);
+            if (newTag) return addTagToElement(elementID, newTag.id);
+        }
+    }));
+}
+
 export async function removeTagFromElement (elementID: number, tagID: number): Promise<void> {
     let conn;
     try {
@@ -51,7 +66,7 @@ export async function getAllTagsOfElement (elementID: number): Promise<Tag[]> {
         const rows = await conn.query('SELECT tagID FROM ' + TABLE_NAME + ' WHERE elementID=?;', [elementID]);
         if (rows && rows.length > 0) {
             for (const row of rows) {
-                const tag = await getTag(row);
+                const tag = await tagProvider.getTag(row.tagID);
                 if (tag) res.push(tag);
             }
         }
@@ -69,7 +84,7 @@ export async function removeAllTagsFromElement (elementID: number): Promise<void
         conn = await getConnection();
         const rows = await conn.query('DELETE FROM ' + TABLE_NAME + ' WHERE elementID=? RETURNING tagID;', [elementID]);
         rows.forEach((tagID: number) => {
-            removeTagIfUnused(tagID);
+            tagProvider.removeTagIfUnused(tagID);
         });
     } catch (error) {
         console.log('Error removing all Tags from element with id ' + elementID + ': ' + error);

@@ -1,6 +1,6 @@
 import { getConnection } from '../db';
 import { Tag } from '../types/tag';
-import { getTag, removeTagIfUnused } from './tag';
+import * as tagProvider from './tag';
 
 const TABLE_NAME = 'article_tag';
 
@@ -51,7 +51,7 @@ export async function getAllTagsOfArticle (articleID: number): Promise<Tag[]> {
         const rows = await conn.query('SELECT tagID FROM ' + TABLE_NAME + ' WHERE articleID=?;', [articleID]);
         if (rows && rows.length > 0) {
             for (const row of rows) {
-                const tag = await getTag(row);
+                const tag = await tagProvider.getTag(row.tagID);
                 if (tag) res.push(tag);
             }
         }
@@ -68,9 +68,7 @@ export async function removeAllTagsFromArticle (articleID: number): Promise<void
     try {
         conn = await getConnection();
         const rows = await conn.query('DELETE FROM ' + TABLE_NAME + ' WHERE articleID=? RETURNING tagID;', [articleID]);
-        rows.forEach((tagID: number) => {
-            removeTagIfUnused(tagID);
-        });
+        await Promise.all(rows.map((tagID: number) => tagProvider.removeTagIfUnused(tagID)));
     } catch (error) {
         console.log('Error removing all Tags from article with id ' + articleID + ': ' + error);
     } finally {
@@ -91,4 +89,19 @@ export async function checkTagArticleUse (tagID: number): Promise<boolean> {
         if (conn) conn.end();
     }
     return result;
+}
+
+export async function addTagsToArticleByName (tags: string[], articleID: number, listID: number): Promise<void> {
+    tags = [...new Set(tags.map(s => s.toLowerCase()))];
+    await Promise.all(tags.map(async (tag) => {
+        const tagID = await tagProvider.getTagID(tag, listID);
+        if (tagID > 0) {
+            // Tag allready exists
+            return addTagToArticle(articleID, tagID);
+        } else {
+            // Tag has to be created
+            const newTag = await tagProvider.addTag(listID, tag);
+            if (newTag) return addTagToArticle(articleID, newTag.id);
+        }
+    }));
 }
