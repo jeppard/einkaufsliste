@@ -67,16 +67,16 @@ export async function initData (): Promise<void> {
     await articleTypeProvider.addType(2, 'Werkzeug', '#6C8188');
     await articleTypeProvider.addType(2, 'Material', '#782A1C');
 
-    await articleProvider.addArticle(1, 'Apfel', 'Ein netter Apfel', 1);
-    await articleProvider.addArticle(1, 'Baum', 'Ein Baum', 3);
-    await articleProvider.addArticle(1, 'Spaghetti', 'Lange Nudeln', 1);
-    await articleProvider.addArticle(1, 'Brot', 'Weizen', 1);
-    await articleProvider.addArticle(1, 'Rohr', 'Metall', 3);
-    await articleProvider.addArticle(2, 'Gurke', 'Gemüse', 4);
-    await articleProvider.addArticle(2, 'Tomaten', 'Rote Tomaten', 4);
-    await articleProvider.addArticle(2, 'Maultaschen', 'In der Verpackung', 4);
-    await articleProvider.addArticle(2, 'Besen', '', 5);
-    await articleProvider.addArticle(2, 'Eisenplatte', 'Metall', 6);
+    await articleProvider.addArticle(1, 'Apfel', 'Ein netter Apfel', 1, []);
+    await articleProvider.addArticle(1, 'Baum', 'Ein Baum', 3, []);
+    await articleProvider.addArticle(1, 'Spaghetti', 'Lange Nudeln', 1, []);
+    await articleProvider.addArticle(1, 'Brot', 'Weizen', 1, []);
+    await articleProvider.addArticle(1, 'Rohr', 'Metall', 3, []);
+    await articleProvider.addArticle(2, 'Gurke', 'Gemüse', 4, []);
+    await articleProvider.addArticle(2, 'Tomaten', 'Rote Tomaten', 4, []);
+    await articleProvider.addArticle(2, 'Maultaschen', 'In der Verpackung', 4, []);
+    await articleProvider.addArticle(2, 'Besen', '', 5, []);
+    await articleProvider.addArticle(2, 'Eisenplatte', 'Metall', 6, []);
 
     await elementProvider.addElement(1, 1, 10, 'Stück');
     await elementProvider.addElement(1, 2, 10, 'Bäume');
@@ -93,6 +93,7 @@ export async function initData (): Promise<void> {
     await tagProvider.addTag(2, 'Gemüse');
 
     await elementTagProvider.addTagToElement(1, 1);
+    await elementTagProvider.addTagToElement(1, 2);
     await articleTagProvider.addTagToArticle(7, 2);
 
     console.log('Database filled with example data');
