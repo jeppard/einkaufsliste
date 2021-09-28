@@ -26,10 +26,10 @@ router.use('/types', articleTypeRouter);
  */
 
 router.post('/add', checkListMemberMidle, async function (req, res) {
-    const article: { listID: number, name: string, description: string, type: number } = req.body;
+    const article: { listID: number, name: string, description: string, type: number, tags: string[] } = req.body;
 
     if (article && areNumbers([article.listID, article.type]) && areNotNullOrEmpty([article.name]) && areNotNullButEmpty([article.description])) {
-        const articleID = await articleProvider.addArticle(article.listID, article.name, article.description, article.type);
+        const articleID = await articleProvider.addArticle(article.listID, article.name, article.description, article.type, article.tags);
 
         if (articleID) {
             const newArticle = await articleProvider.getArticle(articleID);
@@ -76,13 +76,14 @@ router.post('/remove', async function (req, res) {
  * name
  * description
  * type
+ * tags
  */
 
 router.post('/update', checkListMemberMidle, async function (req, res) {
-    const article: { articleID: number, listID: number, name: string, description: string, type: number } = req.body;
+    const article: { articleID: number, listID: number, name: string, description: string, type: number, tags: string[]} = req.body;
 
-    if (article && areNumbers([article.articleID, article.listID, article.type]) && areNotNullOrEmpty([article.name]) && areNotNullButEmpty([article.description])) {
-        await articleProvider.updateArticle(article.articleID, article.listID, article.name, article.description, article.type);
+    if (article && areNumbers([article.articleID, article.listID, article.type]) && areNotNullOrEmpty([article.name]) && areNotNullButEmpty([article.description, article.tags])) {
+        await articleProvider.updateArticle(article.articleID, article.listID, article.name, article.description, article.type, article.tags);
         const a = await articleProvider.getArticle(article.articleID);
 
         if (a) res.status(201).send(a);
