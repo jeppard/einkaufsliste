@@ -43,11 +43,13 @@ async function init() {
             .then(res => isError(res))
             .then(data => data.json())
             .then(data => {
+                console.log(data);
                 document.getElementById("description").value = data.description;
                 document.getElementById("article_name").value = data.name;
+                document.getElementById("tags").value = data.tags.map(t => t.name.charAt(0).toUpperCase() + t.name.slice(1)).join(" ");
                 setSelectedType(data.type);
                 userID = data.userID;
-            })
+            });
     }
 }
 
@@ -127,7 +129,8 @@ function submitFunction(redirect = true) {
                         "name": document.getElementById("article_name").value,
                         "description": document.getElementById("description").value,
                         "type": selected_type.id,
-                        "articleID": articleID
+                        "articleID": articleID,
+                        "tags": document.getElementById("tags").value.split(" ")
                     })
                 })
                 .then(res => isError(res))
@@ -148,7 +151,8 @@ function submitFunction(redirect = true) {
                         "listID": listID,
                         "name": document.getElementById("article_name").value,
                         "description": document.getElementById("description").value,
-                        "type": selected_type.id
+                        "type": selected_type.id,
+                        "tags": document.getElementById("tags").value.split(" ")
                     })
                 })
                 .then(res => isError(res))
