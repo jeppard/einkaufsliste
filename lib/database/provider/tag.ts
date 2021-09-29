@@ -92,12 +92,13 @@ export async function getTagID (tagName: string, listID: number): Promise<number
     let res = -1;
     try {
         conn = await getConnection();
-        const rows = await conn.query('SELECT id FROM ' + TAG_TABLE_NAME + ' WHERE name=? AND listID=? LIMIT 1;', [tagName, listID]);
-        if (rows && rows.length > 0) res = rows[0];
+        const rows = await conn.query(`SELECT id FROM ${TAG_TABLE_NAME} WHERE name="${tagName}" AND listID=${listID} LIMIT 1;`, []);
+        if (rows && rows.length > 0) res = rows[0].id;
     } catch (error) {
         console.log('Could not find tag "' + tagName + '" in list with id ' + listID + ': ' + error);
     } finally {
         if (conn) conn.end();
     }
+    console.log(res);
     return res;
 }
