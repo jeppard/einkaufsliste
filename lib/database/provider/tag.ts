@@ -99,6 +99,5 @@ export async function getTagID (tagName: string, listID: number): Promise<number
     } finally {
         if (conn) conn.end();
     }
-    console.log(res);
     return res;
 }
