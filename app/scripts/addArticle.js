@@ -43,7 +43,6 @@ async function init() {
             .then(res => isError(res))
             .then(data => data.json())
             .then(data => {
-                console.log(data);
                 document.getElementById("description").value = data.description;
                 document.getElementById("article_name").value = data.name;
                 document.getElementById("tags").value = data.tags.map(t => t.name.charAt(0).toUpperCase() + t.name.slice(1)).join(" ");
