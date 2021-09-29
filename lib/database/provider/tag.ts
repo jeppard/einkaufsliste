@@ -83,8 +83,8 @@ export async function getAllTags (listID: number): Promise<Tag[]> {
 }
 
 export async function removeTagIfUnused (tagID: number): Promise<void> {
-    if (!(await checkTagArticleUse(tagID) && (await checkTagElementUse(tagID)))) return;
-    removeTag(tagID);
+    if (await checkTagArticleUse(tagID) || (await checkTagElementUse(tagID))) return;
+    return removeTag(tagID);
 }
 
 export async function getTagID (tagName: string, listID: number): Promise<number> {

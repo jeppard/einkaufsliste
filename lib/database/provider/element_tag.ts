@@ -51,6 +51,7 @@ export async function removeTagFromElement (elementID: number, tagID: number): P
     try {
         conn = await getConnection();
         await conn.query('DELETE FROM ' + TABLE_NAME + ' WHERE elementID=? AND tagID=?;', [elementID, tagID]);
+        await tagProvider.removeTagIfUnused(tagID);
     } catch (error) {
         console.log('Error removing Tag with id ' + tagID + ' from element with id ' + elementID + ': ' + error);
     } finally {
@@ -83,9 +84,9 @@ export async function removeAllTagsFromElement (elementID: number): Promise<void
     try {
         conn = await getConnection();
         const rows = await conn.query('DELETE FROM ' + TABLE_NAME + ' WHERE elementID=? RETURNING tagID;', [elementID]);
-        rows.forEach((tagID: number) => {
-            tagProvider.removeTagIfUnused(tagID);
-        });
+        await Promise.all(rows.map((tagID: {tagID: number}) => {
+            return tagProvider.removeTagIfUnused(tagID.tagID);
+        }));
     } catch (error) {
         console.log('Error removing all Tags from element with id ' + elementID + ': ' + error);
     } finally {
