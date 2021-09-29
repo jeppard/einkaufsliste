@@ -19,13 +19,14 @@ router.get('/', function (req, res) {
  * articleID    - ID of the article for the given elment
  * count        - Count of the article for the unit type
  * unitType     - Specific type for the count of the article
+ * tags
  */
 
 router.post('/add', async function (req, res) {
-    const body: { listID: number, articleID: number, count: number, unitType: string} = req.body;
+    const body: { listID: number, articleID: number, count: number, unitType: string, tags: string[]} = req.body;
 
-    if (body && areNumbers([body.listID, body.articleID, body.count]) && areNotNullOrEmpty([body.unitType])) {
-        const elementID = await elementProvider.addElement(body.listID, body.articleID, body.count, body.unitType);
+    if (body && areNumbers([body.listID, body.articleID, body.count]) && areNotNullOrEmpty([body.unitType, body.tags])) {
+        const elementID = await elementProvider.addElement(body.listID, body.articleID, body.count, body.unitType, body.tags);
 
         if (elementID) {
             const element = await elementProvider.getElement(body.listID, elementID);
@@ -73,13 +74,14 @@ router.post('/remove', async function (req, res) {
  * articleID
  * count
  * unitType
+ * tags
  */
 
 router.post('/update', async function (req, res) {
-    const element: { elementID: number, listID: number, articleID: number, count: number, unitType: string} = req.body;
+    const element: { elementID: number, listID: number, articleID: number, count: number, unitType: string, tags: string[]} = req.body;
 
-    if (element && areNumbers([element.elementID, element.listID, element.articleID, element.count]) && areNotNullOrEmpty([element.unitType])) {
-        await elementProvider.updateElement(element.elementID, element.listID, element.articleID, element.count, element.unitType);
+    if (element && areNumbers([element.elementID, element.listID, element.articleID, element.count]) && areNotNullOrEmpty([element.unitType, element.tags])) {
+        await elementProvider.updateElement(element.elementID, element.listID, element.articleID, element.count, element.unitType, element.tags);
         const e = await elementProvider.getElement(element.listID, element.elementID);
 
         if (e) res.status(201).send(e);
