@@ -78,16 +78,16 @@ export async function initData (): Promise<void> {
     await articleProvider.addArticle(2, 'Besen', '', 5, []);
     await articleProvider.addArticle(2, 'Eisenplatte', 'Metall', 6, []);
 
-    await elementProvider.addElement(1, 1, 10, 'Stück');
-    await elementProvider.addElement(1, 2, 10, 'Bäume');
-    await elementProvider.addElement(1, 3, 2, 'Packung');
-    await elementProvider.addElement(1, 4, 1, 'Laib');
-    await elementProvider.addElement(1, 5, 10, '10 cm');
-    await elementProvider.addElement(2, 6, 2, 'Stück');
-    await elementProvider.addElement(2, 7, 6, 'Stück');
-    await elementProvider.addElement(2, 8, 1, 'Packung');
-    await elementProvider.addElement(2, 9, 1, 'Stück');
-    await elementProvider.addElement(2, 10, 2, '10x10 cm');
+    await elementProvider.addElement(1, 1, 10, 'Stück', []);
+    await elementProvider.addElement(1, 2, 10, 'Bäume', []);
+    await elementProvider.addElement(1, 3, 2, 'Packung', []);
+    await elementProvider.addElement(1, 4, 1, 'Laib', []);
+    await elementProvider.addElement(1, 5, 10, '10 cm', []);
+    await elementProvider.addElement(2, 6, 2, 'Stück', []);
+    await elementProvider.addElement(2, 7, 6, 'Stück', []);
+    await elementProvider.addElement(2, 8, 1, 'Packung', []);
+    await elementProvider.addElement(2, 9, 1, 'Stück', []);
+    await elementProvider.addElement(2, 10, 2, '10x10 cm', []);
 
     await tagProvider.addTag(1, 'Obst');
     await tagProvider.addTag(2, 'Gemüse');
