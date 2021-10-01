@@ -41,31 +41,35 @@
         <div id="form_container" class="center">
             <table id="table" class="center">
                 <tr>
-                    <th class="vertical-top"><label for="article_name">Name:</label></th>
-                    <th><input type="text" name="article_name" id="article_name" placeholder="Article Name" class="text-input"></th>
+                    <td class="vertical-top"><label for="article_name">Name:</label></td>
+                    <td><input type="text" name="article_name" id="article_name" placeholder="Article Name" class="text-input"></td>
                 </tr>
                 <tr>
-                    <th class="vertical-top"><label for="description">Description:</label></th>
-                    <th><textarea name="description" id="description" cols="18" rows="3" placeholder="Description..."></textarea></th>
+                    <td class="vertical-top"><label for="description">Description:</label></td>
+                    <td><textarea name="description" id="description" cols="18" rows="3" placeholder="Description..."></textarea></td>
                 </tr>
                 <tr>
-                    <th class="vertical-top">Selected Type:</th>
-                    <th>
+                    <td class="vertical-top">Selected Type:</td>
+                    <td>
                         <div id="selectdType"></div>
-                    </th>
+                    </td>
                 </tr>
                 <tr>
-                    <th class="vertical-top"><label for="article-type">Type:</label></th>
-                    <th>
+                    <td class="vertical-top"><label for="article-type">Type:</label></td>
+                    <td>
                         <div class="type-select"><input type="search" name="article_type" id="artile_type" placeholder="Article Type" class="text-input-short"><button onclick="newType()">New</button></div>
                         <div id="typeSelect"></div>
-                    </th>
+                    </td>
                 </tr>
                 <tr>
-                    <th></th>
-                    <th>
+                    <td></td>
+                    <td>
                         <div id="type-container"></div>
-                    </th>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="tags">Tags:</label></td>
+                    <td><textarea name="tags" id="tags" cols="18" rows="3" placeholder="Tags..."></textarea></td>
                 </tr>
             </table>
             <input type="submit" value="Add" class="center" onclick="submitFunction(true)">

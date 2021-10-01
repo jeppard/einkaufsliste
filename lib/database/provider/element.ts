@@ -1,6 +1,8 @@
 import { ListElement } from '../types/list_element';
 import { Article } from '../types/article';
 import * as articleProvider from './articel';
+import * as tagElementProvider from './element_tag';
+import * as tagArticleProvider from './article_tag';
 import { getConnection } from '../db';
 
 const ELEMENTS_TABLE_NAME = 'Elements';
@@ -19,14 +21,16 @@ export async function initDatabase (): Promise<void> {
     }
 }
 
-export async function addElement (listID: number, articleID: number, count: number, unitType: string): Promise<number | null> {
+export async function addElement (listID: number, articleID: number, count: number, unitType: string, tags: string[]): Promise<number | null> {
     let conn;
     let res;
     try {
         conn = await getConnection();
         const rows = await conn.query('INSERT INTO ' + ELEMENTS_TABLE_NAME + ' (listID, articleID, count, unitType) VALUES (?, ?, ?, ?) RETURNING id;', [listID, articleID, count, unitType]);
-
-        if (rows && rows.length > 0) res = rows[0].id;
+        if (rows && rows.length > 0) {
+            res = rows[0].id;
+            await tagElementProvider.addTagsToElementByName(tags, res, listID);
+        }
     } catch (err) {
         console.log('Failed to add new Element to database: ' + err);
         // TODO Add result
@@ -43,6 +47,7 @@ export async function removeElement (elementID: number, listID: number): Promise
     try {
         conn = await getConnection();
         await conn.query('DELETE FROM ' + ELEMENTS_TABLE_NAME + ' WHERE id=? AND listID=?', [elementID, listID]);
+        await tagElementProvider.removeAllTagsFromElement(elementID);
     } catch (err) {
         console.log('Failed to remove element from database: ' + err);
         // TODO Add result
@@ -51,11 +56,13 @@ export async function removeElement (elementID: number, listID: number): Promise
     }
 }
 
-export async function updateElement (id: number, listID: number, articleID: number, count: number, unitType: string): Promise<void> {
+export async function updateElement (id: number, listID: number, articleID: number, count: number, unitType: string, tags: string[]): Promise<void> {
     let conn;
     try {
         conn = await getConnection();
         await conn.query('UPDATE ' + ELEMENTS_TABLE_NAME + ' SET listID=?, articleID=?, count=?, unitType=? WHERE id=?;', [listID, articleID, count, unitType, id]);
+        await tagElementProvider.removeAllTagsFromElement(id);
+        await tagElementProvider.addTagsToElementByName(tags, id, listID);
     } catch (err) {
         console.log('Failed to update element in database: ' + err);
         // TODO Add result
@@ -73,10 +80,10 @@ export async function getElement (listID: number, elementID: number): Promise<Li
 
         if (element && element.length > 0) {
             element = element[0];
+            const elementTags = tagElementProvider.getAllTagsOfElement(element.id);
             const article = await articleProvider.getArticle(element.articleID);
-
             if (article) {
-                res = new ListElement(element.id, element.listID, article, element.count, element.unitType);
+                res = new ListElement(element.id, element.listID, article, element.count, element.unitType, await elementTags);
             }
         }
     } catch (err) {
@@ -99,15 +106,14 @@ export async function getAllElementsWithArticles (listID: number): Promise<ListE
         const elements = await conn.query('SELECT * FROM ' + ELEMENTS_TABLE_NAME + ' WHERE listID=?;', [listID]);
 
         if (articles != null && elements != null) {
-            elements.forEach((e: { id: number, articleID: number; listID: number; count: number; unitType: string; }) => {
+            for (const e of elements) {
                 const arr = articles.filter((a) => e.articleID === a.id);
 
                 if (arr != null && arr.length > 0) {
                     const article = arr[0];
-
-                    res.push(new ListElement(e.id, e.listID, new Article(article.id, article.listID, article.name, article.description, article.type), e.count, e.unitType));
+                    res.push(new ListElement(e.id, e.listID, new Article(article.id, article.listID, article.name, article.description, article.type, await tagArticleProvider.getAllTagsOfArticle(article.id)), e.count, e.unitType, await tagElementProvider.getAllTagsOfElement(e.id)));
                 }
-            });
+            }
         }
     } catch (err) {
         console.log('Failed to get all elements from database: ' + err);
@@ -115,6 +121,5 @@ export async function getAllElementsWithArticles (listID: number): Promise<ListE
     } finally {
         if (conn) conn.end();
     }
-
     return res;
 }

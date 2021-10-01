@@ -51,6 +51,7 @@ async function init() {
             .then(data => {
                 document.getElementById("quantity").value = data.count;
                 document.getElementById("unit").value = data.unitType;
+                document.getElementById("tags").value = data.tags.map(t => t.name.charAt(0).toUpperCase() + t.name.slice(1)).join(" ");
                 setSelectedArticle(data.article);
             })
     } else if (articleID != null) {
@@ -162,7 +163,8 @@ function submitFunction(redirect = true) {
                         "count": document.getElementById("quantity").value,
                         "unitType": document.getElementById("unit").value,
                         "articleID": selected_article.id,
-                        "elementID": elementID
+                        "elementID": elementID,
+                        "tags": document.getElementById("tags").value.split(" ")
                     })
                 })
                 .then(res => isError(res))
@@ -183,7 +185,8 @@ function submitFunction(redirect = true) {
                         "listID": listID,
                         "count": document.getElementById("quantity").value,
                         "unitType": document.getElementById("unit").value,
-                        "articleID": selected_article.id
+                        "articleID": selected_article.id,
+                        "tags": document.getElementById("tags").value.split(" ")
                     })
                 })
                 .then(res => isError(res))
