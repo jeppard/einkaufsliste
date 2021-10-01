@@ -1,6 +1,6 @@
 {
     "name": "smartlist",
-    "version": "2.3.5",
+    "version": "2.3.6",
     "main": "index.js",
     "repository": "https://github.com/jeppard/einkaufsliste.git",
     "author": "Jeppard, Sophie152, TK221",
