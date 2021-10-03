@@ -24,7 +24,7 @@ export async function initDatabase (): Promise<void> {
 }
 
 export async function addFilter (listID: number, name: string, color:string, tags: string[]): Promise<Filter | undefined> {
-    tags = [...new Set(tags)];
+    tags = [...new Set(tags.map(s => s.toLowerCase()))];
     let conn;
     let res;
     try {
@@ -77,7 +77,7 @@ async function removeAllTagsFromFilter (filterID: number) {
 }
 
 export async function updateFilter (filterID: number, listID: number, name: string, color:string, tags: string[]): Promise<void> {
-    tags = [...new Set(tags)];
+    tags = [...new Set(tags.map(s => s.toLowerCase()))];
     let conn;
     try {
         conn = await getConnection();
@@ -131,6 +131,25 @@ async function getAllTagsFromFilter (filterID: number):Promise<Tag[]> {
         }
     } catch (error) {
         console.log('Error getting Tags from Filter ' + filterID + ': ' + error);
+    } finally {
+        if (conn) conn.end();
+    }
+    return res;
+}
+
+export async function getAllFilters (listID: number): Promise<Filter[]> {
+    let conn;
+    const res: Filter[] = [];
+    try {
+        conn = await getConnection();
+        const rows = await conn.query('SELECT * FROM ' + FILTER_TABLE_NAME + ' WHERE listID=?;', [listID]);
+        if (rows && rows.length > 0) {
+            res.concat(await Promise.all(rows.map(async (row:{id: number, listID: number, name:string, color:string}) => {
+                return new Filter(row.id, row.listID, row.name, row.color, await getAllTagsFromFilter(row.id));
+            })));
+        }
+    } catch (error) {
+        console.log('Error getting all Filters from listID ' + listID + ': ' + error);
     } finally {
         if (conn) conn.end();
     }
