@@ -8,7 +8,7 @@ const LINK_TABLE_NAME = 'filter_tag';
 
 export async function initDatabase (): Promise<void> {
     const query1 = 'CREATE TABLE IF NOT EXISTS ' + FILTER_TABLE_NAME + ' (id int auto_increment primary key, listID int, name varchar(50), color varchar(10));';
-    const query2 = 'CREATE TABLE IF NOT EXISTS ' + LINK_TABLE_NAME + ' (filterID int, tagID int;';
+    const query2 = 'CREATE TABLE IF NOT EXISTS ' + LINK_TABLE_NAME + ' (filterID int, tagID int);';
     let conn;
     try {
         conn = await getConnection();
