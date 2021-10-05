@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Styles-->
+    <link rel="stylesheet" href="/app/styles/default.css">
+    <link rel="stylesheet" href="/app/styles/addFilter.css">
+
+    <!-- Scripts -->
+    <script src="/app/scripts/addFilter.js"></script>
+    <script src="/app/scripts/error.js"></script>
+
+    <title>Add Filter</title>
+
+</head>
+
+<body onload="init()">
+    <div id="main" class="center">
+        <div id="page-header">
+            <img src="/app/images/Icon_default.png" alt="Logo" id="logo" title="Dashboard" onclick="window.location.assign(window.location.origin + '/dashboard')">
+            <h1>Add/Edit Filter</h1>
+            <div id="header-buttons">
+                <img src="/app/images/Logout.png" alt="Logout" title="Logout" onclick="fetch(window.location.origin + '/auth/logout', {method:'POST'}).then(() => window.location.assign(window.location.origin + '/'))">
+
+            </div>
+        </div>
+        <hr>
+        <div id="form_container" class="center">
+            <table id="table" class="center">
+                <tr>
+                    <td class="vertical-top"><label for="filter_name">Name:</label></td>
+                    <td><input type="text" name="filter_name" id="filter_name" placeholder="Filter Name" class="text-input"></td>
+                </tr>
+                <tr>
+                    <th class="vertical-top"><label for="color">Color:</label></th>
+                    <th><input type="color" name="color" id="color"></th>
+                </tr>
+                <tr>
+                    <td><label for="tags">Tags:</label></td>
+                    <td><textarea name="tags" id="tags" cols="18" rows="3" placeholder="Tags..."></textarea></td>
+                </tr>
+            </table>
+            <input type="submit" value="Add" class="center" onclick="submitFunction(true)">
+            <input type="submit" value="Add more" class="center" onclick="submitFunction(false)">
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
