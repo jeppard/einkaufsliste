@@ -12,7 +12,7 @@ export async function initDatabase (): Promise<void> {
     let conn;
     try {
         conn = await getConnection();
-        Promise.all([
+        await Promise.all([
             conn.query(query1),
             conn.query(query2)
         ]);
@@ -32,7 +32,7 @@ export async function addFilter (listID: number, name: string, color:string, tag
         const rows = await conn.query('INSERT INTO ' + FILTER_TABLE_NAME + ' (listID, name, color) VALUES (?, ?, ?) RETURNING id;', [listID, name, color]);
         if (rows && rows.length > 0) {
             res = new Filter(rows[0].id, listID, name, color, []);
-            Promise.all(tags.map(async tagName => {
+            await Promise.all(tags.map(async tagName => {
                 let tagID = await tagProvider.getTagID(tagName, listID);
                 if (tagID === -1) {
                     const tag = (await tagProvider.addTag(listID, tagName));
@@ -81,10 +81,10 @@ export async function updateFilter (filterID: number, listID: number, name: stri
     let conn;
     try {
         conn = await getConnection();
-        Promise.all([
+        await Promise.all([
             conn.query('UPDATE ' + FILTER_TABLE_NAME + ' listID=?, name=?, color=? WHERE id=?;', [listID, name, color, filterID]),
             removeAllTagsFromFilter(filterID)]);
-        Promise.all(tags.map(async tagName => {
+        await Promise.all(tags.map(async tagName => {
             let tagID = await tagProvider.getTagID(tagName, listID);
             if (tagID === -1) {
                 const tag = (await tagProvider.addTag(listID, tagName));
@@ -139,14 +139,14 @@ async function getAllTagsFromFilter (filterID: number):Promise<Tag[]> {
 
 export async function getAllFilters (listID: number): Promise<Filter[]> {
     let conn;
-    const res: Filter[] = [];
+    let res: Filter[] = [];
     try {
         conn = await getConnection();
         const rows = await conn.query('SELECT * FROM ' + FILTER_TABLE_NAME + ' WHERE listID=?;', [listID]);
         if (rows && rows.length > 0) {
-            res.concat(await Promise.all(rows.map(async (row:{id: number, listID: number, name:string, color:string}) => {
+            res = await Promise.all(rows.map(async (row:{id: number, listID: number, name:string, color:string}) => {
                 return new Filter(row.id, row.listID, row.name, row.color, await getAllTagsFromFilter(row.id));
-            })));
+            }));
         }
     } catch (error) {
         console.log('Error getting all Filters from listID ' + listID + ': ' + error);

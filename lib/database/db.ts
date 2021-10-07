@@ -35,7 +35,8 @@ const pool = mariadb.createPool({
     user: process.env.DB_USER || config.user,
     port: process.env.DB_PORT || config.port,
     password: process.env.DB_PASSWORD || config.password,
-    database: process.env.DATABASE || config.database
+    database: process.env.DATABASE || config.database,
+    connectionLimit: 100
 });
 
 // Expose a promise to create a new connection
