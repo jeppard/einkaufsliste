@@ -1,6 +1,7 @@
 const listID = new URLSearchParams(window.location.search).get('listID');
 
 let allElements;
+let allFilters;
 
 let searchInput;
 
@@ -31,6 +32,20 @@ function init() {
             });
             createElements(allElements);
         })
+    fetch(window.location.origin + "/lists/filters/getAll", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "listID": listID
+            })
+        })
+        .then(res => isError(res))
+        .then(response => response.json())
+        .then(data => {
+            createFilters(data);
+        })
     searchInput = document.getElementById("search");
     searchInput.addEventListener("input", () => autoComplete(searchInput));
 }
@@ -48,9 +63,7 @@ function sortByElementID(a, b) {
 }
 
 function autoComplete(element) {
-    let nameMatch = [];
-    let typeMatch = [];
-    let descriptionMatch = [];
+    let match = [];
     let noMatch = [];
     let searchString = element.value;
     if (searchString == "") {
@@ -68,42 +81,25 @@ function autoComplete(element) {
         return;
     }
     allElements.forEach(element => {
-        if (searchString.toUpperCase() == element.article.name.substring(0, searchString.length).toUpperCase()) {
-            nameMatch.push(element);
-        } else if (searchString.toUpperCase() == element.article.type.name.substring(0, searchString.length).toUpperCase()) {
-            typeMatch.push(element);
-        } else if (element.article.description.toUpperCase().includes(searchString.toUpperCase())) {
-            descriptionMatch.push(element);
+        if (element.tags.some(e => {
+                if (e) return e.name.includes(searchString);
+                return false;
+            }) || element.article.name.includes(searchString) || element.article.description.includes(searchString) ||
+            element.article.tags.some(e => {
+                if (e) return e.name.includes(searchString);
+                return false;
+            })) {
+            match.push(element);
         } else {
             noMatch.push(element);
         }
     })
-    nameMatch.sort((a, b) => {
+    match.sort((a, b) => {
         let r = sortByArticleName(a, b);
         if (r == 0) {
             r = sortByTypeName(a, b);
             if (r == 0) {
                 r = sortByElementID(a, b);
-            }
-        }
-        return r;
-    });
-    typeMatch.sort((a, b) => {
-        let r = sortByTypeName(a, b);
-        if (r == 0) {
-            r = sortByArticleName(a, b);
-            if (r == 0) {
-                r = sortByElementID(a, b)
-            }
-        }
-        return r;
-    });
-    descriptionMatch.sort((a, b) => {
-        let r = sortByTypeName(a, b);
-        if (r == 0) {
-            r = sortByArticleName(a, b);
-            if (r == 0) {
-                r = sortByElementID(a, b)
             }
         }
         return r;
@@ -118,7 +114,7 @@ function autoComplete(element) {
         }
         return r;
     });
-    allElements = nameMatch.concat(typeMatch, descriptionMatch, noMatch);
+    allElements = match.concat(noMatch);
     createElements(allElements);
 }
 
@@ -130,6 +126,72 @@ function setListName(name) {
     document.getElementById("add-button").onclick = function() {
         window.location.assign(window.location.origin + "/addElement?listID=" + listID);
     }
+}
+
+function filterElements(filter) {
+    const match = [];
+    const noMatch = [];
+    allElements.forEach((element) => {
+        if (element.tags.some((tag) => filter.tags.map(tag => tag.id).includes(tag.id)) || element.article.tags.some((tag) => filter.tags.map(tag => tag.id).includes(tag.id))) {
+            match.push(element);
+        } else {
+            noMatch.push(element);
+        }
+    });
+    allElements = match.concat(noMatch);
+    createElements(allElements);
+}
+
+function createFilters(allFilters) {
+    const filterContainer = document.getElementById("filter");
+    allFilters.forEach(filter => {
+        const filterDiv = document.createElement("div");
+        filterDiv.classList.add("filter");
+        filterDiv.style.borderColor = filter.color;
+        filterDiv.style.backgroundColor = shadeColor(filter.color, 80);
+        filterDiv.appendChild(document.createTextNode(filter.name));
+        filterDiv.onclick = () => {
+            filterElements(filter);
+        }
+        filterDiv.ondblclick = () => {
+            window.location.assign(window.location.origin + "/addFilter?listID=" + listID + '&filterID=' + filter.id);
+        }
+        filterContainer.appendChild(filterDiv);
+    });
+    const addFilter = document.createElement("div");
+    addFilter.classList.add('filter');
+    addFilter.style.borderColor = '#0066FF';
+    addFilter.style.backgroundColor = shadeColor('#0066FF', 80);
+    const addFilterImage = document.createElement("img");
+    addFilterImage.alt = 'Add Filter';
+    addFilterImage.src = '/app/images/Add.png';
+    addFilter.appendChild(addFilterImage);
+    addFilter.onclick = () => {
+        window.location.assign(window.location.origin + "/addFilter?listID=" + listID);
+    }
+    addFilter.style.padding = '0.25rem';
+    filterContainer.appendChild(addFilter);
+}
+
+function shadeColor(color, percent) {
+
+    var R = parseInt(color.substring(1, 3), 16);
+    var G = parseInt(color.substring(3, 5), 16);
+    var B = parseInt(color.substring(5, 7), 16);
+
+    R = parseInt(((255 - R) * percent / 100) + R);
+    G = parseInt(((255 - G) * percent / 100) + G);
+    B = parseInt(((255 - B) * percent / 100) + B);
+
+    R = (R < 255) ? R : 255;
+    G = (G < 255) ? G : 255;
+    B = (B < 255) ? B : 255;
+
+    var RR = ((R.toString(16).length == 1) ? "0" + R.toString(16) : R.toString(16));
+    var GG = ((G.toString(16).length == 1) ? "0" + G.toString(16) : G.toString(16));
+    var BB = ((B.toString(16).length == 1) ? "0" + B.toString(16) : B.toString(16));
+
+    return "#" + RR + GG + BB;
 }
 
 function createElements(data) {

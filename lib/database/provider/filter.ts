@@ -82,7 +82,7 @@ export async function updateFilter (filterID: number, listID: number, name: stri
     try {
         conn = await getConnection();
         await Promise.all([
-            conn.query('UPDATE ' + FILTER_TABLE_NAME + ' listID=?, name=?, color=? WHERE id=?;', [listID, name, color, filterID]),
+            conn.query('UPDATE ' + FILTER_TABLE_NAME + ' SET listID=?, name=?, color=? WHERE id=?;', [listID, name, color, filterID]),
             removeAllTagsFromFilter(filterID)]);
         await Promise.all(tags.map(async tagName => {
             let tagID = await tagProvider.getTagID(tagName, listID);
@@ -110,7 +110,7 @@ export async function getFilter (filterID:number):Promise<Filter | undefined> {
         const rows = await conn.query('SELECT * FROM ' + FILTER_TABLE_NAME + ' WHERE id=? LIMIT 1;', [filterID]);
         if (rows && rows.length > 0) {
             res = new Filter(filterID, rows[0].listID, rows[0].name, rows[0].color, []);
-            res.tags.concat(await getAllTagsFromFilter(filterID));
+            res.tags = await getAllTagsFromFilter(filterID);
         }
     } catch (err) {
         console.log('Error getting Filter ' + filterID + ': ' + err);
@@ -122,19 +122,18 @@ export async function getFilter (filterID:number):Promise<Filter | undefined> {
 
 async function getAllTagsFromFilter (filterID: number):Promise<Tag[]> {
     let conn;
-    const res: Tag[] = [];
+    let res: Tag[] = [];
     try {
         conn = await getConnection();
         const rows = await conn.query('SELECT tagID FROM ' + LINK_TABLE_NAME + ' WHERE filterID=?;', filterID);
         if (rows && rows.length > 0) {
-            res.concat(await Promise.all(rows.map((tag: {tagID: number}) => tagProvider.getTag(tag.tagID))));
+            res = (await Promise.all(rows.map((tag: {tagID: number}) => tagProvider.getTag(tag.tagID))));
         }
     } catch (error) {
         console.log('Error getting Tags from Filter ' + filterID + ': ' + error);
     } finally {
         if (conn) conn.end();
-    }
-    return res;
+    } return res;
 }
 
 export async function getAllFilters (listID: number): Promise<Filter[]> {

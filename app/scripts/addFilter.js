@@ -4,7 +4,7 @@ const listID = searchParams.get('listID');
 
 function init() {
     if (filterID) {
-        fetch(window.location.origin + "/lists/filter/get", {
+        fetch(window.location.origin + "/lists/filters/get", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
