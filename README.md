@@ -43,7 +43,7 @@ Kurze üvbersicht über die Seiten
 | /liste     | Zeigt eine Liste an |
 | /login     | Login Page   |
 | /register  | Register Page |
-| /add*      | Seite zum hinzufügen oder editieren von * (Möglichkeiten: List, Element/Article/Type) |
+| /add*      | Seite zum hinzufügen oder editieren von * (Möglichkeiten: List, Element/Article/Type/Filter) |
 | /error     | Seite falls ein Fehler passiert |
 
 ## Beispieldaten
