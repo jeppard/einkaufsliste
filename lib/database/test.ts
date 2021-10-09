@@ -8,21 +8,24 @@ import * as userListProvider from './provider/link_user_list';
 import * as tagProvider from './provider/tag';
 import * as elementTagProvider from './provider/element_tag';
 import * as articleTagProvider from './provider/article_tag';
+import * as filterProvider from './provider/filter';
 import { getConnection } from './db';
 
 export async function initDatabase (): Promise<void> {
     if (process.env.DROP_ALL_TABLES === 'yes') {
         const conn = await getConnection();
         await Promise.all([
-            conn.query('DROP TABLE IF EXISTS Accounts'),
-            conn.query('DROP TABLE IF EXISTS articles'),
-            conn.query('DROP TABLE IF EXISTS articletypes'),
-            conn.query('DROP TABLE IF EXISTS elements'),
-            conn.query('DROP TABLE IF EXISTS link_user_list'),
-            conn.query('DROP TABLE IF EXISTS lists'),
-            conn.query('DROP TABLE IF EXISTS tags'),
-            conn.query('DROP TABLE IF EXISTS article_tag'),
-            conn.query('DROP TABLE IF EXISTS element_tag')
+            conn.query('DROP TABLE IF EXISTS Accounts;'),
+            conn.query('DROP TABLE IF EXISTS articles;'),
+            conn.query('DROP TABLE IF EXISTS articletypes;'),
+            conn.query('DROP TABLE IF EXISTS elements;'),
+            conn.query('DROP TABLE IF EXISTS link_user_list;'),
+            conn.query('DROP TABLE IF EXISTS lists;'),
+            conn.query('DROP TABLE IF EXISTS tags;'),
+            conn.query('DROP TABLE IF EXISTS article_tag;'),
+            conn.query('DROP TABLE IF EXISTS element_tag;'),
+            conn.query('DROP TABLE IF EXISTS filter;'),
+            conn.query('DROP TABLE IF EXISTS filter_tag;')
         ]);
         conn.end();
     }
@@ -35,7 +38,8 @@ export async function initDatabase (): Promise<void> {
         userListProvider.initDatabase(),
         tagProvider.initDatabase(),
         articleTagProvider.initDatabase(),
-        elementTagProvider.initDatabase()
+        elementTagProvider.initDatabase(),
+        filterProvider.initDatabase()
     ]);
 
     if (process.env.START_WITH_EXAMPEL_DATA === 'yes') {

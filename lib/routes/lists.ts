@@ -7,12 +7,14 @@ import * as linkUserListProvider from '../database/provider/link_user_list';
 import * as accountProvider from '../database/provider/account';
 import { areNumbers, areNotNullButEmpty, areNotNullOrEmpty } from '../parameter_util';
 import { checkListMemberMidle, checkListOwnerMidle } from './user_authentication';
+import { filterRouter } from './filter';
 
 const router = express.Router();
 
 // route: "/lists/"
 router.use('/elements', checkListMemberMidle, elementRouter);
 router.use('/articles', articleRouter);
+router.use('/filters', filterRouter);
 
 /**
  * Response content of a list

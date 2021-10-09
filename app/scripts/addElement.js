@@ -53,7 +53,7 @@ async function init() {
                 document.getElementById("unit").value = data.unitType;
                 document.getElementById("tags").value = data.tags.map(t => t.name.charAt(0).toUpperCase() + t.name.slice(1)).join(" ");
                 setSelectedArticle(data.article);
-            })
+            });
     } else if (articleID != null) {
         fetch(window.location.origin + "/lists/articles/get", {
                 method: "POST",

@@ -88,13 +88,14 @@
 }
 
 html {
-    min-height: 100%;
+    height: 100%;
 }
 
 body {
-    background: linear-gradient(135deg, rgb(var(--blue-50)), rgb(var(--blue-70)));
+    background: linear-gradient(90deg, rgb(var(--blue-50)), rgb(var(--blue-70)));
     font-family: 'Ubuntu', sans-serif;
-    min-height: 100%;
+    height: 100%;
+    margin: 0;
 }
 
 h1,

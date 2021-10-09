@@ -49,6 +49,28 @@ async function init() {
                 setSelectedType(data.type);
                 userID = data.userID;
             });
+        const deleteButton = document.createElement('input');
+        deleteButton.type = 'submit';
+        deleteButton.value = 'Delete';
+        deleteButton.onclick = () => {
+            if (window.confirm('Are you sure to Delete this Article?')) {
+                fetch(window.location.origin + "/lists/articles/remove", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            "listID": listID,
+                            "articleID": articleID
+                        })
+                    })
+                    .then(data => isError(data))
+                    .then(() => {
+                        window.location.assign(window.location.origin + '/dashboard');
+                    });
+            }
+        }
+        document.getElementById("submitButtons").appendChild(deleteButton);
     }
 }
 
@@ -139,7 +161,7 @@ function submitFunction(redirect = true) {
                     } else {
                         window.location.replace(window.location.origin + "/addArticle?listID=" + listID);
                     }
-                })
+                });
         } else {
             fetch(window.location.origin + "/lists/articles/add", {
                     method: "POST",
