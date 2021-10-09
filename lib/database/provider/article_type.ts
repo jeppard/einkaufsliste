@@ -39,17 +39,22 @@ export async function addType (listID: number, name: string, color: string): Pro
     else return null;
 }
 
-export async function removeType (id: number): Promise<void> {
+export async function removeType (id: number): Promise<boolean> {
     let conn;
+    let res = false;
     try {
         conn = await getConnection();
-        await conn.query('DELETE FROM ' + ARTICELS_TABLE_NAME + ' WHERE id = ?;', [id]);
+        if (!(await conn.query('SELECT * FROM articles WHERE type=? LIMIT 1;', [id]))) {
+            await conn.query('DELETE FROM ' + ARTICELS_TABLE_NAME + ' WHERE id = ?;', [id]);
+            res = true;
+        }
     } catch (err) {
         // TODO Add result
         console.log('Failed to remove article type from database: ' + err);
     } finally {
         if (conn) conn.end();
     }
+    return res;
 }
 
 export async function updateType (id: number, name: string, color: string): Promise<void> {
@@ -95,7 +100,7 @@ export async function getAllTypes (listID: number): Promise<ArticleType[]> {
         const types = await conn.query('SELECT * FROM ' + ARTICELS_TABLE_NAME + ' WHERE listID=?', [listID]);
 
         if (types != null) {
-            types.forEach((t: { id: number; listID: number; name: string; color: string}) => {
+            types.forEach((t: { id: number; listID: number; name: string; color: string }) => {
                 res.push(new ArticleType(t.id, t.listID, t.name, t.color));
             });
         }

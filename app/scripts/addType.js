@@ -23,7 +23,36 @@ function init() {
             .then(data => {
                 nameField.value = data.name;
                 colorField.value = data.color;
-            })
+            });
+        const deleteButton = document.createElement('input');
+        deleteButton.type = 'submit';
+        deleteButton.value = 'Delete';
+        deleteButton.onclick = () => {
+            if (window.confirm('Are you sure to Delete this Filter?')) {
+                fetch(window.location.origin + "/lists/articles/types/remove", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            "listID": listID,
+                            "typeID": typeID
+                        })
+                    })
+                    .then(data => {
+                        if (data.ok) {
+                            window.location.assign(window.location.origin + '/dashboard');
+                        } else if (data.status === 403) {
+                            data.text().then(res => {
+                                alert(res);
+                            });
+                        } else {
+                            isError(data);
+                        }
+                    });
+            }
+        }
+        document.getElementById("submitButtons").appendChild(deleteButton);
     }
 }
 

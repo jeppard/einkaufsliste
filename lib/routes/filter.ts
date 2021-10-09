@@ -82,4 +82,16 @@ router.post('/getAll', checkListMemberMidle, async function (req, res) {
     } else res.status(400).send('Bad Request listID missing');
 });
 
+/**
+ * Endpoint to remove Filter
+ * route: /lists/filter/remove
+ */
+router.post('/remove', checkListMemberMidle, async function (req, res) {
+    const body: {listID: number, filterID:number} = req.body;
+    if (body && areNumbers([body.listID, body.filterID])) {
+        await filterProvider.removeFilter(body.filterID);
+        res.status(200).send('Deleted Filter');
+    } else res.send(400).send('Bad Request');
+});
+
 export { router as filterRouter };

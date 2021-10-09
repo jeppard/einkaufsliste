@@ -154,3 +154,16 @@ export async function getAllFilters (listID: number): Promise<Filter[]> {
     }
     return res;
 }
+
+export async function removeFilter (filterID: number): Promise<void> {
+    let conn;
+    try {
+        conn = await getConnection();
+        await Promise.all([conn.query('DELETE FROM ' + FILTER_TABLE_NAME + ' WHERE id=?;', [filterID]),
+            removeAllTagsFromFilter(filterID)]);
+    } catch (error) {
+        console.log('Error deleting Filter with id ' + filterID + ': ' + error);
+    } finally {
+        conn?.end();
+    }
+}

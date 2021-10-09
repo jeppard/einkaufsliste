@@ -17,9 +17,31 @@ function init() {
             .then(data => data.json())
             .then(data => {
                 document.getElementById("filter_name").value = data.name;
-                document.getElementById("color").value = data.value;
+                document.getElementById("color").value = data.color;
                 document.getElementById("tags").value = data.tags.map(t => t.name.charAt(0).toUpperCase() + t.name.slice(1)).join(" ");
             });
+        const deleteButton = document.createElement('input');
+        deleteButton.type = 'submit';
+        deleteButton.value = 'Delete';
+        deleteButton.onclick = () => {
+            if (window.confirm('Are you sure to Delete this Filter?')) {
+                fetch(window.location.origin + "/lists/filters/remove", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            "listID": listID,
+                            "filterID": filterID
+                        })
+                    })
+                    .then(data => isError(data))
+                    .then(() => {
+                        window.location.assign(window.location.origin + '/dashboard');
+                    });
+            }
+        }
+        document.getElementById("submitButtons").appendChild(deleteButton);
     }
 }
 
@@ -63,7 +85,7 @@ function submitFunction(redirect = true) {
                     } else {
                         window.location.replace(window.location.origin + "/addFilter?listID=" + listID);
                     }
-                })
+                });
         } else {
             fetch(window.location.origin + "/lists/filters/add", {
                     method: "POST",
