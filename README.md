@@ -10,7 +10,7 @@ Um mehrere Artikel zu Gruppieren gibt es Typen welche ein Artikel besitzt.
 Dieser hat eine Farbe und Namen um auf der Listen Seite schnell Identifizierbar zu sein.
 
 ## Verwendung
-Man kann die Aplikation als yarn-Aplication starten, den Docker Container selber builden oder über docker compose ebenfalls einen gebuildeten Container verwenden.
+Man kann die Aplikation als yarn-Aplication starten oder über docker compose die Aplikation als Docker Container verwenden.
 
 ### 1. Yarn
 Yarn installieren:
@@ -28,18 +28,7 @@ Server starten:
 
 System startet
 
-### 2. Docker Container 
-Docker installieren
-Docker Container erschaffen
-> docker build -t [container-name] .
-
-Image name in 'docker-compose.yml' in oben verwendeten container-name ändern
-Start docker compose
-> docker compose up -d
-
-System startet
-
-### 3. Docker Compose
+### 2. Docker Compose
 Docker Compose Starten 
 > docker compose up -d
 
