@@ -53,9 +53,9 @@ router.post('/remove', async function (req, res) {
     const body: {typeID: number} = req.body;
 
     if (body && areNumbers([body.typeID])) {
-        await articleTypeProvider.removeType(body.typeID);
-
-        res.status(200).send('Article-type removed');
+        const result = await articleTypeProvider.removeType(body.typeID);
+        if (result) res.status(200).send('Article-type removed');
+        else res.status(403).send('Article-type is still used');
     } else {
         res.status(400).send('Article-type id is is not given');
     }

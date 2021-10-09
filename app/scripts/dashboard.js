@@ -97,6 +97,7 @@ function generateButtons(listID) {
     buttonDiv.appendChild(addButton("Add Element", "/app/images/Add.png", "/addElement", listID));
     buttonDiv.appendChild(addButton("Add Article", "/app/images/Add.png", "/addArticle", listID));
     buttonDiv.appendChild(addButton("Add Type", "/app/images/Add.png", "/addType", listID));
+    buttonDiv.appendChild(addButton("Add Filter", "/app/images/Add.png", "/addFilter", listID));
     return buttonDiv;
 }
 

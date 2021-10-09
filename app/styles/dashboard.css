@@ -2,6 +2,7 @@
     width: 90%;
     max-width: 50rem;
     text-align: center;
+    padding: 1rem;
 }
 
 #list-list>li {
