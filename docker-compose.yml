@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   smartlist:
-    image: tk1101/smartlist:latest
+    build: .
     restart: always
     ports: 
       - 3000:3000
@@ -19,6 +19,8 @@ services:
   db:
     image: mariadb
     restart: always
+    volumes: 
+      - ./mdbdata:/var/lib/mysql
     environment:
       MARIADB_RANDOM_ROOT_PASSWORD: "yes"
       MARIADB_USER: smartlist
