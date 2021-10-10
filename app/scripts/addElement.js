@@ -108,8 +108,8 @@ function generateArticleDiv(article, bold = 0) {
 function autoComplete(element) {
     listContainer.textContent = "";
     allArticles.forEach(article => {
-        if (article.name.substring(0, element.value.length).toUpperCase() == element.value.toUpperCase()) {
-            let articleDiv = generateArticleDiv(article, element.value.length);
+        if (article.name.toUpperCase().includes(element.value.toUpperCase())) {
+            let articleDiv = generateArticleDiv(article, 0);
             articleDiv.onclick = function() {
                 setSelectedArticle(article);
             }
