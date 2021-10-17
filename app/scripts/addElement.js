@@ -51,8 +51,9 @@ async function init() {
             .then(data => {
                 document.getElementById("quantity").value = data.count;
                 document.getElementById("unit").value = data.unitType;
+                document.getElementById("tags").value = data.tags.map(t => t.name.charAt(0).toUpperCase() + t.name.slice(1)).join(" ");
                 setSelectedArticle(data.article);
-            })
+            });
     } else if (articleID != null) {
         fetch(window.location.origin + "/lists/articles/get", {
                 method: "POST",
@@ -107,8 +108,8 @@ function generateArticleDiv(article, bold = 0) {
 function autoComplete(element) {
     listContainer.textContent = "";
     allArticles.forEach(article => {
-        if (article.name.substring(0, element.value.length).toUpperCase() == element.value.toUpperCase()) {
-            let articleDiv = generateArticleDiv(article, element.value.length);
+        if (article.name.toUpperCase().includes(element.value.toUpperCase())) {
+            let articleDiv = generateArticleDiv(article, 0);
             articleDiv.onclick = function() {
                 setSelectedArticle(article);
             }
@@ -162,7 +163,8 @@ function submitFunction(redirect = true) {
                         "count": document.getElementById("quantity").value,
                         "unitType": document.getElementById("unit").value,
                         "articleID": selected_article.id,
-                        "elementID": elementID
+                        "elementID": elementID,
+                        "tags": document.getElementById("tags").value.split(" ")
                     })
                 })
                 .then(res => isError(res))
@@ -183,7 +185,8 @@ function submitFunction(redirect = true) {
                         "listID": listID,
                         "count": document.getElementById("quantity").value,
                         "unitType": document.getElementById("unit").value,
-                        "articleID": selected_article.id
+                        "articleID": selected_article.id,
+                        "tags": document.getElementById("tags").value.split(" ")
                     })
                 })
                 .then(res => isError(res))

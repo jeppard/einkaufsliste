@@ -10,7 +10,7 @@ Um mehrere Artikel zu Gruppieren gibt es Typen welche ein Artikel besitzt.
 Dieser hat eine Farbe und Namen um auf der Listen Seite schnell Identifizierbar zu sein.
 
 ## Verwendung
-Man kann die Aplikation als yarn-Aplication starten, den Docker Container selber builden oder über docker compose ebenfalls einen gebuildeten Container verwenden.
+Man kann die Aplikation als yarn-Aplication starten oder über docker compose die Aplikation als Docker Container verwenden.
 
 ### 1. Yarn
 Yarn installieren:
@@ -28,18 +28,7 @@ Server starten:
 
 System startet
 
-### 2. Docker Container 
-Docker installieren
-Docker Container erschaffen
-> docker build -t [container-name] .
-
-Image name in 'docker-compose.yml' in oben verwendeten container-name ändern
-Start docker compose
-> docker compose up -d
-
-System startet
-
-### 3. Docker Compose
+### 2. Docker Compose
 Docker Compose Starten 
 > docker compose up -d
 
@@ -54,7 +43,7 @@ Kurze üvbersicht über die Seiten
 | /liste     | Zeigt eine Liste an |
 | /login     | Login Page   |
 | /register  | Register Page |
-| /add*      | Seite zum hinzufügen oder editieren von * (Möglichkeiten: List, Element/Article/Type) |
+| /add*      | Seite zum hinzufügen oder editieren von * (Möglichkeiten: List, Element/Article/Type/Filter) |
 | /error     | Seite falls ein Fehler passiert |
 
 ## Beispieldaten
@@ -69,6 +58,14 @@ Falls default Daten verwendet werden, existieren Folgende Benutzer mit Folgenden
 | Maria    | 123      | Owner von 'Mein Einkauf' |
 | Peter    | 123      | Owner von 'Wochenkauf' und Member von 'Mein Einkauf' |
 | Gunther  | 123      | Member von 'Mein Einkauf' und 'Wochenkauf' |
+
+## Benutzung
+Es wird Port 3000 für den Webserver verwendet.
+
+Es wird Port 8080 für Adminer verwendet (einsicht in die Datenbank Credentials: smartlist:smartlist@SmartList).
+Credentials stehen auch in der docker_compose.yml.
+
+Es wird Port 3306 für MariaDB verwendet.
 
 ## Dependencies
 Es wurden folgende Sofware verwendet
@@ -86,3 +83,5 @@ Es wurden folgende Sofware verwendet
 [RealFaviconGenerator](https://realfavicongenerator.net/)
 
 [TypeScript](https://www.typescriptlang.org/)
+
+[Adminer](https://adminer.org/)

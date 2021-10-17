@@ -39,6 +39,7 @@ app.use('/addArticle', checkSignIn, checkListMemberParm, express.static('app/pag
 app.use('/addElement', checkSignIn, checkListMemberParm, express.static('app/pages/addElement.html'));
 app.use('/addList', checkSignIn, express.static('app/pages/addList.html'));
 app.use('/addType', checkSignIn, checkListMemberParm, express.static('app/pages/addType.html'));
+app.use('/addFilter', checkSignIn, checkListMemberParm, express.static('app/pages/addFilter.html'));
 app.use('/liste', checkSignIn, checkListMemberParm, express.static('app/pages/liste.html'));
 app.use('/dashboard', checkSignIn, express.static('app/pages/dashboard.html'));
 app.use('/error', express.static('app/pages/error.html'));

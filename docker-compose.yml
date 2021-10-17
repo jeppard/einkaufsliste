@@ -1,13 +1,27 @@
 version: '3.1'
 
 services:
+  db:
+    image: mariadb
+    restart: always
+    volumes: 
+      - ./mdbdata:/var/lib/mysql
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: "yes"
+      MARIADB_USER: smartlist
+      MARIADB_PASSWORD: smartlist
+      MARIADB_DATABASE: SmartList
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "--silent"]
+
   smartlist:
-    image: tk1101/smartlist:latest
+    build: .
     restart: always
     ports: 
       - 3000:3000
     depends_on:
-      - "db"
+      db:
+        condition: service_healthy
     environment:
       DB_HOST: db
       DB_USER: smartlist
@@ -16,17 +30,10 @@ services:
       DATABASE: SmartList
       START_WITH_EXAMPEL_DATA: "yes"
 
-  db:
-    image: mariadb
-    restart: always
-    environment:
-      MARIADB_RANDOM_ROOT_PASSWORD: "yes"
-      MARIADB_USER: smartlist
-      MARIADB_PASSWORD: smartlist
-      MARIADB_DATABASE: SmartList
-
   adminer:
     image: adminer
     restart: always
     ports:
       - 8080:8080
+    depends_on:
+      - "db"

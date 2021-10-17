@@ -19,9 +19,8 @@
     <link rel="stylesheet" href="/app/styles/addType.css">
 
     <!-- Scripts -->
-    <script src="/app/scripts/addType.js"></script>
     <script src="/app/scripts/error.js"></script>
-
+    <script src="/app/scripts/addType.js"></script>
 
     <title>Smartlist - Add Type</title>
 </head>
@@ -48,9 +47,10 @@
                     <th><input type="color" name="color" id="color"></th>
                 </tr>
             </table>
-            <input type="submit" value="Add" class="center" onclick="submitFunction(true)">
-            <input type="submit" value="Add more" class="center" onclick="submitFunction(false)">
-            </form>
+            <div id="submitButtons" class="center">
+                <input type="submit" value="Add" class="center" onclick="submitFunction(true)">
+                <input type="submit" value="Add more" class="center" onclick="submitFunction(false)">
+            </div>
         </div>
     </div>
 </body>

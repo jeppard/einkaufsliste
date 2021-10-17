@@ -19,9 +19,8 @@
     <link rel="stylesheet" href="/app/styles/addElement.css">
 
     <!-- Scripts -->
-    <script src="/app/scripts/addElement.js"></script>
     <script src="/app/scripts/error.js"></script>
-
+    <script src="/app/scripts/addElement.js"></script>
 
     <title>Smartlist - Add Element</title>
 </head>
@@ -40,30 +39,30 @@
         <div id="content" class="center">
             <table id="table" class="center">
                 <tr>
-                    <th>Selected Article:</th>
-                    <th>
+                    <td>Selected Article:</td>
+                    <td>
                         <div id="selectedArticle"></div>
-                    </th>
+                    </td>
                 </tr>
                 <tr>
-                    <th><label for="article">Article:</label></th>
-                    <th>
+                    <td><label for="article">Article:</label></td>
+                    <td>
                         <div class="article-select"><input id="article" type="search" name="article" placeholder="Article" class="text-input-short"><button onclick="newArticle()">New</button></div>
-                    </th>
+                    </td>
                 </tr>
                 <tr>
-                    <th></th>
-                    <th>
+                    <td></td>
+                    <td>
                         <div id="article-container"></div>
-                    </th>
+                    </td>
                 </tr>
                 <tr>
-                    <th><label for="quantity">Anzahl:</label></th>
-                    <th><input id="quantity" name="quantity" type="number" placeholder="Anzahl" class="text-input"></th>
+                    <td><label for="quantity">Anzahl:</label></td>
+                    <td><input id="quantity" name="quantity" type="number" placeholder="Anzahl" class="text-input"></td>
                 </tr>
                 <tr>
-                    <th><label for="unit">Einheit:</label></th>
-                    <th><input id="unit" name="unit" list="units" placeholder="Einheit" class="text-input"></th>
+                    <td><label for="unit">Einheit:</label></td>
+                    <td><input id="unit" name="unit" list="units" placeholder="Einheit" class="text-input"></td>
                     <datalist id="units">
                             <option value="St&uuml;ck" ></option>
                             <option value="Packungen"></option>
@@ -77,9 +76,13 @@
                         </datalist>
                 </tr>
                 <tr>
-                    <th></th>
-                    <th><input type="submit" class="center" value="Add" onclick="submitFunction(true)">
-                        <input type="submit" class="center" value="Add more" onclick="submitFunction(false)"></th>
+                    <td><label for="tags">Tags:</label></td>
+                    <td><textarea name="tags" id="tags" cols="18" rows="3" placeholder="Tags..."></textarea></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" class="center" value="Add" onclick="submitFunction(true)">
+                        <input type="submit" class="center" value="Add more" onclick="submitFunction(false)"></td>
                 </tr>
             </table>
         </div>

@@ -9,7 +9,13 @@ let selected_type;
 //Get all Types
 let allTypes;
 let prommise = fetch(window.location.origin + "/lists/articles/types/getAll", {
-        method: "POST"
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "listID": listID
+        })
     })
     .then(res => isError(res))
     .then(data => data.json())
@@ -39,9 +45,32 @@ async function init() {
             .then(data => {
                 document.getElementById("description").value = data.description;
                 document.getElementById("article_name").value = data.name;
+                document.getElementById("tags").value = data.tags.map(t => t.name.charAt(0).toUpperCase() + t.name.slice(1)).join(" ");
                 setSelectedType(data.type);
                 userID = data.userID;
-            })
+            });
+        const deleteButton = document.createElement('input');
+        deleteButton.type = 'submit';
+        deleteButton.value = 'Delete';
+        deleteButton.onclick = () => {
+            if (window.confirm('Are you sure to Delete this Article?')) {
+                fetch(window.location.origin + "/lists/articles/remove", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            "listID": listID,
+                            "articleID": articleID
+                        })
+                    })
+                    .then(data => isError(data))
+                    .then(() => {
+                        window.location.assign(window.location.origin + '/dashboard');
+                    });
+            }
+        }
+        document.getElementById("submitButtons").appendChild(deleteButton);
     }
 }
 
@@ -121,7 +150,8 @@ function submitFunction(redirect = true) {
                         "name": document.getElementById("article_name").value,
                         "description": document.getElementById("description").value,
                         "type": selected_type.id,
-                        "articleID": articleID
+                        "articleID": articleID,
+                        "tags": document.getElementById("tags").value.split(" ")
                     })
                 })
                 .then(res => isError(res))
@@ -131,7 +161,7 @@ function submitFunction(redirect = true) {
                     } else {
                         window.location.replace(window.location.origin + "/addArticle?listID=" + listID);
                     }
-                })
+                });
         } else {
             fetch(window.location.origin + "/lists/articles/add", {
                     method: "POST",
@@ -142,7 +172,8 @@ function submitFunction(redirect = true) {
                         "listID": listID,
                         "name": document.getElementById("article_name").value,
                         "description": document.getElementById("description").value,
-                        "type": selected_type.id
+                        "type": selected_type.id,
+                        "tags": document.getElementById("tags").value.split(" ")
                     })
                 })
                 .then(res => isError(res))
